@@ -1,5 +1,6 @@
 /vcpkg
 /build
-/vendor
+/vendor/lib/
+/vendor/bin/
 
 /000_trash
