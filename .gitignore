@@ -1,5 +1,5 @@
 /vcpkg
 /build
 /vendor
-/resources
+/resources/*
 /000_trash
