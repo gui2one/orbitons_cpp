@@ -7,7 +7,7 @@ project(Orbitons)
 
 add_definitions(-DOGL_DEBUG)
 
-set(CMAKE_CXX_FLAGS "/MP /arch:AVX2")
+set(CMAKE_CXX_FLAGS "/MP /arch:AVX2 /EHsc")
 set(VCPKG_BUILD_TYPE release)
 file(GLOB_RECURSE libsCollection "vcpkg/installed/x64-windows/lib/*.lib")
 
@@ -15,7 +15,7 @@ file(GLOB_RECURSE fileCollection "src/*.cpp" "src/*.c" "src/*.h")
 
 
 
-add_subdirectory(Glad)
+# add_subdirectory(Glad)
 
 add_executable(${CMAKE_PROJECT_NAME}
     ${fileCollection}

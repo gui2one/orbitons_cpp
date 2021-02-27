@@ -1,10 +1,9 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
-// #include <memory>
-// #include "../core.h"
+
 #include "../pch.h"
-// #include "../core.h"
-#include <glm/vec3.hpp>
+#include "../core.h"
+#include "glm/vec3.hpp"
 #include "Shader.h"
 
 class Material
@@ -13,7 +12,7 @@ class Material
 
 
 public:
-    std::shared_ptr<Shader> m_shader;
+    Orbitons::Ref<Shader> m_shader;
     std::string m_type_name;
 
     Material(){
@@ -29,7 +28,7 @@ public:
         setUniforms();
         m_shader->useProgram();
     }
-    inline std::shared_ptr<Shader> getShader(){
+    inline Orbitons::Ref<Shader> getShader(){
         return m_shader;
     }
     inline std::string getTypeName(){
