@@ -5,10 +5,13 @@
 class Camera
 {
 	public:
-
+		Camera();
 		Camera(float _fov_angle, float ratio);
-		void setProjection(glm::mat4 _proj);
+		void setProjection(float angle, float screen_ratio, float near, float far);
+		void setFovAngle(float _angle);
+		void setScreenRatio(float _ratio);
 		float fov_angle = 45.0f;
+		float screen_ratio = 16.0/9.0;
 		float near = 0.01f; 
 		float far = 100.0f;
 		

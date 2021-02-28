@@ -48,7 +48,7 @@ public:
     glm::vec3 specularColor; 
     PhongMaterial(){
         m_type_name = "Phong";
-        diffuseColor = glm::vec3(1.f, 0.2f, 1.f);
+        diffuseColor = glm::vec3(0.08f);
         specularColor = glm::vec3(1.f, 1.f, 1.f);
 
         initShader();

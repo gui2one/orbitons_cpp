@@ -13,8 +13,10 @@ class Mesh{
 public:
     void print();
 
+
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
+
 private:
 };
 #endif /* MESH_H */

@@ -17,6 +17,19 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "configure",
+      "type": "shell",
+      "command": "./build__configure.bat",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "clean",
       "type": "shell",
       "command": "./build__clean.bat",
