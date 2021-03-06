@@ -2,7 +2,8 @@
 #define CAMERA_H
 #include "../pch.h"
 #include "../core.h"
-class Camera
+#include "Entity3d.h"
+class Camera : public Entity3d
 {
 	public:
 		Camera();
@@ -15,7 +16,7 @@ class Camera
 		float near = 0.01f; 
 		float far = 100.0f;
 		
-		glm::vec3 position;
+		// glm::vec3 position;
 		glm::vec3 target_position;
 		glm::vec3 up_vector;
 		

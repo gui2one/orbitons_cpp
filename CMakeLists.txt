@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2)
 set(CMAKE_TOOLCHAIN_FILE "vcpkg/scripts/buildsystems/vcpkg.cmake")
 set(VCPKG_MANIFEST_MODE ON)
 
-project(Orbitons)
+project(orbitons)
 
 add_definitions(-DOGL_DEBUG)
 
@@ -15,10 +15,19 @@ file(GLOB_RECURSE fileCollection "src/*.cpp" "src/*.c" "src/*.h")
 
 
 
-# add_subdirectory(Glad)
+# add_subdirectory(vendor/imgui)
 
 add_executable(${CMAKE_PROJECT_NAME}
     ${fileCollection}
+
+	vendor/imgui/backends/imgui_impl_opengl3.cpp
+	vendor/imgui/backends/imgui_impl_glfw.cpp
+	vendor/imgui/imgui.cpp
+	vendor/imgui/imgui_demo.cpp
+	vendor/imgui/imgui_draw.cpp
+	vendor/imgui/imgui_widgets.cpp
+	vendor/imgui/imgui_tables.cpp
+
 )
 
 find_package(glfw3 CONFIG REQUIRED)
@@ -26,6 +35,15 @@ target_link_libraries(${CMAKE_PROJECT_NAME} glfw)
 
 find_package(assimp CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} assimp::assimp)
+
+# find_package(imgui CONFIG REQUIRED)
+# target_link_libraries(${CMAKE_PROJECT_NAME} imgui::imgui)
+
+find_package(glad CONFIG REQUIRED)
+target_link_libraries(${CMAKE_PROJECT_NAME} glad::glad)
+
+find_package(yaml-cpp CONFIG REQUIRED)
+target_link_libraries(${CMAKE_PROJECT_NAME} yaml-cpp)
 
 add_custom_command(
     TARGET ${CMAKE_PROJECT_NAME} 
@@ -76,11 +94,12 @@ foreach(FILE ${fileCollection})
 endforeach()
 
 include_directories(
-    ${CMAKE_PROJECT_NAME} PRIVATE
-
+    ${CMAKE_PROJECT_NAME}
+    vendor/imgui/
+    vendor/include/
     vcpkg/installed/x64-windows/include/
 
-    vendor/include/
+
     # src/
 )
 

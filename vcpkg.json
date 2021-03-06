@@ -1,14 +1,5 @@
 {
   "name": "orbitons",
   "version": "0.0.1",
-  "dependencies": [
-    "glfw3",
-    "assimp",
-    "glm",
-    "glad",
-    {
-      "name": "imgui",
-      "features": ["glfw-binding", "opengl3-glad-binding"]
-    }
-  ]
+  "dependencies": ["glfw3", "assimp", "glm", "glad", "yaml-cpp"]
 }

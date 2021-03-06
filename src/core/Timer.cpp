@@ -25,3 +25,8 @@ float Timer::getDeltaTime()
 
     return (float)m_delta / 1000.0;
 }
+
+float Timer::getElapsedTime()
+{
+    return (float)m_elapsed / 1000.0;
+}

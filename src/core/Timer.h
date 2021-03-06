@@ -8,6 +8,7 @@ public:
 
     void update();
     float getDeltaTime();
+    float getElapsedTime();
 private:
     std::chrono::time_point<std::chrono::system_clock> m_start;
     std::chrono::time_point<std::chrono::system_clock> m_now;

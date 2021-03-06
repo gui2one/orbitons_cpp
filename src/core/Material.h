@@ -31,6 +31,9 @@ public:
     inline Orbitons::Ref<Shader> getShader(){
         return m_shader;
     }
+    inline GLuint getShaderID(){
+        return m_shader->m_id;
+    }    
     inline std::string getTypeName(){
         return m_type_name;
     }
@@ -48,7 +51,7 @@ public:
     glm::vec3 specularColor; 
     PhongMaterial(){
         m_type_name = "Phong";
-        diffuseColor = glm::vec3(0.08f);
+        diffuseColor = glm::vec3(0.9f,0.1f,0.1f);
         specularColor = glm::vec3(1.f, 1.f, 1.f);
 
         initShader();

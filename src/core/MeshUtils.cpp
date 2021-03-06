@@ -11,13 +11,17 @@ Mesh makeTriangle(){
     verts.push_back(Vertex{glm::vec3(1.0f,0.0f,0.0f)});
     verts.push_back(Vertex{glm::vec3(0.0f,1.0f,0.0f)});
 
+    std::vector<unsigned int> indices{0,1,2};
     mesh.vertices = verts;
+    mesh.indices = indices;
+    computeNormals(mesh);
     return mesh;
 }
 
 Mesh makeQuad(){
     Mesh mesh;
     std::vector<Vertex> verts;
+
     
     verts.push_back(Vertex{glm::vec3(-1.0f,-1.0f,0.0f)});
     verts.push_back(Vertex{glm::vec3(1.0f,-1.0f,0.0f)});
@@ -27,7 +31,11 @@ Mesh makeQuad(){
     verts.push_back(Vertex{glm::vec3( 1.0f, 1.0f,0.0f)});
     verts.push_back(Vertex{glm::vec3( 1.0f,-1.0f,0.0f)});
 
+    std::vector<unsigned int> indices{0,1,2,3,5,4};
     mesh.vertices = verts;
+    mesh.indices = indices;
+
+    computeNormals(mesh);
     return mesh;
 }
 
@@ -77,7 +85,7 @@ Mesh makeGrid(float width, float length, int cols, int rows){
 	mesh.vertices = vertices;
 	mesh.indices = indices;
 	
-	
+	computeNormals(mesh);
 	return mesh;
 }
 
