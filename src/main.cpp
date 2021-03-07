@@ -58,7 +58,7 @@ void createObjects(){
 
 
     plane = std::make_shared<Object3d>();
-    plane->m_mesh = MeshUtils::makeGrid(10.f, 10.f, 2, 2);
+    plane->m_mesh = MeshUtils::makeGrid(1.f, 1.f, 2, 2);
     MeshUtils::rotateX(plane->m_mesh, PI / 2.0f);
     MeshUtils::computeNormals(plane->m_mesh);
     plane->buildVBO();
@@ -88,26 +88,34 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 int main(){
   
-
+    app.m_scene.init();
     GLCall(glEnable(GL_DEPTH_TEST));
-    float angle = 0.0f;
     float screen_ratio = (float)width / height;
 
-    Timer timer;
 
-    camera = std::make_shared<Camera>(glm::radians(45.0f),screen_ratio);
-    camera->position.x = 5.0f;
-    camera->position.y = 1.0f;
-    camera->position.z = 0.f;
-    camera->target_position.y = 0.05f;
-    glm::vec3 up_vector = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    float angle = 0.0f;
+    camera = std::make_shared<Camera>(glm::radians(65.0f),screen_ratio);
+
 
     // app.scene.add(camera);
 
     createObjects();
 
+    float rotation_speed = 0.05f;
+    float radius  = 3.0f;
     while(!app.m_window->shouldClose())
     {
+        app.m_timer.update();
+
+        angle = app.m_timer.getElapsedTime();
+        camera->position.x = sinf(angle * rotation_speed) * radius;
+        camera->position.y = 1.0f;
+        camera->position.z = cosf(angle * rotation_speed) * radius;
+        camera->target_position.y = 0.05f;
+        glm::vec3 up_vector = glm::vec3(0.0f, 1.0f, 0.0f);        
+
+
         app.m_window->refresh(app.m_scene, camera, app.m_timer);
     }
 
@@ -115,62 +123,7 @@ int main(){
 
 
 
-    // glEnable(GL_DEPTH_TEST);
-    
-    // bool show_demo_window = true;
-    
-    // /* Loop until the user closes the window */
-    // while (!glfwWindowShouldClose(window))
-    // {
-
-
-
-
-    //     timer.update();
-	
-    //     glfwGetFramebufferSize(window, &width, &height);
-    //     glViewport(0,0,width, height);
-    //     camera.setScreenRatio((float)width / (float)height);
-    //     glm::mat4 view = glm::mat4(1.0f);
-
-    //     float radius = 5.0f;
-    //     float speed = 0.3f;
-    //     angle += timer.getDeltaTime() * speed;
-  
-    //     view *= glm::lookAt(
-    //         camera.position,
-    //         camera.target_position,
-    //         glm::normalize(up_vector)
-    //     );
-
-    //     glm::mat4 model = dragon->transforms;
-    //     // model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.f, 1.f, 0.f));
-    //     model = glm::rotate(model, angle, up_vector);
-
-    //     glm::vec3 lightPos = glm::vec3(0.f, 2.f, 0.f);
-    //     // wipe the drawing surface clear
-    //     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-
-    //     Ref<Material> dragon_mat = dragon->m_material;
-    //     glUniform3fv(glGetUniformLocation(dragon_mat->getShader()->m_id,"u_lightPos"), 1 , glm::value_ptr(lightPos));
-    //     glUniform3fv(glGetUniformLocation(dragon_mat->getShader()->m_id,"u_cameraPos"), 1 , glm::value_ptr(camera.position));
-
-    //     glUniformMatrix4fv(glGetUniformLocation(dragon_mat->getShader()->m_id,"u_model"), 1, GL_FALSE,glm::value_ptr(model));
-        
-    //     glUniformMatrix4fv(glGetUniformLocation(dragon_mat->getShader()->m_id, "u_projection"), 1, GL_FALSE, glm::value_ptr(camera.projection));
-    //     glUniformMatrix4fv(glGetUniformLocation(dragon_mat->getShader()->m_id, "u_view"), 1, GL_FALSE, glm::value_ptr(view));
-    //     // glBindVertexArray(dragon->vao);
-    //     dragon->draw();
-
-    //     ui.render();
-
-    //     // update other events like input handling 
-    //     glfwPollEvents();
-    //     // put the stuff we've been drawing onto the display
-    //     glfwSwapBuffers(window);
-    // }
+ 
 
     glfwTerminate();
 

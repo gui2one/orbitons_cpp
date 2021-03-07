@@ -18,6 +18,8 @@ void Object3d::buildVBO(){
     glBindVertexArray(vao);
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0); // position --> 0 offset
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void *)(3* sizeof(float))); // normal --> 3 offset        
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
     ibo = 0;
@@ -32,11 +34,9 @@ void Object3d::buildVBO(){
 void Object3d::draw(){
 
 
+    m_material->useProgram();
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0); // position --> 0 offset
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void *)(3* sizeof(float))); // normal --> 3 offset    
-
+    glBindVertexArray(vao);
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
@@ -49,6 +49,8 @@ void Object3d::draw(){
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    glBindVertexArray(0);
 
-    // glUseProgram(0);
+
+    glUseProgram(0);
 }

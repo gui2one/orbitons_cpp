@@ -42,9 +42,11 @@ Window::Window(){
     glfwSwapInterval(1);
 }
 
-void Window::refresh(const Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer& timer){
+void Window::refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer& timer){
+
+        
         glEnable(GL_DEPTH_TEST);
-        timer.update();
+        // timer.update();
         int width, height;
         glfwGetFramebufferSize(win, &width, &height);
         glViewport(0,0,width, height);
@@ -61,7 +63,11 @@ void Window::refresh(const Orbitons::Scene& scene, Orbitons::Ref<Camera> camera,
             glm::normalize(up_vector)
         );
 
+        glClearColor(1.0f, 0.f, 0.f,1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        scene.skybox.draw(camera.get());
+
 
         for(auto current : scene.objects){
 
@@ -71,25 +77,25 @@ void Window::refresh(const Orbitons::Scene& scene, Orbitons::Ref<Camera> camera,
             material->useProgram();
             glm::mat4 model(1.f);
             model = current->transforms * model;
-            // model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.f, 1.f, 0.f));
-            model = glm::rotate(model, angle, up_vector);
 
-            glm::vec3 lightPos = glm::vec3(0.f, 2.f, 0.f);
-            // wipe the drawing surface clear
+
+            glm::vec3 lightPos = glm::vec3(0.f, 2.f, -2.f);
+
             
 
-            GLCall(
-                glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_lightPos"), 1 , glm::value_ptr(lightPos)));
-            GLCall(
-                glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(camera->position)));
-            GLCall(
+           
+            glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_lightPos"), 1 , glm::value_ptr(lightPos));
 
-            glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(),"u_model"), 1, GL_FALSE,glm::value_ptr(model))
-            );
-            GLCall(glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(camera->projection)));
-            GLCall(glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view)));
+            glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(camera->position));
+
+
+            glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(),"u_model"), 1, GL_FALSE,glm::value_ptr(model));
+            glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(camera->projection));
+            glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
             // glBindVertexArray(object->vao);
             object->draw();
+
+            //glUseProgram(0);
 
             
         }

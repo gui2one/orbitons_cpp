@@ -11,7 +11,7 @@ class Window{
 public:
     Window();
 
-    void refresh(const Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer& timer);
+    void refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer& timer);
     bool shouldClose();
     
     GLFWwindow * win;

@@ -4,15 +4,21 @@
 #include "../pch.h"
 #include "../core.h"
 #include "Entity3d.h"
+#include "Skybox.h"
 
 namespace Orbitons
 {
 
     class Scene{
     public:
-        std::vector<Ref<Entity3d>> objects;
-
+        
+        void init();
         void add(Ref<Entity3d> entity);
+        
+        
+        std::vector<Ref<Entity3d>> objects;
+        Skybox skybox;
+
     private:
 
     };
