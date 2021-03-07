@@ -5,7 +5,8 @@ Entity3d::Entity3d():
     position(glm::vec3(0., 0.f, 0.f)), 
     rotation(glm::vec3(0., 0.f, 0.f)), 
     scale(glm::vec3(1., 1.f, 1.f)),
-    transforms(glm::mat4(1.f))
+    transforms(glm::mat4(1.f)),
+    m_parent(nullptr)
 {
 
 }
@@ -13,6 +14,10 @@ Entity3d::Entity3d():
 void Entity3d::applyTransforms(){
     glm::mat4 matrix = glm::mat4(1.0f);
     
+
+    if( m_parent != nullptr){
+        // TODO : apply parents matrices
+    }
     // scale
     matrix = glm::scale(matrix, scale);
 

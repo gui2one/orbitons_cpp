@@ -2,6 +2,8 @@
 #define ENTITY_3D_H
 
 #include "../pch.h"
+#include "../core.h"
+
 
 class Entity3d{
 private:
@@ -16,6 +18,8 @@ public:
     glm::vec3 scale;
     glm::mat4 transforms;
 
+
+    Orbitons::Ref<Entity3d> m_parent;
     void applyTransforms();
 
     void setScale(glm::vec3 _scale); 
