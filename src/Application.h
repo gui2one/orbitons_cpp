@@ -5,11 +5,13 @@
 #include "Window.h"
 #include "core/Scene.h"
 #include "core/Timer.h"
+#include "core/Renderer.h"
 
 class Application{
 public:
     Application();
     std::unique_ptr<Window> m_window;
+    // std::unique_ptr<Renderer> m_renderer;
     Orbitons::Scene m_scene;
     Timer m_timer;
 

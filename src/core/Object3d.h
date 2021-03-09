@@ -7,17 +7,19 @@
 #include "../core.h"
 
 #include "buffers/Buffer.h"
+#include "buffers/VertexArrayBuffer.h"
 class Object3d : public Entity3d{
 public:
 
     Object3d();
-    void buildVBO();
+    void buildBuffers();
     void draw();
     Mesh m_mesh;
     std::shared_ptr<Material> m_material; 
 
     std::unique_ptr<VertexBuffer> m_vertexBuffer;
     std::unique_ptr<IndexBuffer> m_indexBuffer;
+    std::unique_ptr<VertexArrayBuffer> m_vertexArrayBuffer;
     GLuint vao;
 private:
 

@@ -5,12 +5,13 @@ Object3d::Object3d() : Entity3d(){
    
 }
 
-void Object3d::buildVBO(){
+void Object3d::buildBuffers(){
 
     m_vertexBuffer.reset(VertexBuffer::create((float *)m_mesh.vertices.data(), m_mesh.vertices.size() * sizeof(Vertex)));
     m_vertexBuffer->bind();
 
 
+    m_vertexArrayBuffer.reset(VertexArrayBuffer::create());
 
     vao = 0;
     glGenVertexArrays(1, &vao);

@@ -31,8 +31,9 @@
 
 #include "opengl_debug.h"
 
-using  Orbitons::OrbitalBody;
+using Orbitons::OrbitalBody;
 using Orbitons::Ref;
+using Orbitons::MakeRef;
 
 ObjLoader loader;
 Ref<Camera> camera;
@@ -45,23 +46,27 @@ Ref<Object3d> plane;
 
 Application app;
 
+
+
 int width, height;
 
 
 void createObjects(){
-    dragon = std::make_shared<Object3d>();
+
+    ORBITONS_ASSERT(true, "Assertion test only ....");
+    dragon = MakeRef<Object3d>();
     dragon->m_mesh = loader.assimp_load("../../resources/objects/dragon_full.glb");
-    dragon->buildVBO();
+    dragon->buildBuffers();
     dragon->setScale(glm::vec3(10.f));
     dragon->setPosition(glm::vec3(0.f, 0.0f, 0.f));
     app.m_scene.add(dragon);
 
 
-    plane = std::make_shared<Object3d>();
+    plane = MakeRef<Object3d>();
     plane->m_mesh = MeshUtils::makeGrid(1.f, 1.f, 2, 2);
     MeshUtils::rotateX(plane->m_mesh, PI / 2.0f);
     MeshUtils::computeNormals(plane->m_mesh);
-    plane->buildVBO();
+    plane->buildBuffers();
     plane->setScale(glm::vec3(1.0f));
     // plane->setRotation(glm::vec3(90.0f, 0.f, 0.f));
     app.m_scene.add(plane);
@@ -87,18 +92,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 
 int main(int argc, char** args){
-  
-    app.m_scene.init();
-    GLCall(glEnable(GL_DEPTH_TEST));
+
+
+    glEnable(GL_DEPTH_TEST);
     float screen_ratio = (float)width / height;
 
-
-
     float angle = 0.0f;
-    camera = std::make_shared<Camera>(glm::radians(65.0f),screen_ratio);
-
-
-    // app.scene.add(camera);
+    camera = Orbitons::MakeRef<Camera>(glm::radians(65.0f),screen_ratio);
 
     createObjects();
 

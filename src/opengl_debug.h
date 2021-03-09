@@ -1,6 +1,6 @@
 #ifndef OPENGL_DEBUG_H
 #define OPENGL_DEBUG_H
-// opengl debugging
+
 #include <stdio.h>
 #include <iostream>
 #include <csignal>

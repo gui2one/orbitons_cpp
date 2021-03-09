@@ -16,10 +16,11 @@ public:
     std::string m_type_name;
 
     Material(){
-        printf("Material Constructor\n");
+        // printf("Material Constructor\n");
 
     }
 
+    virtual ~Material(){};
 
     virtual void setUniforms() = 0;
     virtual void initShader() = 0;
