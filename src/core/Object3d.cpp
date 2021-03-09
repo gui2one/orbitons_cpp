@@ -7,10 +7,9 @@ Object3d::Object3d() : Entity3d(){
 
 void Object3d::buildVBO(){
 
-    vbo = 0;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, m_mesh.vertices.size() * sizeof(Vertex), m_mesh.vertices.data(), GL_STATIC_DRAW);
+    m_vertexBuffer.reset(VertexBuffer::create((float *)m_mesh.vertices.data(), m_mesh.vertices.size() * sizeof(Vertex)));
+    m_vertexBuffer->bind();
+
 
 
     vao = 0;
@@ -20,14 +19,11 @@ void Object3d::buildVBO(){
     glEnableVertexAttribArray(1);
     glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0); // position --> 0 offset
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void *)(3* sizeof(float))); // normal --> 3 offset        
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, (GLuint)m_vertexBuffer->getID());
 
-    ibo = 0;
-    glGenBuffers(1, &ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_mesh.indices.size() * sizeof(GLuint), m_mesh.indices.data(), GL_STATIC_DRAW);
-    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
+    m_indexBuffer.reset(IndexBuffer::create(m_mesh.indices.data(), m_mesh.indices.size() * sizeof(int) ));
+    m_indexBuffer->bind();
 
 }
 
@@ -40,7 +36,7 @@ void Object3d::draw(){
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,m_indexBuffer->getID());
 
         glDrawElements(GL_TRIANGLES, m_mesh.indices.size(), GL_UNSIGNED_INT, nullptr);
     

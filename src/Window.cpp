@@ -95,7 +95,7 @@ void Window::refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer
             // glBindVertexArray(object->vao);
             object->draw();
 
-            //glUseProgram(0);
+            glUseProgram(0);
 
             
         }
@@ -103,10 +103,11 @@ void Window::refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer
 
         m_ui.render();
 
-        // update other events like input handling 
-        glfwPollEvents();
+
         // put the stuff we've been drawing onto the display
         glfwSwapBuffers(win);
+        // update other events like input handling 
+        glfwPollEvents();
 
 }
 bool Window::shouldClose(){

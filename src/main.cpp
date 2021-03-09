@@ -86,7 +86,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 
 
-int main(){
+int main(int argc, char** args){
   
     app.m_scene.init();
     GLCall(glEnable(GL_DEPTH_TEST));
@@ -119,14 +119,17 @@ int main(){
         app.m_window->refresh(app.m_scene, camera, app.m_timer);
     }
 
+    
 
+    // // Cleanup
+    // ImGui_ImplOpenGL3_Shutdown();
+    // ImGui_ImplGlfw_Shutdown();
+    // ImGui::DestroyContext();
 
-
-
- 
-
+    // glfwDestroyWindow(app.m_window->win);    
     glfwTerminate();
 
-
+    exit(EXIT_SUCCESS);
+    printf("Termination .....\n");
     return 0;
 }

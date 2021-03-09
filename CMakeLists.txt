@@ -100,7 +100,7 @@ include_directories(
     vcpkg/installed/x64-windows/include/
 
 
-    # src/
+    src/
 )
 
 target_link_directories(

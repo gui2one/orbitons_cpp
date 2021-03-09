@@ -5,6 +5,8 @@
 #include "Material.h"
 #include "Mesh.h"
 #include "../core.h"
+
+#include "buffers/Buffer.h"
 class Object3d : public Entity3d{
 public:
 
@@ -14,7 +16,9 @@ public:
     Mesh m_mesh;
     std::shared_ptr<Material> m_material; 
 
-    GLuint vbo, vao, ibo;
+    std::unique_ptr<VertexBuffer> m_vertexBuffer;
+    std::unique_ptr<IndexBuffer> m_indexBuffer;
+    GLuint vao;
 private:
 
 };
