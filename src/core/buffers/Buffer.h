@@ -2,6 +2,36 @@
 #define BUFFER_H
 #include <pch.h>
 
+enum class ShaderDataType{
+    None = 0, Float, Float2, Float3, Float4, Int, Int2, Int3, Int4, Mat3, Mat4, Bool 
+
+};
+struct BufferElement{
+
+    std::string Name;
+    ShaderDataType Type;
+
+    BufferElement(ShaderDataType type, std::string name)
+        :Name(name), Type(type)
+    {
+
+    }
+
+};
+
+class BufferLayout{
+
+public:
+    BufferLayout (){};
+    BufferLayout(std::initializer_list<BufferElement> elements){
+        m_elements = elements;
+    }
+
+    std::vector<BufferElement>::iterator begin(){ return  m_elements.begin(); }
+    std::vector<BufferElement>::iterator end(){ return  m_elements.end(); }
+private:
+    std::vector<BufferElement> m_elements;
+};
 
 class VertexBuffer{
 

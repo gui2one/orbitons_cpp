@@ -10,6 +10,16 @@ void Object3d::buildBuffers(){
     m_vertexBuffer.reset(VertexBuffer::create((float *)m_mesh.vertices.data(), m_mesh.vertices.size() * sizeof(Vertex)));
     m_vertexBuffer->bind();
 
+    BufferLayout layout = {
+      { ShaderDataType::Float3, "position" },
+      { ShaderDataType::Float3, "normal" },
+      { ShaderDataType::Float4, "color" }
+
+    };
+
+    // for(auto& element : layout){
+    //     printf("name : %s\n", element.Name.c_str());
+    // }
 
     m_vertexArrayBuffer.reset(VertexArrayBuffer::create());
 
