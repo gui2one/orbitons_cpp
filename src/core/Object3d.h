@@ -7,7 +7,8 @@
 #include "../core.h"
 
 #include "buffers/Buffer.h"
-#include "buffers/VertexArrayBuffer.h"
+#include "buffers/VertexArray.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 class Object3d : public Entity3d{
 public:
 
@@ -19,7 +20,7 @@ public:
 
     std::unique_ptr<VertexBuffer> m_vertexBuffer;
     std::unique_ptr<IndexBuffer> m_indexBuffer;
-    std::unique_ptr<VertexArrayBuffer> m_vertexArrayBuffer;
+    std::unique_ptr<VertexArray> m_vertexArray;
     GLuint vao;
 private:
 

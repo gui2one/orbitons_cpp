@@ -12,7 +12,9 @@ public:
 
     virtual void bind()  override;
     virtual void unbind()  override;
+    virtual void setLayout(const BufferLayout& layout) override {
 
+    };
     inline uint32_t getID() override { return m_id;}
 private:
 

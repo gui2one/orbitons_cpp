@@ -29,6 +29,9 @@ public:
 
     std::vector<BufferElement>::iterator begin(){ return  m_elements.begin(); }
     std::vector<BufferElement>::iterator end(){ return  m_elements.end(); }
+
+    std::vector<BufferElement>::const_iterator begin() const { return  m_elements.begin(); }
+    std::vector<BufferElement>::const_iterator end() const { return  m_elements.end(); }
 private:
     std::vector<BufferElement> m_elements;
 };
@@ -41,6 +44,8 @@ public :
     virtual void bind()  = 0;
     virtual void unbind()  = 0;
     virtual uint32_t getID()  = 0;
+    virtual void setLayout(const BufferLayout& layout) = 0;
+
     static VertexBuffer* create(float* vertices, uint32_t size);
 
 };
