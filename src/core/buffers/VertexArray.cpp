@@ -1,5 +1,6 @@
 #include "VertexArray.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
-VertexArray* VertexArray::create(){
-    return new OpenGLVertexArray();
+
+Orbitons::Ref<VertexArray> VertexArray::create(){
+    return Orbitons::MakeRef<OpenGLVertexArray>();
 }

@@ -18,9 +18,9 @@ public:
     Mesh m_mesh;
     std::shared_ptr<Material> m_material; 
 
-    std::unique_ptr<VertexBuffer> m_vertexBuffer;
-    std::unique_ptr<IndexBuffer> m_indexBuffer;
-    std::unique_ptr<VertexArray> m_vertexArray;
+    std::shared_ptr<VertexBuffer> m_vertexBuffer;
+    std::shared_ptr<IndexBuffer> m_indexBuffer;
+    Orbitons::Ref<VertexArray> m_vertexArray;
     GLuint vao;
 private:
 

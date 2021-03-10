@@ -12,13 +12,14 @@ public:
 
     virtual void bind()  override;
     virtual void unbind()  override;
-    virtual void setLayout(const BufferLayout& layout) override {
-
-    };
-    inline uint32_t getID() override { return m_id;}
+    virtual void setLayout(const BufferLayout& layout) override { m_layout = layout; }
+    virtual BufferLayout& getLayout() override { return m_layout; } 
+    virtual uint32_t getID() override { return m_id ;}
 private:
 
     uint32_t m_id;
+    BufferLayout m_layout;
+
 
 };
 

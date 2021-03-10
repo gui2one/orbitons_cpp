@@ -17,11 +17,14 @@ void Object3d::buildBuffers(){
 
     };
 
-    for(const auto& element : layout){
-        printf("name : %s\n", element.Name.c_str());
-    }
+    m_vertexBuffer->setLayout(layout);
 
-    m_vertexArray.reset(VertexArray::create());
+
+
+    m_vertexArray = VertexArray::create();
+    m_vertexArray->addVertexBuffer(m_vertexBuffer);
+
+
 
     vao = 0;
     glGenVertexArrays(1, &vao);
