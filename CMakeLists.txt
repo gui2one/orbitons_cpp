@@ -14,7 +14,7 @@ set(CMAKE_CXX_FLAGS "/MP /arch:AVX2 /EHsc")
 set(VCPKG_BUILD_TYPE release)
 file(GLOB_RECURSE libsCollection "vcpkg/installed/x64-windows/lib/*.lib")
 
-file(GLOB_RECURSE fileCollection "src/*.cpp" "src/*.c" "src/*.h")
+file(GLOB_RECURSE fileCollection "src/*.rc" "src/*.cpp" "src/*.c" "src/*.h")
 
 
 

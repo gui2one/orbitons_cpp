@@ -17,7 +17,10 @@ Window::Window(){
         
     }
 
-
+    GLFWimage icons[1]; 
+    icons[0].pixels = stbi_load("../../resources/icon.png", &icons[0].width, &icons[0].height, 0, 4); //rgba channels 
+    glfwSetWindowIcon(win, 1, icons); 
+    stbi_image_free(icons[0].pixels);
 
     glfwMakeContextCurrent(win);
 
