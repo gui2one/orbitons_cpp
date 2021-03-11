@@ -21,9 +21,9 @@ Windows only for now. Even if I defenitely want to add other targets ( Linux mai
 ### Build
 
 Relies heavily on vcpkg.exe.
-when cloning git repo, don't forget to use
+when cloning this git repo, don't forget to use :
 
-    git clone url --recurse-submodules
+    git clone https://github.com/gui2one/orbitons_cpp --recurse-submodules
 
-I am also using manifest, which is a new feature of vcpkg. Packages a defined in vcpkg.json.  
-Pretty simple.
+I am also using a manifest file, which is a new feature of vcpkg. Packages a defined in vcpkg.json.  
+Pretty simple ... in theory.
