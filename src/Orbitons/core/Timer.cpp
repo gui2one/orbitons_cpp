@@ -12,7 +12,7 @@ void Timer::update(){
     
     m_now = std::chrono::system_clock::now();
     auto delay = std::chrono::duration_cast<std::chrono::milliseconds>(m_now - m_start);
-    m_elapsed = delay.count(); /// holy graal !!!
+    m_elapsed = delay.count(); // holy graal !!!
 
     auto delta = std::chrono::duration_cast<std::chrono::milliseconds>(m_now - m_now_old);
     m_delta = delta.count();

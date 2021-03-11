@@ -17,7 +17,10 @@
         HALT();\
     }
 
-// cosmetic only ??
+/**
+ * Base namespace for the whole application 
+ * 
+ */
 namespace Orbitons{
 
     template<typename T>

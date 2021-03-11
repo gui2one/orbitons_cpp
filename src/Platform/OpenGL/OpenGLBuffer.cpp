@@ -1,6 +1,6 @@
 #include "OpenGLBuffer.h"
 //////////////////////////////////////////////////////
-///    OpenGLVertexBuffer
+//////   OpenGLVertexBuffer
 //////////////////////////////////////////////////////
 
 OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size){
@@ -25,7 +25,7 @@ void OpenGLVertexBuffer::unbind(){
 
 
 //////////////////////////////////////////////////////
-///    OpenGLIndexBuffer
+//////    OpenGLIndexBuffer
 //////////////////////////////////////////////////////
 
 OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t size){
