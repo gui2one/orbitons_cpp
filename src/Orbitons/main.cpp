@@ -1,5 +1,6 @@
 
 // #define GLEW_DLL
+#include <windows.h>
 #include "glad/glad.h"
 
 #include "imgui_impl_glfw.h"
@@ -94,7 +95,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 
 
-int main(int argc, char** args){
+int main(int argc, char** argv){
 
 
     glEnable(GL_DEPTH_TEST);
