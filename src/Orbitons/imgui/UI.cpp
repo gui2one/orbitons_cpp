@@ -28,7 +28,9 @@ void UI::init(GLFWwindow * window){
     ImGui_ImplOpenGL3_Init(glsl_version);
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
+
 }
+
 
 void UI::render(){
 
@@ -37,7 +39,7 @@ void UI::render(){
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    bool active = true;
+     bool active = true;
  
     if (active)
     {
@@ -45,6 +47,8 @@ void UI::render(){
 
         ImGui::DockSpaceOverViewport(NULL, ImGuiDockNodeFlags_None|ImGuiDockNodeFlags_PassthruCentralNode /*|ImGuiDockNodeFlags_NoResize*/);
     }
+
+
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -86,6 +90,7 @@ void UI::render(){
     ImGui::End();
 
     // ImGui::ShowDemoWindow(&show_demo_window);
+
 
     // Rendering
     ImGui::Render();

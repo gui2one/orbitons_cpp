@@ -18,10 +18,13 @@ public:
 
     void init(GLFWwindow * window);
 
+
     void render();
 private:
 
     GLFWwindow * m_window;
+
+
 
 
 };
