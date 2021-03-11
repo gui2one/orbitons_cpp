@@ -22,6 +22,7 @@
 #include "core/Object3d.h"
 #include "core/Timer.h"
 #include "core/Camera.h"
+#include "core/CameraControls.h"
 #include "core/ObjectLoader.h"
 
 
@@ -36,8 +37,11 @@ using Orbitons::OrbitalBody;
 using Orbitons::Ref;
 using Orbitons::MakeRef;
 
+
+// using namespace Orbitons;
 ObjLoader loader;
 Ref<Camera> camera;
+Ref<Orbitons::CameraControls> controls;
 Orbitons::Scene scene;
 
 UI ui;
@@ -54,6 +58,7 @@ int width, height;
 
 void createObjects(){
 
+    
     ORBITONS_ASSERT(true, "Assertion test only ....");
     dragon = MakeRef<Object3d>();
     dragon->m_mesh = loader.assimp_load("../../resources/objects/dragon_full.glb");
@@ -104,19 +109,22 @@ int main(int argc, char** argv){
     float angle = 0.0f;
     camera = Orbitons::MakeRef<Camera>(glm::radians(65.0f),screen_ratio);
 
+    controls = Orbitons::MakeRef<Orbitons::CameraControls>(camera);
     createObjects();
 
     float rotation_speed = 0.05f;
     float radius  = 3.0f;
     while(!app.m_window->shouldClose())
     {
+        float delta_time = app.m_timer.getDeltaTime();
         app.m_timer.update();
+        controls->update(delta_time);
 
         angle = app.m_timer.getElapsedTime();
-        camera->position.x = sinf(angle * rotation_speed) * radius;
-        camera->position.y = 1.0f;
-        camera->position.z = cosf(angle * rotation_speed) * radius;
-        camera->target_position.y = 0.05f;
+        // camera->position.x = sinf(angle * rotation_speed) * radius;
+        // camera->position.y = 1.0f;
+        // camera->position.z = cosf(angle * rotation_speed) * radius;
+        // camera->target_position.y = 0.05f;
         glm::vec3 up_vector = glm::vec3(0.0f, 1.0f, 0.0f);        
 
 
