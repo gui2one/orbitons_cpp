@@ -1,7 +1,7 @@
 #include "Object3d.h"
 
 Object3d::Object3d() : Entity3d(){
-    m_material = std::make_shared<PhongMaterial>();
+    m_material = Orbitons::MakeRef<PhongMaterial>();
    
 }
 

@@ -1,40 +1,28 @@
-#include "Shader.h"
+#include "OpenGLShader.h"
 
-Shader::Shader(){
+OpenGLShader::OpenGLShader(){
 	
 }
 
-// Shader::~Shader(){
+// OpenGLShader::~OpenGLShader(){
 // 	std::cout << "deleting shader \n\n";
 // }
 
-std::string loadShaderFile(std::string path){
-
-        std::ifstream input(path);
-        std::string output = "";
-        for( std::string line; std::getline(input, line);){
-                        
-                        output += line;
-                        output += "\n";
-        }
-
-        return output;
-
-}
 
 
 
-void Shader::loadVertexShaderSource(std::string filePath){
+
+void OpenGLShader::loadVertexShaderSource(std::string filePath){
 	vertexShaderSource = loadShaderFile(filePath);
 }
-void Shader::loadFragmentShaderSource(std::string filePath){
+void OpenGLShader::loadFragmentShaderSource(std::string filePath){
 	fragmentShaderSource = loadShaderFile(filePath);
 }
 
-std::string Shader::getVertexShaderSource(){
+std::string OpenGLShader::getVertexShaderSource(){
 	return vertexShaderSource;
 }
-std::string Shader::getFragmentShaderSource(){
+std::string OpenGLShader::getFragmentShaderSource(){
 	return fragmentShaderSource;
 }
 
@@ -42,7 +30,7 @@ std::string Shader::getFragmentShaderSource(){
 
 
 
-unsigned int Shader::compileShader(unsigned int type, const std::string& source){
+unsigned int OpenGLShader::compileShader(unsigned int type, const std::string& source){
         unsigned int id = glCreateShader(type);
         const char* src = source.c_str();
         glShaderSource(id, 1, &src, nullptr);
@@ -56,7 +44,7 @@ unsigned int Shader::compileShader(unsigned int type, const std::string& source)
                 glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
                 char* message = (char*)alloca(length * sizeof(char));
                 glGetShaderInfoLog(id, length, &length, message);
-                std::cout << "Shader compile failure !!!!!\n";
+                std::cout << "OpenGLShader compile failure !!!!!\n";
                 std::cout << "in " << (type == GL_VERTEX_SHADER ? "vertex shader\n" : "fragment shader\n");
                 std::cout << message << "\n";
 
@@ -65,7 +53,7 @@ unsigned int Shader::compileShader(unsigned int type, const std::string& source)
         return id;
 }
 
-unsigned int Shader::createShader( const std::string& vertexShader, const std::string& fragmentShader){
+unsigned int OpenGLShader::createShader( const std::string& vertexShader, const std::string& fragmentShader){
         unsigned int program = glCreateProgram();
         unsigned int vs = compileShader(GL_VERTEX_SHADER, vertexShader);
         unsigned int fs = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
@@ -83,7 +71,7 @@ unsigned int Shader::createShader( const std::string& vertexShader, const std::s
         return program;
 }
 
-unsigned int Shader::createShader(){
+unsigned int OpenGLShader::createShader(){
         m_id = glCreateProgram();
         unsigned int vs = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
         unsigned int fs = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
@@ -104,6 +92,6 @@ unsigned int Shader::createShader(){
 }
 
 
-void Shader::useProgram(){
+void OpenGLShader::useProgram(){
 	glUseProgram(m_id);
 }

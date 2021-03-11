@@ -17,7 +17,7 @@
 
 
 #include "core/MeshUtils.h"
-#include "core/Material.h"
+#include "Renderer/Material.h"
 #include "core/Object3d.h"
 #include "core/Timer.h"
 #include "core/Camera.h"
@@ -59,6 +59,9 @@ void createObjects(){
     dragon->buildBuffers();
     dragon->setScale(glm::vec3(10.f));
     dragon->setPosition(glm::vec3(0.f, 0.0f, 0.f));
+
+    std::static_pointer_cast<PhongMaterial>(dragon->m_material)->setDiffuseColor(glm::vec3(1.f));
+
     app.m_scene.add(dragon);
 
 

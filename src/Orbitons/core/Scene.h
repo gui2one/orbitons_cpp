@@ -1,10 +1,10 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "../pch.h"
-#include "../core.h"
+#include "pch.h"
+#include "core.h"
 #include "Entity3d.h"
-#include "Skybox.h"
+#include "Renderer/Skybox.h"
 
 namespace Orbitons
 {

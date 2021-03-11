@@ -1,8 +1,8 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "../pch.h"
-#include "../core.h"
+#include "pch.h"
+#include "core.h"
 #include "glm/vec3.hpp"
 #include "Shader.h"
 
@@ -15,13 +15,11 @@ public:
     Orbitons::Ref<Shader> m_shader;
     std::string m_type_name;
 
-    Material(){
-        // printf("Material Constructor\n");
 
-    }
 
     virtual ~Material(){};
 
+    static Orbitons::Ref<Material> create();
     virtual void setUniforms() = 0;
     virtual void initShader() = 0;
 
@@ -33,11 +31,13 @@ public:
         return m_shader;
     }
     inline GLuint getShaderID(){
-        return m_shader->m_id;
+        return m_shader->getID();
     }    
     inline std::string getTypeName(){
         return m_type_name;
     }
+
+    friend void setDiffuseColor(glm::vec4 color);
     
 };
 
@@ -60,15 +60,20 @@ public:
 
     inline void setUniforms() override {
 
-        glUniform3fv(glGetUniformLocation(m_shader->m_id, "material.diffuseColor"), 1 , glm::value_ptr(diffuseColor));
-        glUniform3fv(glGetUniformLocation(m_shader->m_id, "material.specularColor"), 1 , glm::value_ptr(specularColor));
+        glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.diffuseColor"), 1 , glm::value_ptr(diffuseColor));
+        glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.specularColor"), 1 , glm::value_ptr(specularColor));
     }
 
     inline void initShader() override {
-        m_shader = std::make_shared<Shader>();
+        m_shader = Shader::create();
         m_shader->loadVertexShaderSource("../../resources/shaders/phong_shader.vert");
         m_shader->loadFragmentShaderSource("../../resources/shaders/phong_shader.frag");
         m_shader->createShader();
+    }
+
+    void setDiffuseColor(glm::vec3 color){
+        diffuseColor = color;
+        setUniforms();
     }
 };
 
@@ -85,7 +90,7 @@ public:
         initShader();
     }
     inline void initShader() override{
-        m_shader = std::make_shared<Shader>();
+        m_shader = Shader::create();
         m_shader->loadVertexShaderSource("../../resources/shaders/unlit_shader.vert");
         m_shader->loadFragmentShaderSource("../../resources/shaders/unlit_shader.frag");
         m_shader->createShader();
@@ -93,7 +98,7 @@ public:
 
     inline void setUniforms() override {
         
-        glUniform3fv(glGetUniformLocation(m_shader->m_id, "material.color"), 1 , glm::value_ptr(color));
+        glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.color"), 1 , glm::value_ptr(color));
     }
 
 };

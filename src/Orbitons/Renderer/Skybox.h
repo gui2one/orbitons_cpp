@@ -3,7 +3,7 @@
 
 #include "../pch.h"
 #include "Shader.h"
-#include "Camera.h"
+#include "core/Camera.h"
 
 #include "../opengl_debug.h"
 class Skybox{
@@ -16,7 +16,7 @@ public:
     GLuint m_vao;
     GLuint m_vbo;
 
-    Shader m_shader;
+    std::shared_ptr<Shader> m_shader;
 
 private:
 

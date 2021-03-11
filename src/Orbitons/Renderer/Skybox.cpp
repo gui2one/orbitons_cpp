@@ -8,11 +8,11 @@ void Skybox::init(){
     
 
     // init shader
+    m_shader = Shader::create();
+    m_shader->loadVertexShaderSource("../../resources/shaders/skybox_shader.vert");
+    m_shader->loadFragmentShaderSource("../../resources/shaders/skybox_shader.frag");
 
-    m_shader.loadVertexShaderSource("../../resources/shaders/skybox_shader.vert");
-    m_shader.loadFragmentShaderSource("../../resources/shaders/skybox_shader.frag");
-
-    m_shader.createShader();
+    m_shader->createShader();
     //init openGL stuff
     glGenTextures(1, &m_id);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_id);
@@ -133,9 +133,9 @@ void Skybox::draw(Camera* camera){
     // remove position from matrix
     view = glm::mat4(glm::mat3(view)); 
 
-    m_shader.useProgram();
-    glUniformMatrix4fv(glGetUniformLocation(m_shader.m_id, "u_projection"), 1, GL_FALSE, glm::value_ptr(camera->projection));
-    glUniformMatrix4fv(glGetUniformLocation(m_shader.m_id, "u_view"), 1, GL_FALSE, glm::value_ptr(view));
+    m_shader->useProgram();
+    glUniformMatrix4fv(glGetUniformLocation(m_shader->getID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(camera->projection));
+    glUniformMatrix4fv(glGetUniformLocation(m_shader->getID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
         
     // ... set view and projection matrix
 

@@ -63,7 +63,7 @@ void Window::refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer
 
         scene.skybox.draw(camera.get());
 
-
+        glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
         for(auto current : scene.objects){
 
             Orbitons::Ref<Object3d> object = std::static_pointer_cast<Object3d>(current);
@@ -73,7 +73,7 @@ void Window::refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer
             model = current->transforms * model;
 
 
-            glm::vec3 lightPos = glm::vec3(0.f, 2.f, -2.f);
+ 
            
             glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_lightPos"), 1 , glm::value_ptr(lightPos));
             glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(camera->position));
