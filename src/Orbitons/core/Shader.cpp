@@ -94,6 +94,8 @@ unsigned int Shader::createShader(){
         glLinkProgram(m_id);
         glValidateProgram(m_id);
 
+        glDetachShader(m_id, vs);
+        glDetachShader(m_id, fs);
 
         glDeleteShader(vs);
         glDeleteShader(fs);

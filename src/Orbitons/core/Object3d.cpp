@@ -12,7 +12,8 @@ void Object3d::buildBuffers(){
 
     BufferLayout layout = {
       { ShaderDataType::Float3, "position" },
-      { ShaderDataType::Float3, "normal" }
+      { ShaderDataType::Float3, "normal" },
+      { ShaderDataType::Float2, "t_coords" }
     };
 
     m_vertexBuffer->setLayout(layout);
