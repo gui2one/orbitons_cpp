@@ -14,6 +14,8 @@ public:
     virtual void addVertexBuffer(const Orbitons::Ref<VertexBuffer>& vertexBuffer) = 0;
     virtual void setIndexBuffer(const Orbitons::Ref<IndexBuffer>& indexBuffer) = 0;
 
+    virtual uint32_t getID() = 0;
+
     static Orbitons::Ref<VertexArray> create();
 private:
 

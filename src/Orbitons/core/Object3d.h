@@ -6,8 +6,8 @@
 #include "Mesh.h"
 #include "../core.h"
 
-#include "buffers/Buffer.h"
-#include "buffers/VertexArray.h"
+#include "Renderer/Buffers/Buffer.h"
+#include "Renderer/Buffers/VertexArray.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 class Object3d : public Entity3d{
 public:

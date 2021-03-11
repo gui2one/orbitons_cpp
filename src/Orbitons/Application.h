@@ -5,7 +5,7 @@
 #include "Window.h"
 #include "core/Scene.h"
 #include "core/Timer.h"
-#include "core/Renderer.h"
+#include "Renderer/Renderer.h"
 
 class Application{
 public:

@@ -3,16 +3,19 @@
 
 #include "Renderer/buffers/VertexArray.h"
 #include "Renderer/buffers/Buffer.h"
+#include "core.h"
 class OpenGLVertexArray : public VertexArray{
 public:
     OpenGLVertexArray();
     virtual ~OpenGLVertexArray(){};
 
-    virtual void bind(){}
-    virtual void unbind(){}
+    virtual void bind() override;
+    virtual void unbind() override;
 
     virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
     virtual void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
+
+    virtual uint32_t getID() override { return m_id; };
 
 private:
 
