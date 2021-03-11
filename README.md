@@ -25,5 +25,5 @@ when cloning git repo, don't forget to use
 
     git clone url --recurse-submodules
 
-I am also using manifest, which is a new feature of vcpkg. Packages a defined in vcpkg.json.
+I am also using manifest, which is a new feature of vcpkg. Packages a defined in vcpkg.json.  
 Pretty simple.
