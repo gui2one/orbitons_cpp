@@ -32,17 +32,17 @@
 #include "Application.h"
 
 #include "opengl_debug.h"
-
-using Orbitons::OrbitalBody;
-using Orbitons::Ref;
-using Orbitons::MakeRef;
+#include "Events/KeyboardEvent.h"
 
 
-// using namespace Orbitons;
+using namespace Orbitons;
+
+
+
 ObjLoader loader;
 Ref<Camera> camera;
-Ref<Orbitons::CameraControls> controls;
-Orbitons::Scene scene;
+Ref<CameraControls> controls;
+Scene scene;
 
 UI ui;
 
@@ -54,6 +54,7 @@ Application app;
 
 
 int width, height;
+
 
 
 void createObjects(){
@@ -102,14 +103,19 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 int main(int argc, char** argv){
 
+    Ref<KeyboardEvent> event1 = MakeRef<KeyboardEvent>();
+    Ref<KeyboardEvent> event2 = MakeRef<KeyboardEvent>();
 
+    EventQueue queue;
+    queue.push(event1);
+    queue.push(event2);
     glEnable(GL_DEPTH_TEST);
     float screen_ratio = (float)width / height;
 
     float angle = 0.0f;
-    camera = Orbitons::MakeRef<Camera>(glm::radians(65.0f),screen_ratio);
+    camera = MakeRef<Camera>(glm::radians(65.0f),screen_ratio);
 
-    controls = Orbitons::MakeRef<Orbitons::CameraControls>(camera);
+    controls = MakeRef<CameraControls>(camera);
     createObjects();
 
     float rotation_speed = 0.05f;
