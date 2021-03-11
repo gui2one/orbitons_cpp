@@ -27,3 +27,6 @@ when cloning this git repo, don't forget to use :
 
 I am also using a manifest file, which is a new feature of vcpkg. Packages a defined in vcpkg.json.  
 Pretty simple ... in theory.
+
+ImGui is also included in the project a a git submodule in vendor/  
+It is not correctly build with the base project though. I need to remedy that. i.e some Imgui source files are directly included in src/ directory.
