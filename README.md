@@ -11,6 +11,7 @@ His Youtube "Game engine" playlist is wonderfull. I learn a lot, even if, frankl
 ### Rendering
 
 That the part that is merely a copy of TheCherno's engine. ( plus some others bugs I guess :) )
+
 OpenGL only ( for now ). But I am excited to try and add Direct3D ... will a first for me.
 
 ### Targets
