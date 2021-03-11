@@ -1,13 +1,13 @@
-#include "Texture.h"
+#include "OpenGLTexture.h"
 
 //~ #define STB_IMAGE_IMPLEMENTATION
 //~ #include "vendor/stb_image.h"
-Texture::Texture():id(0),width(0), height(0), bpp(0)
+OpenGLTexture::OpenGLTexture():id(0),width(0), height(0), bpp(0)
 {	
 	//~ std::cout << "creating texture object... " << "\n";	
 }
 
-void Texture::load(std::string path){
+void OpenGLTexture::load(std::string path){
 	
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
@@ -36,7 +36,7 @@ void Texture::load(std::string path){
 		stbi_image_free(buffer);	
 }
 
-void Texture::setData(int _width, int _height, unsigned char* buffer){
+void OpenGLTexture::setData(int _width, int _height, unsigned char* buffer){
 	
 	glDeleteTextures(1, &id);
 	glGenTextures(1, &id);
@@ -56,16 +56,16 @@ void Texture::setData(int _width, int _height, unsigned char* buffer){
 	//~ std::cout << "__ setting texture data : " << _width << "/" << _height  << "\n";
 }
 
-void Texture::bind(){
+void OpenGLTexture::bind(){
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, id);
 }
 
-void Texture::unbind(){
+void OpenGLTexture::unbind(){
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-Texture::~Texture()
+OpenGLTexture::~OpenGLTexture()
 {
 	std::cout << "deleting texture -- ID : " << id << "\n";
 	glDeleteTextures(1, &id);

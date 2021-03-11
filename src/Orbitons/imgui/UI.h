@@ -9,6 +9,8 @@
 
 #include "GLFW/glfw3.h"
 
+#include "core/PlatformUtils.h"
+
 class UI{
 public:
     UI();

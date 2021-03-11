@@ -52,7 +52,13 @@ void UI::render(){
 
         if(ImGui::BeginMenu("File")){
             if(ImGui::MenuItem("Open ...")){
-                
+
+                std::optional<std::string> path = PlatformUtils::openFileialog("../../resources/shaders/phong_shader.frag");
+
+                if( path )
+                    printf("File Path  --> %s\n", path->c_str());
+                else    
+                    printf("No file \n");
             }            
             if(ImGui::MenuItem("Save as ...")){
                 

@@ -3,9 +3,12 @@ cmake_minimum_required(VERSION 3.2)
 set(CMAKE_TOOLCHAIN_FILE "vcpkg/scripts/buildsystems/vcpkg.cmake")
 set(VCPKG_MANIFEST_MODE ON)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(orbitons)
 
 add_definitions(-DOGL_DEBUG)
+# add_definitions(-DORBITONS_PLATFORM_WINDOWS)
 
 set(CMAKE_CXX_FLAGS "/MP /arch:AVX2 /EHsc")
 set(VCPKG_BUILD_TYPE release)
