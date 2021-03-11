@@ -17,3 +17,10 @@ OpenGL only ( for now ). But I am excited to try and add Direct3D ... this will 
 ### Targets
 
 Windows only for now. Even if I defenitely want to add other targets ( Linux mainly).
+
+### Build
+
+Relies heavily on vcpkg.exe.
+when cloning git repo, don't forget to use
+
+    git clone url --recurse-submodules
