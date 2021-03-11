@@ -1,22 +1,20 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
-#include "../pch.h"
+#include "pch.h"
+#include "core.h"
 #include "Shader.h"
 #include "core/Camera.h"
 
 #include "../opengl_debug.h"
 class Skybox{
 public:
-    Skybox();
+    virtual ~Skybox() = default;
 
-    void init();
-    void draw(Camera* camera);
-    GLuint m_id;
-    GLuint m_vao;
-    GLuint m_vbo;
+    static Orbitons::Ref<Skybox> create();
 
-    std::shared_ptr<Shader> m_shader;
+    virtual void init() = 0;
+    virtual void draw(Camera* camera) = 0;
 
 private:
 

@@ -3,7 +3,8 @@
 namespace Orbitons{
 
     void Scene::init(){
-        skybox.init();
+        skybox = Skybox::create();
+        skybox->init();
     }
     
     void Scene::add(Ref<Entity3d> entity)

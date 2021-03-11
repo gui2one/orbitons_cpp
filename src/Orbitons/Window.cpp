@@ -61,7 +61,7 @@ void Window::refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer
         glClearColor(1.0f, 0.f, 0.f,1.f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        scene.skybox.draw(camera.get());
+        scene.skybox->draw(camera.get());
 
         glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
         for(auto current : scene.objects){

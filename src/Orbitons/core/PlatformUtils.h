@@ -1,19 +1,18 @@
 #ifndef PLATFORM_UTILS_H
 #define PLATFORM_UTILS_H
 
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
-
+#include "pch.h"
 #include "core.h"
-#include <string>
-#include <optional>
-#include <stdio.h>
-#include <iostream>
 
 #ifdef ORBITONS_PLATFORM_WINDOWS
 #include <windows.h>
 #include <commdlg.h>
+
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
+
+
 
 class PlatformUtils{
 public:

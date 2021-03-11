@@ -5,7 +5,7 @@
 #include "core.h"
 #include "glm/vec3.hpp"
 #include "Shader.h"
-
+#include "glad/glad.h"
 class Material
 {
 

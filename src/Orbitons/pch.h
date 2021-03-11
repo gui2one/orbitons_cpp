@@ -18,7 +18,7 @@ const double  PI  = 3.14159265359;
 #include <chrono>
 #include <string>
 #include <memory>
-
+#include <optional>
 
 
 #include <stb_image.h>

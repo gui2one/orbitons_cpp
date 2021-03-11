@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "core.h"
 #include "Renderer/Texture.h"
+
 class OpenGLTexture : public Texture
 {
 	public:

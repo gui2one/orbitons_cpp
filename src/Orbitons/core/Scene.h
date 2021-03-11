@@ -17,7 +17,7 @@ namespace Orbitons
         
         
         std::vector<Ref<Entity3d>> objects;
-        Skybox skybox;
+        Ref<Skybox> skybox;
 
     private:
 
