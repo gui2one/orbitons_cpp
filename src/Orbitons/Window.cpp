@@ -2,6 +2,8 @@
 
 #include "opengl_debug.h"
 #include "Events/KeyboardEvent.h"
+#include "Events/MouseEvent.h"
+#include "Events/WindowEvent.h"
 namespace Orbitons{
     Window::Window(){
         int width = 1280;
@@ -29,11 +31,11 @@ namespace Orbitons{
 
         /* set callbacks */
         glfwSetKeyCallback(win, [](GLFWwindow* window, int key, int scancode, int action, int mods){
-            Orbitons::Ref<Orbitons::Event> press_event;
+            Ref<Event> press_event;
             switch(action){
 
                 case GLFW_PRESS :
-                    press_event = Orbitons::MakeRef<Orbitons::KeyPressEvent>(scancode, 0);
+                    press_event = MakeRef<KeyPressEvent>(scancode, 0);
                     press_event->m_Callback = [scancode](){
                         printf("Key pressed : scancode %d\n", scancode);
                     };
@@ -41,16 +43,16 @@ namespace Orbitons{
                     break;
 
                 case GLFW_RELEASE :
-                    press_event = Orbitons::MakeRef<Orbitons::KeyReleaseEvent>(scancode);
+                    press_event = MakeRef<KeyReleaseEvent>(scancode);
                     press_event->m_Callback = [scancode](){
-                        printf("Key released : scancode %d\n", scancode);
+                        printf("Key released : scancode > %d\n", scancode);
                     };
                     static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
                     break;                
                 case GLFW_REPEAT :
-                    press_event = Orbitons::MakeRef<Orbitons::KeyPressEvent>(scancode, 1);
+                    press_event = MakeRef<KeyPressEvent>(scancode, 1);
                     press_event->m_Callback = [scancode](){
-                        printf("Key pressed (Repeat) : scancode %d\n", scancode);
+                        printf("Key pressed (Repeat) : scancode > %d\n", scancode);
                     };
                     static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);            
                     break;
@@ -58,6 +60,53 @@ namespace Orbitons{
             }
             
         });
+
+        glfwSetMouseButtonCallback(win, [](GLFWwindow* window, int button, int action, int mods){
+            Ref<Event> event;
+            switch(action){
+
+                case GLFW_PRESS :
+                    event = MakeRef<MousePressEvent>(button, 0);
+                    event->m_Callback = [button](){
+                        printf("Mouse pressed : Button > %d\n", button);
+                    };
+                    static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+                    break;
+
+                case GLFW_RELEASE :
+                    event = MakeRef<MouseReleaseEvent>(button);
+                    event->m_Callback = [button](){
+                        printf("Mouse release : Button > %d\n", button);
+                    };
+                    static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+                    break;  
+
+                /*
+                    TODO : MOUSE  REPEAT SYSTEM 
+                */                                
+
+            }
+
+        });
+
+        glfwSetWindowSizeCallback(win, [](GLFWwindow* window, int width, int height){
+            Ref<Event> event = MakeRef<WindowResizeEvent>( width,  height);
+            event->m_Callback = [width, height](){
+                
+            };
+
+            printf("Resize : %d / %d\n", width, height);
+            static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+        });
+
+        glfwSetWindowCloseCallback(win, [](GLFWwindow* window){
+            Ref<Event> event = MakeRef<WindowCloseEvent>();
+            event->m_Callback = [](){
+                printf("Closing Time ...\n");
+            };
+            static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+        });
+
 
         glfwMakeContextCurrent(win);
 
@@ -77,7 +126,7 @@ namespace Orbitons{
         glfwSwapInterval(1);
     }
 
-    void Window::refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer& timer){
+    void Window::refresh(Scene& scene, Ref<Camera> camera, Timer& timer){
 
             
             m_EventQueue.process();
@@ -107,8 +156,8 @@ namespace Orbitons{
             glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
             for(auto current : scene.objects){
 
-                Orbitons::Ref<Object3d> object = std::static_pointer_cast<Object3d>(current);
-                Orbitons::Ref<Material> material = object->m_material;
+                Ref<Object3d> object = std::static_pointer_cast<Object3d>(current);
+                Ref<Material> material = object->m_material;
                 material->useProgram();
                 glm::mat4 model(1.f);
                 model = current->transforms * model;

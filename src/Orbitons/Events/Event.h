@@ -18,7 +18,7 @@ namespace Orbitons{
         None = 0,
         KeyPress, KeyRelease, 
         MouseMove, MousePress, MouseRelease, MouseWheel,
-        WindowResize
+        WindowResize, WindowClose
     };
 
     enum EventCategoryFlag{
