@@ -10,7 +10,9 @@
 #include "GLFW/glfw3.h"
 
 #include "core/PlatformUtils.h"
+#include "Renderer/FrameBuffer.h"
 
+#include "core.h"
 class UI{
 public:
     UI();
@@ -19,10 +21,15 @@ public:
     void init(GLFWwindow * window);
 
 
-    void render();
+    void render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer);
+    ImVec2 getViewportSize();
 private:
 
     GLFWwindow * m_window;
+    ImVec2 m_viewportSize;
+    bool m_viewportSizeChanged = false;
+    
+    bool showDemoWindow = true;
 
 
 

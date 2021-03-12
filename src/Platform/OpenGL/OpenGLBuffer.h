@@ -2,7 +2,7 @@
 #define OPENGL_BUFFER_H
 
 #include <pch.h>
-#include "Renderer/buffers/Buffer.h"
+#include "Renderer/Buffer.h"
 #include "opengl_debug.h"
 
 class OpenGLVertexBuffer : public VertexBuffer{

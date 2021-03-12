@@ -10,6 +10,7 @@
 
 
 #include "Events/Event.h"
+#include "Renderer/FrameBuffer.h"
 namespace Orbitons{
 
     class Window{
@@ -33,6 +34,8 @@ namespace Orbitons{
 
 
     private:
+
+    Ref<FrameBuffer> m_frameBuffer;
 
     };
 }

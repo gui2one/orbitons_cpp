@@ -9,6 +9,7 @@ namespace Orbitons{
         int width = 1280;
         int height = 720;
 
+        
 
         if (!glfwInit())
             glfwTerminate();
@@ -31,13 +32,14 @@ namespace Orbitons{
 
         /* set callbacks */
         glfwSetKeyCallback(win, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+
             Ref<Event> press_event;
             switch(action){
 
                 case GLFW_PRESS :
                     press_event = MakeRef<KeyPressEvent>(scancode, 0);
                     press_event->m_Callback = [scancode](){
-                        printf("Key pressed : scancode %d\n", scancode);
+                        // printf("Key pressed : scancode %d\n", scancode);
                     };
                     static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
                     break;
@@ -45,14 +47,14 @@ namespace Orbitons{
                 case GLFW_RELEASE :
                     press_event = MakeRef<KeyReleaseEvent>(scancode);
                     press_event->m_Callback = [scancode](){
-                        printf("Key released : scancode > %d\n", scancode);
+                        // printf("Key released : scancode > %d\n", scancode);
                     };
                     static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
                     break;                
                 case GLFW_REPEAT :
                     press_event = MakeRef<KeyPressEvent>(scancode, 1);
                     press_event->m_Callback = [scancode](){
-                        printf("Key pressed (Repeat) : scancode > %d\n", scancode);
+                        // printf("Key pressed (Repeat) : scancode > %d\n", scancode);
                     };
                     static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);            
                     break;
@@ -62,13 +64,21 @@ namespace Orbitons{
         });
 
         glfwSetMouseButtonCallback(win, [](GLFWwindow* window, int button, int action, int mods){
+            // if(ImGui::GetIO().WantCaptureMouse){
+            //     printf("ImGUi event ?\n");
+            // }
+
+            // if(ImGui::IsMouseClicked(0)){
+            //     printf("ImGUi Click ?\n");
+
+            // }
             Ref<Event> event;
             switch(action){
 
                 case GLFW_PRESS :
                     event = MakeRef<MousePressEvent>(button, 0);
                     event->m_Callback = [button](){
-                        printf("Mouse pressed : Button > %d\n", button);
+                        // printf("Mouse pressed : Button > %d\n", button);
                     };
                     static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
                     break;
@@ -76,7 +86,7 @@ namespace Orbitons{
                 case GLFW_RELEASE :
                     event = MakeRef<MouseReleaseEvent>(button);
                     event->m_Callback = [button](){
-                        printf("Mouse release : Button > %d\n", button);
+                        // printf("Mouse release : Button > %d\n", button);
                     };
                     static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
                     break;  
@@ -95,7 +105,7 @@ namespace Orbitons{
                 
             };
 
-            printf("Resize : %d / %d\n", width, height);
+            // printf("Resize : %d / %d\n", width, height);
             static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
         });
 
@@ -117,7 +127,7 @@ namespace Orbitons{
             glfwTerminate();
         }
 
-        
+        m_frameBuffer = FrameBuffer::create();        
         printf("GL version: %s\n", glGetString(GL_VERSION));
         printf("GL shading language version: %s\n", 
         glGetString(GL_SHADING_LANGUAGE_VERSION));
@@ -133,7 +143,15 @@ namespace Orbitons{
             glEnable(GL_DEPTH_TEST);
             // timer.update();
             int width, height;
-            glfwGetFramebufferSize(win, &width, &height);
+            ImVec2 viewportSize = m_ui.getViewportSize();
+            width = viewportSize.x;
+            height = viewportSize.y;
+            // printf("%d, %d\n", width, height);
+            if( width > 0 && height > 0){
+
+                m_frameBuffer->invalidate(width, height);
+            }
+            // glfwGetFramebufferSize(win, &width, &height);
             glViewport(0,0,width, height);
             camera->setScreenRatio((float)width / (float)height);
             glm::mat4 view = glm::mat4(1.0f);
@@ -148,9 +166,10 @@ namespace Orbitons{
                 glm::normalize(up_vector)
             );
 
+            m_frameBuffer->bind();
             glClearColor(1.0f, 0.f, 0.f,1.f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+            
             scene.skybox->draw(camera.get());
 
             glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
@@ -161,9 +180,6 @@ namespace Orbitons{
                 material->useProgram();
                 glm::mat4 model(1.f);
                 model = current->transforms * model;
-
-
-    
             
                 glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_lightPos"), 1 , glm::value_ptr(lightPos));
                 glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(camera->position));
@@ -179,8 +195,8 @@ namespace Orbitons{
                 
             }
         
-
-            m_ui.render();
+            m_frameBuffer->unbind();
+            m_ui.render(m_frameBuffer);
 
 
             // put the stuff we've been drawing onto the display
