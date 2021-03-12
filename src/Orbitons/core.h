@@ -20,6 +20,8 @@
         HALT();\
     }
 
+#define BIT(x) (1 << x)
+
 /**
  * Base namespace for the whole application 
  * 

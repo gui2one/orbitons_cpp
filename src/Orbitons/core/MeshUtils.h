@@ -4,7 +4,7 @@
 #include "../pch.h"
 
 #include "Mesh.h"
-namespace MeshUtils{
+namespace Orbitons::MeshUtils{
 
 
     // generators

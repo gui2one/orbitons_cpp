@@ -7,6 +7,9 @@ namespace Orbitons{
 
 class CameraControls{
 public: 
+    /**
+     *  NOT implemented !
+     */
     CameraControls();
     CameraControls(Ref<Camera> camera);
 

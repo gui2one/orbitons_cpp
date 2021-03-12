@@ -1,7 +1,7 @@
 #include "MeshUtils.h"
 
 
-namespace MeshUtils{
+namespace Orbitons::MeshUtils{
 
 Mesh makeTriangle(){
     Mesh mesh;

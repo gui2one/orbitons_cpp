@@ -1,11 +1,12 @@
 #include "Application.h"
+namespace Orbitons{
+    Application::Application(){
+        m_window = std::make_unique<Window>();
 
-Application::Application(){
-    m_window = std::make_unique<Window>();
+        Renderer::setAPI(RenderAPI::OpenGL);
+        Renderer::init();
 
-    Renderer::setAPI(RenderAPI::OpenGL);
-    Renderer::init();
+        m_scene.init();
 
-    m_scene.init();
-
+    }
 }

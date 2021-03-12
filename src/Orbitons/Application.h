@@ -6,16 +6,17 @@
 #include "core/Scene.h"
 #include "core/Timer.h"
 #include "Renderer/Renderer.h"
+namespace Orbitons{
+    class Application{
+    public:
+        Application();
+        std::unique_ptr<Window> m_window;
+        // std::unique_ptr<Renderer> m_renderer;
+        Orbitons::Scene m_scene;
+        Timer m_timer;
 
-class Application{
-public:
-    Application();
-    std::unique_ptr<Window> m_window;
-    // std::unique_ptr<Renderer> m_renderer;
-    Orbitons::Scene m_scene;
-    Timer m_timer;
+    private:
 
-private:
-
-};
+    };
+}
 #endif /* APPLICATION_H */

@@ -50,7 +50,7 @@ Ref<Object3d> dragon;
 Ref<Object3d> plane;
 
 Application app;
-
+EventQueue queue;
 
 
 int width, height;
@@ -103,12 +103,22 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 int main(int argc, char** argv){
 
-    Ref<KeyboardEvent> event1 = MakeRef<KeyboardEvent>();
-    Ref<KeyboardEvent> event2 = MakeRef<KeyboardEvent>();
+    // Ref<KeypressEvent> event1 = MakeRef<KeypressEvent>();
+    // event1->m_Callback = [](){
+    //     printf("callback 1\n");
+    // };
 
-    EventQueue queue;
-    queue.push(event1);
-    queue.push(event2);
+    // Ref<KeypressEvent> event2 = MakeRef<KeypressEvent>();
+    // event2->m_Callback = [](){
+    //     printf("callback 2\n");
+    // };
+
+    // queue.push(event1);
+    // queue.push(event2);
+    // queue.process();
+
+
+
     glEnable(GL_DEPTH_TEST);
     float screen_ratio = (float)width / height;
 
