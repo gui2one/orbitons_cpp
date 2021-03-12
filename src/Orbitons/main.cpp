@@ -37,8 +37,6 @@
 
 using namespace Orbitons;
 
-
-
 ObjLoader loader;
 Ref<Camera> camera;
 Ref<CameraControls> controls;
@@ -54,7 +52,6 @@ EventQueue queue;
 
 
 int width, height;
-
 
 
 void createObjects(){
@@ -78,46 +75,11 @@ void createObjects(){
     MeshUtils::computeNormals(plane->m_mesh);
     plane->buildBuffers();
     plane->setScale(glm::vec3(1.0f));
-    // plane->setRotation(glm::vec3(90.0f, 0.f, 0.f));
+
     app.m_scene.add(plane);
 }
 
-
-void cycle_materials(){
-    printf("cycle materials\n");
-
-}
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    // printf("Key -> %d\n", key);
-    // printf("Scancode -> %d\n", scancode);
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-
-    }else if( scancode == 39 /* m key */&& action == GLFW_PRESS){
-        cycle_materials();
-    }
-}
-
-
-
 int main(int argc, char** argv){
-
-    // Ref<KeypressEvent> event1 = MakeRef<KeypressEvent>();
-    // event1->m_Callback = [](){
-    //     printf("callback 1\n");
-    // };
-
-    // Ref<KeypressEvent> event2 = MakeRef<KeypressEvent>();
-    // event2->m_Callback = [](){
-    //     printf("callback 2\n");
-    // };
-
-    // queue.push(event1);
-    // queue.push(event2);
-    // queue.process();
-
-
 
     glEnable(GL_DEPTH_TEST);
     float screen_ratio = (float)width / height;
@@ -137,24 +99,13 @@ int main(int argc, char** argv){
         controls->update(delta_time);
 
         angle = app.m_timer.getElapsedTime();
-        // camera->position.x = sinf(angle * rotation_speed) * radius;
-        // camera->position.y = 1.0f;
-        // camera->position.z = cosf(angle * rotation_speed) * radius;
-        // camera->target_position.y = 0.05f;
+
         glm::vec3 up_vector = glm::vec3(0.0f, 1.0f, 0.0f);        
 
 
         app.m_window->refresh(app.m_scene, camera, app.m_timer);
     }
-
-    
-
-    // // Cleanup
-    // ImGui_ImplOpenGL3_Shutdown();
-    // ImGui_ImplGlfw_Shutdown();
-    // ImGui::DestroyContext();
-
-    // glfwDestroyWindow(app.m_window->win);    
+  
     glfwTerminate();
 
     exit(EXIT_SUCCESS);
