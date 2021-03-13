@@ -222,3 +222,10 @@ void UI::render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer){
     }	    
 
 }
+
+void UI::close(){
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+}

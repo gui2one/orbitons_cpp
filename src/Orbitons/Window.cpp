@@ -23,6 +23,8 @@ namespace Orbitons{
             glfwTerminate();
             
         }
+
+
         glfwSetWindowUserPointer(win, this);
 
         // set GLFW window icon
@@ -196,6 +198,7 @@ namespace Orbitons{
 
     }
     bool Window::shouldClose(){
+
         return glfwWindowShouldClose(win);
     }
 }

@@ -36,6 +36,8 @@ namespace Orbitons{
 
             m_window->refresh(m_scene, m_scene.m_activeCamera, m_timer);
         }
+
+        m_window->m_ui.close();
     
         glfwTerminate();
     }
