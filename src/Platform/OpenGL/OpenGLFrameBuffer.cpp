@@ -14,7 +14,7 @@ namespace Orbitons
             
             m_colorAttachment = 0;
 
-            printf("deleted frame buffer data\n");
+            // printf("deleted frame buffer data\n");
         }
 
         if( width < 16) width = 16;

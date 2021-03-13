@@ -12,7 +12,7 @@ namespace Orbitons{
         
 
         if (!glfwInit()){
-
+            ORBITONS_ASSERT(false, "GLFW PROBLEM !!!!\n");
             glfwTerminate();
         }
 
@@ -20,24 +20,27 @@ namespace Orbitons{
         win = glfwCreateWindow(width, height, "Orbitons -- Renderer !!!", NULL, NULL);
         if (!win)
         {
+            ORBITONS_ASSERT(false, "GLFW Window PROBLEM !!!!\n");
             glfwTerminate();
             
         }
-        printf("WTF !!!! \n");
 
-        // glfwSetWindowUserPointer(win, this);
+        glfwSetWindowUserPointer(win, this);
         
-        // glfwMakeContextCurrent(win);
+        
+        glfwMakeContextCurrent(win);
 
-        // int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+                
+        m_context = GraphicContext::create(win);
+        m_context->init();
 
-        // if( !status){
-        //     printf("Problem with glad\n");
-        //     glfwTerminate();
-        // }
+        printf("GL version: %s\n", glGetString(GL_VERSION));
+        printf("GL shading language version: %s\n", 
+        glGetString(GL_SHADING_LANGUAGE_VERSION));
+
         // set GLFW window icon
         GLFWimage icons[1]; 
-        icons[0].pixels = stbi_load("../../resources/icon.png", &icons[0].width, &icons[0].height, 0, 4); //rgba channels 
+        icons[0].pixels = stbi_load("resources/icon.png", &icons[0].width, &icons[0].height, 0, 4); //rgba channels 
         glfwSetWindowIcon(win, 1, icons); 
         stbi_image_free(icons[0].pixels);
         /////////////////////
@@ -117,18 +120,18 @@ namespace Orbitons{
             // static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
         });
 
-
+        printf("WTF !!!! \n");
 
         m_frameBuffer = FrameBuffer::create();        
-        printf("GL version: %s\n", glGetString(GL_VERSION));
-        printf("GL shading language version: %s\n", 
-        glGetString(GL_SHADING_LANGUAGE_VERSION));
 
+
+
+        
         m_ui.init(win);
         glfwSwapInterval(1);
     }
 
-    void Window::refresh(Scene& scene, Ref<Camera> camera, Timer& timer){
+    void Window::refresh(Scene& scene, Timer& timer){
 
 
             glEnable(GL_DEPTH_TEST);
@@ -145,7 +148,7 @@ namespace Orbitons{
 
             // glfwGetFramebufferSize(win, &width, &height);
             glViewport(0,0,width, height);
-            camera->setScreenRatio((float)width / (float)height);
+            scene.m_activeCamera->setScreenRatio((float)width / (float)height);
             glm::mat4 view = glm::mat4(1.0f);
 
             float radius = 5.0f;
@@ -153,16 +156,19 @@ namespace Orbitons{
             float angle = timer.getElapsedTime() * speed;
             glm::vec3 up_vector(0.f,1.f,0.f);
             view *= glm::lookAt(
-                camera->position,
-                camera->target_position,
+                scene.m_activeCamera->position,
+                scene.m_activeCamera->target_position,
                 glm::normalize(up_vector)
             );
 
+
             m_frameBuffer->bind();
+
+
             glClearColor(1.0f, 0.f, 0.f,1.f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
-            scene.skybox->draw(camera.get());
+            scene.skybox->draw(scene.m_activeCamera.get());
 
             glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
             for(auto current : scene.objects){
@@ -174,10 +180,10 @@ namespace Orbitons{
                 model = current->transforms * model;
             
                 glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_lightPos"), 1 , glm::value_ptr(lightPos));
-                glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(camera->position));
+                glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(scene.m_activeCamera->position));
 
                 glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(),"u_model"), 1, GL_FALSE,glm::value_ptr(model));
-                glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(camera->projection));
+                glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(scene.m_activeCamera->projection));
                 glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
     
                 object->draw();
@@ -192,7 +198,8 @@ namespace Orbitons{
 
 
             // put the stuff we've been drawing onto the display
-            glfwSwapBuffers(win);
+            
+            m_context->swapBuffers();
             // update other events like input handling 
             glfwPollEvents();
 

@@ -13,6 +13,8 @@
 
 #include "Events/Event.h"
 #include "Renderer/FrameBuffer.h"
+
+#include "Renderer/GraphicContext.h"
 namespace Orbitons{
 
     class Window{
@@ -22,10 +24,11 @@ namespace Orbitons{
         GLFWwindow * win;
         UI m_ui;
 
+        Ref<GraphicContext> m_context;
     public:
         Window();
 
-        void refresh(Orbitons::Scene& scene, Orbitons::Ref<Camera> camera, Timer& timer);
+        void refresh(Orbitons::Scene& scene, Timer& timer);
         bool shouldClose();
 
         static void char_mods_callback(GLFWwindow* window, unsigned int key, int action);

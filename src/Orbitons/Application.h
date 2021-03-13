@@ -7,7 +7,7 @@
 #include "core/Camera.h"
 #include "core/Timer.h"
 #include "Renderer/Renderer.h"
-#include "Renderer/GraphicContext.h"
+
 
 #include "Events/Event.h"
 #include "Events/KeyboardEvent.h"
@@ -19,6 +19,10 @@ namespace Orbitons{
         Orbitons::Scene m_scene;
         Timer m_timer;
 
+        void onKeyPress(Ref<Event> event){
+            
+        }
+
     public:
         Application();
         void run();
@@ -26,7 +30,6 @@ namespace Orbitons{
 
         EventQueue* m_eventQueue;
 
-        Ref<GraphicContext> m_context;
 
 
     };

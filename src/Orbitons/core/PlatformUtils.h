@@ -7,6 +7,7 @@
 #ifdef ORBITONS_PLATFORM_WINDOWS
 #include <windows.h>
 #include <commdlg.h>
+#include "psapi.h"
 
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3.h>
@@ -47,6 +48,21 @@ public:
         };
 
         return std::nullopt;
+    }
+
+    static size_t getMemoryUsage(){
+        
+
+        PROCESS_MEMORY_COUNTERS_EX pmc; 
+        if (GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*) &pmc, sizeof(pmc)) && pmc.cb >= sizeof(pmc))
+        {
+            size_t virtualMemUsedByMe = pmc.PrivateUsage;
+            // printf("Memory used %d\n", virtualMemUsedByMe);
+            return virtualMemUsedByMe;
+        // use virtualMemUsedByMe here
+        }
+
+        return -1;
     }
 private:
 
