@@ -6,6 +6,9 @@
 #include "core/Scene.h"
 #include "core/Timer.h"
 #include "Renderer/Renderer.h"
+
+#include "Events/Event.h"
+#include "Events/KeyboardEvent.h"
 namespace Orbitons{
     class Application{
     public:
@@ -16,6 +19,8 @@ namespace Orbitons{
         Timer m_timer;
 
     private:
+
+        EventQueue* m_eventQueue;
 
     };
 }
