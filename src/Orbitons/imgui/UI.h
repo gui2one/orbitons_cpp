@@ -23,13 +23,23 @@ public:
 
     void render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer);
     ImVec2 getViewportSize();
+    bool getViewportSizeChanged() { 
+        bool temp = m_viewportSizeChanged;
+        if(temp){
+            m_viewportSizeChanged = false;
+            return true;
+        }
+        return false; 
+    };
 private:
 
     GLFWwindow * m_window;
     ImVec2 m_viewportSize;
+    ImVec2 oldSize;
     bool m_viewportSizeChanged = false;
     
     bool showDemoWindow = true;
+    bool b_showViewport = true;
 
 
 

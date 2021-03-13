@@ -13,21 +13,25 @@ namespace Orbitons
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
             glDeleteTextures(1, &m_colorAttachment);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            printf("deleted frame buffer data\n");
         }
-        // printf("Invalidation start\n");
+
+        if( width < 16) width = 16;
+        if( height < 16) height = 16;
+
         glGenFramebuffers(1 , &m_id);
-        // printf("Invalidation END\n");
-        GLCall(glBindFramebuffer(GL_FRAMEBUFFER, m_id));
-        GLCall(glCreateTextures(GL_TEXTURE_2D, 1, &m_colorAttachment));
-        GLCall(glBindTexture(GL_TEXTURE_2D, m_colorAttachment));
 
-        GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-        GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
-        
-        GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr));
-        GLCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colorAttachment, 0));
+        glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+        glCreateTextures(GL_TEXTURE_2D, 1, &m_colorAttachment);
+        glBindTexture(GL_TEXTURE_2D, m_colorAttachment);
 
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_colorAttachment, 0);
 
         if( glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
             ORBITONS_ASSERT(false, "problem with frame buffer");

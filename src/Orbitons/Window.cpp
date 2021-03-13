@@ -14,13 +14,13 @@ namespace Orbitons{
         if (!glfwInit())
             glfwTerminate();
 
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
         win = glfwCreateWindow(width, height, "Orbitons -- Renderer !!!", NULL, NULL);
         if (!win)
         {
             glfwTerminate();
             
         }
-
         glfwSetWindowUserPointer(win, this);
 
         // set GLFW window icon
@@ -126,17 +126,19 @@ namespace Orbitons{
 
     void Window::refresh(Scene& scene, Ref<Camera> camera, Timer& timer){
 
+
             glEnable(GL_DEPTH_TEST);
             // timer.update();
             int width, height;
             ImVec2 viewportSize = m_ui.getViewportSize();
             width = viewportSize.x;
             height = viewportSize.y;
-            // printf("%d, %d\n", width, height);
-            if( width > 0 && height > 0){
 
-                m_frameBuffer->invalidate(width, height);
-            }
+            if( m_ui.getViewportSizeChanged()){
+                
+                m_frameBuffer->invalidate(width,height);
+            }            
+
             // glfwGetFramebufferSize(win, &width, &height);
             glViewport(0,0,width, height);
             camera->setScreenRatio((float)width / (float)height);
