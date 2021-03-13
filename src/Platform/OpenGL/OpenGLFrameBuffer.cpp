@@ -10,10 +10,9 @@ namespace Orbitons
 
         if(m_id){
             glDeleteFramebuffers(1, &m_id);
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
             glDeleteTextures(1, &m_colorAttachment);
-            glBindTexture(GL_TEXTURE_2D, 0);
+            
+            m_colorAttachment = 0;
 
             printf("deleted frame buffer data\n");
         }

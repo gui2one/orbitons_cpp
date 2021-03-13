@@ -11,8 +11,10 @@ namespace Orbitons{
 
         
 
-        if (!glfwInit())
+        if (!glfwInit()){
+
             glfwTerminate();
+        }
 
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
         win = glfwCreateWindow(width, height, "Orbitons -- Renderer !!!", NULL, NULL);
