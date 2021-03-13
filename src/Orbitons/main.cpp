@@ -1,59 +1,15 @@
-
-// #define GLEW_DLL
-#include <windows.h>
-#include "glad/glad.h"
-
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-#include "GLFW/glfw3.h"
-
-
-#include <stb_image.h>
-
-
-#include "pch.h"
-#include "core.h"
-
-#include "orbital_body.h"
-
-
-#include "core/MeshUtils.h"
-#include "Renderer/Material.h"
-#include "core/Object3d.h"
-#include "core/Timer.h"
-#include "core/Camera.h"
-#include "core/CameraControls.h"
-#include "core/ObjectLoader.h"
-
-
-#include "core/Scene.h"
-#include "imgui/UI.h"
-
-#include "Application.h"
-
-#include "opengl_debug.h"
-#include "Events/KeyboardEvent.h"
-
+#include "Orbitons.h"
 
 using namespace Orbitons;
 
-ObjLoader loader;
-Ref<Camera> camera;
-Ref<CameraControls> controls;
-Scene scene;
-
-UI ui;
-
-Ref<Object3d> dragon;
-Ref<Object3d> plane;
-
 Application app;
 
-int width, height;
 
 
 void createObjects(){
-
+    ObjLoader loader;
+    Ref<Object3d> dragon;
+    Ref<Object3d> plane;
     
     ORBITONS_ASSERT(true, "Assertion test only ....");
     dragon = MakeRef<Object3d>();
@@ -80,37 +36,11 @@ void createObjects(){
 int main(int argc, char** argv){
 
 
-
-
-    glEnable(GL_DEPTH_TEST);
-    float screen_ratio = (float)width / height;
-
-    float angle = 0.0f;
-    camera = MakeRef<Camera>(glm::radians(65.0f),screen_ratio);
-
-    controls = MakeRef<CameraControls>(camera);
     createObjects();
 
-    float rotation_speed = 0.05f;
-    float radius  = 3.0f;
-    while(!app.m_window->shouldClose())
-    {
+    app.run();
 
-        float delta_time = app.m_timer.getDeltaTime();
-        app.m_timer.update();
-        controls->update(delta_time);
-
-        angle = app.m_timer.getElapsedTime();
-
-        glm::vec3 up_vector = glm::vec3(0.0f, 1.0f, 0.0f);        
-
-
-        app.m_window->refresh(app.m_scene, camera, app.m_timer);
-    }
-  
-    glfwTerminate();
-
-    exit(EXIT_SUCCESS);
     printf("Termination .....\n");
+    exit(EXIT_SUCCESS);
     return 0;
 }

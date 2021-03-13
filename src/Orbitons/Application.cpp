@@ -19,4 +19,24 @@ namespace Orbitons{
         m_scene.init();
 
     }
+
+    void Application::run(){
+        while(!m_window->shouldClose()){
+
+
+            glEnable(GL_DEPTH_TEST);
+            float delta_time = m_timer.getDeltaTime();
+            m_timer.update();
+            
+
+            float angle = m_timer.getElapsedTime();
+
+            glm::vec3 up_vector = glm::vec3(0.0f, 1.0f, 0.0f);        
+
+
+            m_window->refresh(m_scene, m_scene.m_activeCamera, m_timer);
+        }
+    
+        glfwTerminate();
+    }
 }

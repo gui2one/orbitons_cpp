@@ -4,6 +4,7 @@
 #include <memory>
 #include "Window.h"
 #include "core/Scene.h"
+#include "core/Camera.h"
 #include "core/Timer.h"
 #include "Renderer/Renderer.h"
 
@@ -11,16 +12,19 @@
 #include "Events/KeyboardEvent.h"
 namespace Orbitons{
     class Application{
-    public:
-        Application();
+
+    public : 
         std::unique_ptr<Window> m_window;
-        // std::unique_ptr<Renderer> m_renderer;
         Orbitons::Scene m_scene;
         Timer m_timer;
 
+    public:
+        Application();
+        void run();
     private:
 
         EventQueue* m_eventQueue;
+ 
 
     };
 }

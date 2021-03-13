@@ -8,6 +8,12 @@ namespace Orbitons
 
     void OpenGLFrameBuffer::invalidate(uint32_t width, uint32_t height){
 
+        if(m_id){
+            glDeleteFramebuffers(1, &m_id);
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+            glDeleteTextures(1, &m_colorAttachment);
+        }
         // printf("Invalidation start\n");
         glGenFramebuffers(1 , &m_id);
         // printf("Invalidation END\n");

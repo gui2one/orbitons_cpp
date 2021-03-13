@@ -4,12 +4,16 @@
 #include "pch.h"
 #include "core.h"
 #include "Entity3d.h"
+#include "Camera.h"
 #include "Renderer/Skybox.h"
 
 namespace Orbitons
 {
 
     class Scene{
+
+    public:
+        Ref<Camera> m_activeCamera = nullptr;
     public:
         
         void init();

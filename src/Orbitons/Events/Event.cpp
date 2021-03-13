@@ -4,6 +4,7 @@ namespace Orbitons
 {
 
     EventQueue * EventQueue::m_instance = nullptr;
+    
     EventQueue * EventQueue::getInstance(){
 
         if( m_instance == nullptr){
