@@ -41,8 +41,6 @@ namespace Orbitons{
 
             m_window->refresh(m_scene, m_timer);
 
-            size_t memory_usage = PlatformUtils::getMemoryUsage();
-            printf("Mem -> %d\n", memory_usage / 1024 / 1024);
 
         }
 

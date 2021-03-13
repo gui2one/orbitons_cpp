@@ -166,7 +166,11 @@ void UI::render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer){
 
 
     
-    
+    ImGui::Begin("Infos");
+        
+        size_t memory_usage = PlatformUtils::getMemoryUsage();
+        ImGui::Text("Memory used : %d Mo", memory_usage / 1024 / 1024);
+    ImGui::End();
     ImGui::Begin("Properties");
         static float value = 0.5f;
         if(ImGui::DragFloat("test", &value, 0.1f)){
