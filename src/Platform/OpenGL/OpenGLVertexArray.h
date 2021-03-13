@@ -1,10 +1,10 @@
 #ifndef VERTEX_ARRAY_BUFFER_H
 #define VERTEX_ARRAY_BUFFER_H
 
+#include "core.h"
 #include "Renderer/VertexArray.h"
 #include "Renderer/Buffer.h"
-#include "core.h"
-
+#include "core/Mesh.h"
 class OpenGLVertexArray : public VertexArray{
 public:
     OpenGLVertexArray();

@@ -1,5 +1,6 @@
 #include "OpenGLSkybox.h"
 
+#include <glad/glad.h>
 void OpenGLSkybox::init(){
     
 

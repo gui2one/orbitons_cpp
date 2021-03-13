@@ -1,6 +1,6 @@
 #include "Window.h"
 
-#include "opengl_debug.h"
+
 #include "Events/KeyboardEvent.h"
 #include "Events/MouseEvent.h"
 #include "Events/WindowEvent.h"
@@ -23,10 +23,18 @@ namespace Orbitons{
             glfwTerminate();
             
         }
+        printf("WTF !!!! \n");
 
+        // glfwSetWindowUserPointer(win, this);
+        
+        // glfwMakeContextCurrent(win);
 
-        glfwSetWindowUserPointer(win, this);
+        // int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
+        // if( !status){
+        //     printf("Problem with glad\n");
+        //     glfwTerminate();
+        // }
         // set GLFW window icon
         GLFWimage icons[1]; 
         icons[0].pixels = stbi_load("../../resources/icon.png", &icons[0].width, &icons[0].height, 0, 4); //rgba channels 
@@ -110,14 +118,6 @@ namespace Orbitons{
         });
 
 
-        glfwMakeContextCurrent(win);
-
-        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-        if( !status){
-            printf("Problem with glad\n");
-            glfwTerminate();
-        }
 
         m_frameBuffer = FrameBuffer::create();        
         printf("GL version: %s\n", glGetString(GL_VERSION));

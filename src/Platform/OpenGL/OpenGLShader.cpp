@@ -1,5 +1,5 @@
 #include "OpenGLShader.h"
-
+#include <glad/glad.h>
 OpenGLShader::OpenGLShader(){
 	
 }

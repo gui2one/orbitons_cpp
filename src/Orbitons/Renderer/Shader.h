@@ -1,6 +1,6 @@
 #ifndef SHADER_H
 #define SHADER_H
-#include "../pch.h"
+#include "pch.h"
 
 #include <fstream>
 

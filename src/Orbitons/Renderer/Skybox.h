@@ -6,7 +6,6 @@
 #include "Shader.h"
 #include "core/Camera.h"
 
-#include "../opengl_debug.h"
 class Skybox{
 public:
     virtual ~Skybox() = default;

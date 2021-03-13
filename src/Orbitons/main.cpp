@@ -1,5 +1,5 @@
 #include "Orbitons.h"
-
+#include "core.h"
 using namespace Orbitons;
 
 Application app;
@@ -11,7 +11,7 @@ void createObjects(){
     Ref<Object3d> dragon;
     Ref<Object3d> plane;
     
-    ORBITONS_ASSERT(true, "Assertion test only ....");
+    
     dragon = MakeRef<Object3d>();
     dragon->m_mesh = loader.assimp_load("../../resources/objects/dragon_full.glb");
     dragon->buildBuffers();
@@ -34,7 +34,6 @@ void createObjects(){
 }
 
 int main(int argc, char** argv){
-
 
     createObjects();
 

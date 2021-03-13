@@ -1,7 +1,6 @@
 #include "OpenGLTexture.h"
+#include <glad/glad.h>
 
-//~ #define STB_IMAGE_IMPLEMENTATION
-//~ #include "vendor/stb_image.h"
 OpenGLTexture::OpenGLTexture():id(0),width(0), height(0), bpp(0)
 {	
 	//~ std::cout << "creating texture object... " << "\n";	

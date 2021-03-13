@@ -6,7 +6,6 @@
 #include "Renderer/Skybox.h"
 #include "core/Camera.h"
 
-#include "opengl_debug.h"
 class OpenGLSkybox : public Skybox{
 public:
     virtual ~OpenGLSkybox(){};
@@ -14,9 +13,9 @@ public:
 
     virtual void init() override ;
     virtual void draw(Camera* camera) override;
-    GLuint m_id;
-    GLuint m_vao;
-    GLuint m_vbo;
+    uint32_t m_id;
+    uint32_t m_vao;
+    uint32_t m_vbo;
 
     std::shared_ptr<Shader> m_shader;
 

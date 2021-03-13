@@ -1,12 +1,13 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include <memory>
+#include "pch.h"
 #include "Window.h"
 #include "core/Scene.h"
 #include "core/Camera.h"
 #include "core/Timer.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/GraphicContext.h"
 
 #include "Events/Event.h"
 #include "Events/KeyboardEvent.h"
@@ -24,7 +25,9 @@ namespace Orbitons{
     private:
 
         EventQueue* m_eventQueue;
- 
+
+        Ref<GraphicContext> m_context;
+
 
     };
 }

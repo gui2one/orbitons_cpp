@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <csignal>
-#include "glad/glad.h"
+#include <glad/glad.h>
 #define G21_ASSERT(x) if(!(x)) std::raise(SIGINT);
 
 // #define OGL_DEBUG

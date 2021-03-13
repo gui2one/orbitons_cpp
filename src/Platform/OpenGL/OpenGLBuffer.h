@@ -3,7 +3,7 @@
 
 #include <pch.h>
 #include "Renderer/Buffer.h"
-#include "opengl_debug.h"
+
 
 class OpenGLVertexBuffer : public VertexBuffer{
 public:
@@ -35,7 +35,7 @@ public:
     inline uint32_t getID() override { return m_id;}
 private:
 
-    GLuint m_id;
+    uint32_t m_id;
 
 };
 #endif /* OPENGL_BUFFER_H */

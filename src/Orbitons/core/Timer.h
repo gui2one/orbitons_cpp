@@ -1,7 +1,7 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include "../pch.h"
+#include "pch.h"
 class Timer{
 public:
     Timer();
