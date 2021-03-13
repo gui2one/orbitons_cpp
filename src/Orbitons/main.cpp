@@ -48,9 +48,9 @@ Ref<Object3d> dragon;
 Ref<Object3d> plane;
 
 Application app;
-EventQueue queue;
 
 
+EventQueue * event_queue = EventQueue::getInstance();
 int width, height;
 
 
@@ -81,6 +81,15 @@ void createObjects(){
 
 int main(int argc, char** argv){
 
+
+    Ref<Event> event = MakeRef<KeyPressEvent>(42, 0);
+
+    event->m_Callback = [](){
+        printf("custom event \n");
+    };
+    event_queue->push(event);
+
+    
     glEnable(GL_DEPTH_TEST);
     float screen_ratio = (float)width / height;
 
@@ -94,6 +103,7 @@ int main(int argc, char** argv){
     float radius  = 3.0f;
     while(!app.m_window->shouldClose())
     {
+        event_queue->process();
         float delta_time = app.m_timer.getDeltaTime();
         app.m_timer.update();
         controls->update(delta_time);

@@ -19,7 +19,7 @@ namespace Orbitons{
             
         GLFWwindow * win;
         UI m_ui;
-        Orbitons::EventQueue m_EventQueue;
+        // Orbitons::EventQueue m_EventQueue;
 
     public:
         Window();

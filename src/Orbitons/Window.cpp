@@ -127,7 +127,7 @@ namespace Orbitons{
     void Window::refresh(Scene& scene, Ref<Camera> camera, Timer& timer){
 
             
-            m_EventQueue.process();
+            // m_EventQueue.process();
             glEnable(GL_DEPTH_TEST);
             // timer.update();
             int width, height;

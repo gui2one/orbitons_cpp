@@ -47,10 +47,26 @@ namespace Orbitons{
 
     };
 
+    /**
+     * EventQueue  
+     * Singleton Pattern  
+     */
     class EventQueue{
     
+
+    protected:
+        /// protected constructor ( singleton pattern )
+        EventQueue(){};
+        static EventQueue* m_instance; 
     public:
-        EventQueue(){}
+        
+        /// not cloneable
+        EventQueue(const EventQueue& other) = delete;
+        /// not assignable
+        void operator=(const EventQueue& other ) = delete;
+
+        static EventQueue* getInstance();
+
 
         void push(const Ref<Event>& event){ 
 
