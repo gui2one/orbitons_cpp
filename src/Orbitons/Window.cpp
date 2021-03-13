@@ -33,88 +33,76 @@ namespace Orbitons{
         /* set callbacks */
         glfwSetKeyCallback(win, [](GLFWwindow* window, int key, int scancode, int action, int mods){
 
-            Ref<Event> press_event;
-            switch(action){
+            // Ref<Event> press_event;
+            // switch(action){
 
-                case GLFW_PRESS :
-                    press_event = MakeRef<KeyPressEvent>(scancode, 0);
-                    press_event->m_Callback = [scancode](){
-                        // printf("Key pressed : scancode %d\n", scancode);
-                    };
-                    static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
-                    break;
+            //     case GLFW_PRESS :
+            //         press_event = MakeRef<KeyPressEvent>(scancode, 0);
+            //         press_event->m_Callback = [scancode](){
+            //             // printf("Key pressed : scancode %d\n", scancode);
+            //         };
+            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
+            //         break;
 
-                case GLFW_RELEASE :
-                    press_event = MakeRef<KeyReleaseEvent>(scancode);
-                    press_event->m_Callback = [scancode](){
-                        // printf("Key released : scancode > %d\n", scancode);
-                    };
-                    static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
-                    break;                
-                case GLFW_REPEAT :
-                    press_event = MakeRef<KeyPressEvent>(scancode, 1);
-                    press_event->m_Callback = [scancode](){
-                        // printf("Key pressed (Repeat) : scancode > %d\n", scancode);
-                    };
-                    static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);            
-                    break;
+            //     case GLFW_RELEASE :
+            //         press_event = MakeRef<KeyReleaseEvent>(scancode);
+            //         press_event->m_Callback = [scancode](){
+            //             // printf("Key released : scancode > %d\n", scancode);
+            //         };
+            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
+            //         break;                
+            //     case GLFW_REPEAT :
+            //         press_event = MakeRef<KeyPressEvent>(scancode, 1);
+            //         press_event->m_Callback = [scancode](){
+            //             // printf("Key pressed (Repeat) : scancode > %d\n", scancode);
+            //         };
+            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);            
+            //         break;
 
-            }
+            // }
             
         });
 
         glfwSetMouseButtonCallback(win, [](GLFWwindow* window, int button, int action, int mods){
-            // if(ImGui::GetIO().WantCaptureMouse){
-            //     printf("ImGUi event ?\n");
+
+            // Ref<Event> event;
+            // switch(action){
+
+            //     case GLFW_PRESS :
+            //         event = MakeRef<MousePressEvent>(button, 0);
+            //         event->m_Callback = [button](){
+            //             // printf("Mouse pressed : Button > %d\n", button);
+            //         };
+            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+            //         break;
+
+            //     case GLFW_RELEASE :
+            //         event = MakeRef<MouseReleaseEvent>(button);
+            //         event->m_Callback = [button](){
+            //             // printf("Mouse release : Button > %d\n", button);
+            //         };
+            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+            //         break;  
             // }
-
-            // if(ImGui::IsMouseClicked(0)){
-            //     printf("ImGUi Click ?\n");
-
-            // }
-            Ref<Event> event;
-            switch(action){
-
-                case GLFW_PRESS :
-                    event = MakeRef<MousePressEvent>(button, 0);
-                    event->m_Callback = [button](){
-                        // printf("Mouse pressed : Button > %d\n", button);
-                    };
-                    static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
-                    break;
-
-                case GLFW_RELEASE :
-                    event = MakeRef<MouseReleaseEvent>(button);
-                    event->m_Callback = [button](){
-                        // printf("Mouse release : Button > %d\n", button);
-                    };
-                    static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
-                    break;  
-
-                /*
-                    TODO : MOUSE  REPEAT SYSTEM 
-                */                                
-
-            }
 
         });
 
         glfwSetWindowSizeCallback(win, [](GLFWwindow* window, int width, int height){
-            Ref<Event> event = MakeRef<WindowResizeEvent>( width,  height);
-            event->m_Callback = [width, height](){
+            // Ref<Event> event = MakeRef<WindowResizeEvent>( width,  height);
+            // event->m_Callback = [width, height](){
                 
-            };
+            // };
 
-            // printf("Resize : %d / %d\n", width, height);
-            static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+            // // printf("Resize : %d / %d\n", width, height);
+            // static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
         });
 
         glfwSetWindowCloseCallback(win, [](GLFWwindow* window){
-            Ref<Event> event = MakeRef<WindowCloseEvent>();
-            event->m_Callback = [](){
-                printf("Closing Time ...\n");
-            };
-            static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+            // Ref<Event> event = MakeRef<WindowCloseEvent>();
+            // event->m_Callback = [](){
+            //     printf("Closing Time ...\n");
+            // };
+            // static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
         });
 
 
