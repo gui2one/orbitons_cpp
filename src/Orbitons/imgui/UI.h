@@ -22,6 +22,7 @@ public:
 
 
     void render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer);
+    void onEvent();
     void close();
     ImVec2 getViewportSize();
     bool getViewportSizeChanged() { 

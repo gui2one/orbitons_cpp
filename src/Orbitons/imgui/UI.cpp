@@ -1,5 +1,6 @@
 #include "UI.h"
-
+#include "Events/Event.h"
+#include "Events/KeyboardEvent.h"
 UI::UI()
 :m_viewportSize(ImVec2(256,256)){
     oldSize = m_viewportSize;
@@ -100,6 +101,11 @@ ImVec2 UI::getViewportSize(){
     return m_viewportSize;
 }
 
+
+void UI::onEvent(){
+    printf("bon alors .....\n");
+}
+
 void UI::render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer){
 
     // Start the Dear ImGui frame
@@ -169,17 +175,15 @@ void UI::render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer){
     ImGui::Begin("Infos");
         
         size_t memory_usage = PlatformUtils::getMemoryUsage();
-        ImGui::Text("Memory used : %d Mo", memory_usage / 1024 / 1024);
+        ImGui::Text("Memory used : %d Mb", memory_usage / 1024 / 1024);
     ImGui::End();
+
     ImGui::Begin("Properties");
         static float value = 0.5f;
-        if(ImGui::DragFloat("test", &value, 0.1f)){
-
+        if(ImGui::Button("Event Test")){
+    
         }
-
     ImGui::End();
-
-
     
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     if(ImGui::Begin("Viewport")){
