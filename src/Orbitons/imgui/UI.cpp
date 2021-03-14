@@ -111,8 +111,22 @@ namespace Orbitons
         }
         return false; 
     }
-    void UI::onEvent(Event& e){
+    
+
+    bool UI::onKeyPress(Event& e){
         printf("bon alors .....\n");
+        return false;
+    }
+    void UI::onEvent(Event& e){
+
+        Dispatcher dispatcher(e);
+        dispatcher.dispatch<KeyPressEvent>(
+            [this](auto&&... args) -> decltype(auto) 
+            { 
+                return this->UI::onKeyPress(std::forward<decltype(args)>(args)...); 
+            }
+        );
+
     }
 
     void UI::render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer){
@@ -195,7 +209,11 @@ namespace Orbitons
         ImGui::Begin("Properties");
             static float value = 0.5f;
             if(ImGui::Button("Event Test")){
-        
+                KeyPressEvent keypressed(42,0);
+                
+                // this->onKeyPress(keypressed);
+                this->onEvent(keypressed);
+
             }
         ImGui::End();
         

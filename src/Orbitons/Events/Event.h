@@ -61,15 +61,16 @@ namespace Orbitons{
         template<typename T, typename F>
         bool dispatch(const F& fn){
 
-            if( m_Event.GetEventType() == T.GetStaticName()){
-
-                T.m_Handled = fn(static_cast<T&>(m_Event));
+            if( m_Event.GetEventType() == T::GetStaticType()){
+                
+                m_Event.m_Handled |= fn(static_cast<T&>(m_Event));
+                return true;
             }
-            return true;
+            return false;
         }
     private:
     };
-    
+
     // /**
     //  * EventQueue  
     //  * Singleton Pattern  

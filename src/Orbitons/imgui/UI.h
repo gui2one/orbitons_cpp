@@ -29,6 +29,7 @@ namespace Orbitons
 
         void init(GLFWwindow * window);
 
+        bool onKeyPress(Event& e);
         void onEvent(Event& e);
 
         void render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer);
