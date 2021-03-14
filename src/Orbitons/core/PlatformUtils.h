@@ -1,17 +1,14 @@
 #ifndef PLATFORM_UTILS_H
 #define PLATFORM_UTILS_H
 
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 
-#ifdef ORBITONS_PLATFORM_WINDOWS
-#include <windows.h>
-#include <commdlg.h>
-#include "psapi.h"
 
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
+
+// #define GLFW_EXPOSE_NATIVE_WIN32
+// #include <GLFW/glfw3.h>
+// #include <GLFW/glfw3native.h>
 
 
 
@@ -68,5 +65,5 @@ private:
 
 };
 
-#endif /* ORBITONS_PLATFORM_WINDOWS */
+
 #endif /* PLATFORM_UTILS_H */

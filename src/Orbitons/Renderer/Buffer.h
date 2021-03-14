@@ -1,7 +1,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
-#include <pch.h>
 #include "core.h"
+#include <pch.h>
 
 enum class ShaderDataType{
     None = 0, Float, Float2, Float3, Float4, Int, Int2, Int3, Int4, Mat3, Mat4, Bool 

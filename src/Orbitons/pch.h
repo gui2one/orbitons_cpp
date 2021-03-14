@@ -21,11 +21,6 @@ const double  PI  = 3.14159265359;
 #include <optional>
 
 
-#include <stb_image.h>
-
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 
 
 

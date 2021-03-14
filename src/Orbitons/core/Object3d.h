@@ -1,10 +1,10 @@
 #ifndef OBJECT_3D_H
 #define OBJECT_3D_H
 
+#include "core.h"
 #include "Entity3d.h"
 #include "Renderer/Material.h"
 #include "Mesh.h"
-#include "core.h"
 
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"

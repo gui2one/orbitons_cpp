@@ -1,8 +1,8 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 #include "Shader.h"
 #include "Core/Camera.h"
 

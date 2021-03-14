@@ -1,8 +1,8 @@
 #ifndef FRAME_BUFFER_H
 #define FRAME_BUFFER_H
 
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 
 namespace Orbitons{
 

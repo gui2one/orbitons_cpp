@@ -1,7 +1,7 @@
+#include "core.h"
 #include "Buffer.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
 #include "Renderer/Renderer.h"
-#include "core.h"
 
 
 

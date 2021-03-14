@@ -1,8 +1,8 @@
 #ifndef ORBITAL_BODY_H
 #define ORBITAL_BODY_H
 
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 namespace Orbitons{
 
 

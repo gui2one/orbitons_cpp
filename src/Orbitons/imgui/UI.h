@@ -1,6 +1,7 @@
 #ifndef UI_H
 #define UI_H
 
+#include "core.h"
 
 #include "imgui.h"
 #include "../imgui_impl_glfw.h"
@@ -14,7 +15,6 @@
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/GraphicContext.h"
 
-#include "core.h"
 
 namespace Orbitons
 {

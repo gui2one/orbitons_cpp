@@ -95,8 +95,6 @@ namespace Orbitons
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
         const char* glsl_version = "#version 130";
         ImGui_ImplOpenGL3_Init(glsl_version);
-        // Setup Dear ImGui style
-        // ImGui::StyleColorsDark();
 
     }
 

@@ -1,8 +1,8 @@
 #ifndef OPENGL_TEXTURE_H
 #define OPENGL_TEXTURE_H
 
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 #include "Renderer/Texture.h"
 
 class OpenGLTexture : public Texture

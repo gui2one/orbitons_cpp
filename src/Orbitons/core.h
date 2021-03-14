@@ -9,6 +9,23 @@
 /// define system Platform 
 #define ORBITONS_PLATFORM_WINDOWS
 
+
+
+#ifdef ORBITONS_PLATFORM_WINDOWS
+#include <windows.h>
+#undef near
+#undef far
+#include <commdlg.h>
+#include "psapi.h"
+#endif /*ORBITONS_PLATFORM_WINDOWS*/
+
+
+
+#include <stb_image.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+
 #ifdef _WIN32
     #define HALT() std::raise(SIGINT);
 #else

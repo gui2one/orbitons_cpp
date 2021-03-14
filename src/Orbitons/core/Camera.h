@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 #include "Entity3d.h"
 class Camera : public Entity3d
 {

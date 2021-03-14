@@ -1,8 +1,8 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 #include "glm/vec3.hpp"
 #include "Shader.h"
 #include <glad/glad.h>

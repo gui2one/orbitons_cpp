@@ -1,8 +1,8 @@
 #ifndef EVENT_H
 #define EVENT_H
 #include <functional>
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 
 
 #define EVENT_CLASS_TYPE(type)\

@@ -1,8 +1,8 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "pch.h"
 #include "core.h"
+#include "pch.h"
 #include "Entity3d.h"
 #include "Camera.h"
 #include "Renderer/Skybox.h"

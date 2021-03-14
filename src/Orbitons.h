@@ -1,8 +1,8 @@
 #ifndef ORBITONS_H
 #define ORBITONS_H
 
-#include "Application.h"
-#include "Window.h"
+#include "Core/Application.h"
+#include "Core/Window.h"
 
 #include "Core/Scene.h"
 #include "Core/Entity3d.h"
