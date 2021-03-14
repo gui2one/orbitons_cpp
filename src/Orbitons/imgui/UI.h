@@ -32,7 +32,7 @@ namespace Orbitons
         bool onKeyPress(Event& e);
         void onEvent(Event& e);
 
-        void render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer);
+        void render(const Ref<FrameBuffer>& frameBuffer);
         void setEventCallback(std::function<void(Event&)> callbackFn) { m_EventCallback = callbackFn; }
         void close();
 

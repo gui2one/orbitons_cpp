@@ -129,7 +129,7 @@ namespace Orbitons
 
     }
 
-    void UI::render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer){
+    void UI::render(const Ref<FrameBuffer>& frameBuffer){
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
