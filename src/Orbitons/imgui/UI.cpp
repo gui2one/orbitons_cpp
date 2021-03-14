@@ -228,6 +228,7 @@ namespace Orbitons
                 oldSize = m_viewportSize;
             }
             // Because I use the texture from OpenGL, I need to invert the V from the UV.
+            // "double cast" (ImTextureID)(intptr_t) needed to prevent a warning about convertion size. Maybe not prudent
             ImGui::Image((ImTextureID)(intptr_t)frameBuffer->getID(), m_viewportSize, ImVec2(0, 1), ImVec2(1, 0));
 
             ImGui::End();
