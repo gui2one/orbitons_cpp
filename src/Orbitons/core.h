@@ -25,6 +25,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#define BIND_EVENT_FUNCTION(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 #ifdef _WIN32
     #define HALT() std::raise(SIGINT);

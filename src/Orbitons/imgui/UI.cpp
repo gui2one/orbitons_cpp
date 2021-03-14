@@ -114,18 +114,14 @@ namespace Orbitons
     
 
     bool UI::onKeyPress(Event& e){
-        printf("bon alors .....\n");
+        
         return false;
     }
+    
     void UI::onEvent(Event& e){
-
+        printf("%s\n", e.GetName());
         Dispatcher dispatcher(e);
-        dispatcher.dispatch<KeyPressEvent>(
-            [this](auto&&... args) -> decltype(auto) 
-            { 
-                return this->UI::onKeyPress(std::forward<decltype(args)>(args)...); 
-            }
-        );
+        dispatcher.dispatch<KeyPressEvent>(BIND_EVENT_FUNCTION(UI::onKeyPress));
 
     }
 

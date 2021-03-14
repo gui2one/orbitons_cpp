@@ -6,16 +6,7 @@ namespace Orbitons{
 
         m_window = std::make_unique<Window>();
 
-        // m_eventQueue = EventQueue::getInstance();
-        
-          
-        // Ref<Event> event = MakeRef<KeyPressEvent>(42, 0);
-
-        // event->m_Callback = [](){
-        //     printf("custom event \n");
-        // };
-        // m_eventQueue->push(event);
-
+        m_window->setEventCallback(BIND_EVENT_FUNCTION(Application::onEvent));
 
 
         Renderer::setAPI(RenderAPI::OpenGL);
@@ -47,5 +38,9 @@ namespace Orbitons{
         m_window->m_ui.close();
     
         glfwTerminate();
+    }
+
+    void Application::onEvent(Event& e){
+        printf("[Application Event] %s", e.GetName());
     }
 }

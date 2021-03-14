@@ -25,7 +25,9 @@ namespace Orbitons{
 
     public:
         Application();
+
         void run();
+        void onEvent(Event& e);
     private:
 
         // EventQueue* m_eventQueue;

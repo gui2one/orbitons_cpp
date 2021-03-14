@@ -32,7 +32,7 @@ namespace Orbitons{
     class Event{
     
     public:
-        std::function<void(Event&)> m_Callback;
+        // std::function<void(Event&)> m_Callback;
         bool m_Handled = false;
     public:
         virtual ~Event() = default;

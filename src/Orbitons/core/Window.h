@@ -35,10 +35,28 @@ namespace Orbitons{
         static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);	
         static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
+        bool onKeyPressEvent(Event& e);
+        bool onEvent(Event& e);
+        void setEventCallback(std::function<void(Event&)> fn){ m_callback = fn; }
+
 
     private:
 
+
+    std::function<void(Event&)> m_callback;
     Ref<FrameBuffer> m_frameBuffer;
+
+
+    struct WindowData{
+
+        std::string title;
+        unsigned int width, height;
+
+        std::function<void(Event&)> eventCallback;
+
+    };
+
+    WindowData m_data;
 
     };
 }

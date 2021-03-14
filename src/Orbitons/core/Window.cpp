@@ -9,13 +9,7 @@ namespace Orbitons{
         int width = 1280;
         int height = 720;
 
-        
-        m_ui.setEventCallback(
-            [this](auto&&... args) -> decltype(auto) 
-            { 
-                return this->m_ui.onEvent(std::forward<decltype(args)>(args)...); 
-            }
-        );
+
         if (!glfwInit()){
             ORBITONS_ASSERT(false, "GLFW Error \n");
             glfwTerminate();
@@ -57,80 +51,27 @@ namespace Orbitons{
 
         /* set callbacks */
         glfwSetKeyCallback(win, [](GLFWwindow* window, int key, int scancode, int action, int mods){
-
-            // Ref<Event> press_event;
-            // switch(action){
-
-            //     case GLFW_PRESS :
-            //         press_event = MakeRef<KeyPressEvent>(scancode, 0);
-            //         press_event->m_Callback = [scancode](){
-            //             // printf("Key pressed : scancode %d\n", scancode);
-            //         };
-            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
-            //         break;
-
-            //     case GLFW_RELEASE :
-            //         press_event = MakeRef<KeyReleaseEvent>(scancode);
-            //         press_event->m_Callback = [scancode](){
-            //             // printf("Key released : scancode > %d\n", scancode);
-            //         };
-            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);
-            //         break;                
-            //     case GLFW_REPEAT :
-            //         press_event = MakeRef<KeyPressEvent>(scancode, 1);
-            //         press_event->m_Callback = [scancode](){
-            //             // printf("Key pressed (Repeat) : scancode > %d\n", scancode);
-            //         };
-            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(press_event);            
-            //         break;
-
-            // }
             
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+            if( action == GLFW_PRESS){
+                KeyPressEvent event(key, 0);
+                data.eventCallback(event);
+                // static_cast<Window*>(glfwGetWindowUserPointer(window))->onKeyPressEvent(event);
+            }
         });
 
         glfwSetMouseButtonCallback(win, [](GLFWwindow* window, int button, int action, int mods){
 
-            // Ref<Event> event;
-            // switch(action){
-
-            //     case GLFW_PRESS :
-            //         event = MakeRef<MousePressEvent>(button, 0);
-            //         event->m_Callback = [button](){
-            //             // printf("Mouse pressed : Button > %d\n", button);
-            //         };
-            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
-            //         break;
-
-            //     case GLFW_RELEASE :
-            //         event = MakeRef<MouseReleaseEvent>(button);
-            //         event->m_Callback = [button](){
-            //             // printf("Mouse release : Button > %d\n", button);
-            //         };
-            //         static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
-            //         break;  
-            // }
-
         });
 
         glfwSetWindowSizeCallback(win, [](GLFWwindow* window, int width, int height){
-            // Ref<Event> event = MakeRef<WindowResizeEvent>( width,  height);
-            // event->m_Callback = [width, height](){
-                
-            // };
 
-            // // printf("Resize : %d / %d\n", width, height);
-            // static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
         });
 
         glfwSetWindowCloseCallback(win, [](GLFWwindow* window){
-            // Ref<Event> event = MakeRef<WindowCloseEvent>();
-            // event->m_Callback = [](){
-            //     printf("Closing Time ...\n");
-            // };
-            // static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
+
         });
 
-     
 
     }
 
@@ -207,6 +148,22 @@ namespace Orbitons{
             glfwPollEvents();
 
     }
+
+    bool Window::onKeyPressEvent(Event& e){
+
+
+        // printf("KeyPressEvent from Window\n");
+        return false;
+    }
+
+    bool Window::onEvent(Event& e)
+    {
+        Dispatcher dispatcher(e);
+
+        dispatcher.dispatch<KeyPressEvent>(BIND_EVENT_FUNCTION(Window::onKeyPressEvent));
+        return true;
+    }
+
     bool Window::shouldClose(){
 
         return glfwWindowShouldClose(win);
