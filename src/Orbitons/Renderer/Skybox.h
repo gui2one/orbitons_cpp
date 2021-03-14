@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "core.h"
 #include "Shader.h"
-#include "core/Camera.h"
+#include "Core/Camera.h"
 
 class Skybox{
 public:

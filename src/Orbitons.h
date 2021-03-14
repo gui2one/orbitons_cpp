@@ -4,17 +4,17 @@
 #include "Application.h"
 #include "Window.h"
 
-#include "core/Scene.h"
-#include "core/Entity3d.h"
-#include "core/Mesh.h"
-#include "core/Object3d.h"
-#include "core/ObjectLoader.h"
-#include "core/Camera.h"
-#include "core/CameraControls.h"
-#include "core/Timer.h"
+#include "Core/Scene.h"
+#include "Core/Entity3d.h"
+#include "Core/Mesh.h"
+#include "Core/Object3d.h"
+#include "Core/ObjectLoader.h"
+#include "Core/Camera.h"
+#include "Core/CameraControls.h"
+#include "Core/Timer.h"
 
-#include "core/PlatformUtils.h"
-#include "core/MeshUtils.h"
+#include "Core/PlatformUtils.h"
+#include "Core/MeshUtils.h"
 
 
 #include "Renderer/GraphicContext.h"

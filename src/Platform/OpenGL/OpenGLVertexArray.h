@@ -4,7 +4,7 @@
 #include "core.h"
 #include "Renderer/VertexArray.h"
 #include "Renderer/Buffer.h"
-#include "core/Mesh.h"
+#include "Core/Mesh.h"
 class OpenGLVertexArray : public VertexArray{
 public:
     OpenGLVertexArray();

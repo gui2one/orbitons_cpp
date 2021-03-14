@@ -12,15 +12,15 @@ namespace Orbitons{
         
 
         if (!glfwInit()){
-            ORBITONS_ASSERT(false, "GLFW PROBLEM !!!!\n");
+            ORBITONS_ASSERT(false, "GLFW Error \n");
             glfwTerminate();
         }
 
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
-        win = glfwCreateWindow(width, height, "Orbitons -- Renderer !!!", NULL, NULL);
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+        win = glfwCreateWindow(width, height, "Orbitons -- v0.01 alpha", NULL, NULL);
         if (!win)
         {
-            ORBITONS_ASSERT(false, "GLFW Window PROBLEM !!!!\n");
+            ORBITONS_ASSERT(false, "GLFW Window Error\n");
             glfwTerminate();
             
         }
@@ -30,13 +30,7 @@ namespace Orbitons{
         
         glfwMakeContextCurrent(win);
 
-                
-        m_context = GraphicContext::create(win);
-        m_context->init();
 
-        printf("GL version: %s\n", glGetString(GL_VERSION));
-        printf("GL shading language version: %s\n", 
-        glGetString(GL_SHADING_LANGUAGE_VERSION));
 
         // set GLFW window icon
         GLFWimage icons[1]; 
@@ -44,6 +38,17 @@ namespace Orbitons{
         glfwSetWindowIcon(win, 1, icons); 
         stbi_image_free(icons[0].pixels);
         /////////////////////
+
+
+                
+        m_context = GraphicContext::create(win);
+        m_context->init();
+
+        m_ui.setContext(*m_context);
+        m_frameBuffer = FrameBuffer::create();        
+
+        m_ui.init(win);
+        glfwSwapInterval(1);
 
         /* set callbacks */
         glfwSetKeyCallback(win, [](GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -120,15 +125,8 @@ namespace Orbitons{
             // static_cast<Window*>(glfwGetWindowUserPointer(window))->m_EventQueue.push(event);
         });
 
-        printf("WTF !!!! \n");
+     
 
-        m_frameBuffer = FrameBuffer::create();        
-
-
-
-        
-        m_ui.init(win);
-        glfwSwapInterval(1);
     }
 
     void Window::refresh(Scene& scene, Timer& timer){

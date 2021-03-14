@@ -93,7 +93,7 @@ public:
             m_stride += element.Size;
 
         }
-        printf("Layout stride : %d\n", m_stride);
+        // printf("Layout stride : %d\n", m_stride);
         // ORBITONS_ASSERT(false, "Breaking Loop");
 
     }

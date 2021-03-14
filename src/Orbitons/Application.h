@@ -3,9 +3,9 @@
 
 #include "pch.h"
 #include "Window.h"
-#include "core/Scene.h"
-#include "core/Camera.h"
-#include "core/Timer.h"
+#include "Core/Scene.h"
+#include "Core/Camera.h"
+#include "Core/Timer.h"
 #include "Renderer/Renderer.h"
 
 

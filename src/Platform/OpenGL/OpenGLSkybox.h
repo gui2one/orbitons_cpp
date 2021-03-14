@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Skybox.h"
-#include "core/Camera.h"
+#include "Core/Camera.h"
 
 class OpenGLSkybox : public Skybox{
 public:

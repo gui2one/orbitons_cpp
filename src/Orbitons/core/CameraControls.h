@@ -2,7 +2,7 @@
 #define CAMERA_CONTROLS_H
 
 #include "core.h"
-#include "core/Camera.h"
+#include "Core/Camera.h"
 namespace Orbitons{
 
 class CameraControls{

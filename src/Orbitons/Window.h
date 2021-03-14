@@ -4,11 +4,11 @@
 
 
 #include "pch.h"
-#include "core/Scene.h"
-#include "core/Camera.h"
-#include "core/Timer.h"
-#include "core/Object3d.h"
-#include "imgui/UI.h"
+#include "Core/Scene.h"
+#include "Core/Camera.h"
+#include "Core/Timer.h"
+#include "Core/Object3d.h"
+#include "Imgui/UI.h"
 
 
 #include "Events/Event.h"
@@ -23,7 +23,6 @@ namespace Orbitons{
             
         GLFWwindow * win;
         UI m_ui;
-
         Ref<GraphicContext> m_context;
     public:
         Window();

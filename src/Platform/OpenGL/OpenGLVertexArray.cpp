@@ -40,7 +40,7 @@ void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& ver
     glBindVertexArray(m_id);
 
     for(const auto& element : vertexBuffer->getLayout().getElements()){
-        printf("  - name : %s\n", element.Name.c_str());
+        // printf("  - name : %s\n", element.Name.c_str());
 
         glEnableVertexAttribArray(inc);
         glVertexAttribPointer(

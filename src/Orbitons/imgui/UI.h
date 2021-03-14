@@ -9,42 +9,48 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "core/PlatformUtils.h"
+#include "Events/Event.h"
+#include "Core/PlatformUtils.h"
 #include "Renderer/FrameBuffer.h"
+#include "Renderer/GraphicContext.h"
 
 #include "core.h"
-class UI{
-public:
-    UI();
-    ~UI();
 
-    void init(GLFWwindow * window);
-
-
-    void render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer);
-    void onEvent();
-    void close();
-    ImVec2 getViewportSize();
-    bool getViewportSizeChanged() { 
-        bool temp = m_viewportSizeChanged;
-        if(temp){
-            m_viewportSizeChanged = false;
-            return true;
-        }
-        return false; 
-    };
-private:
-
-    GLFWwindow * m_window;
-    ImVec2 m_viewportSize;
-    ImVec2 oldSize;
-    bool m_viewportSizeChanged = false;
+namespace Orbitons
+{
     
-    bool showDemoWindow = true;
-    bool b_showViewport = true;
+    class UI{
+
+    public : 
+        GraphicContext* m_Context;
+    public:
+        UI();
+        ~UI();
+
+        void init(GLFWwindow * window);
+
+        void onEvent(Event& e);
+
+        void render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer);
+        void close();
+
+        ImVec2 getViewportSize();
+        bool getViewportSizeChanged();
+
+        void setContext(GraphicContext& ctx) { m_Context = &ctx; }
+    private:
+
+        GLFWwindow * m_window;
+        ImVec2 m_viewportSize;
+        ImVec2 oldSize;
+        bool m_viewportSizeChanged = false;
+        
+        bool showDemoWindow = true;
+        bool b_showViewport = true;
 
 
 
 
-};
+    };
+} // namespace Orbitons
 #endif /* UI_H */

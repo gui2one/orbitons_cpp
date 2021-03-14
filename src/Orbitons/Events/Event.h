@@ -47,7 +47,28 @@ namespace Orbitons{
 
     };
 
- 
+    class Dispatcher{
+    public:
+        Event& m_Event;
+
+    public :
+        Dispatcher(Event& e)
+            :m_Event(e)
+        {
+            
+        }
+
+        template<typename T, typename F>
+        bool dispatch(const F& fn){
+
+            if( m_Event.GetName() == T.GetStaticName()){
+
+                T.m_Handled = fn(static_cast<T&>(m_Event));
+            }
+            return true;
+        }
+    private:
+    };
     /**
      * EventQueue  
      * Singleton Pattern  

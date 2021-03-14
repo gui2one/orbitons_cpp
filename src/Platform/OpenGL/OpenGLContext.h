@@ -18,8 +18,16 @@ namespace Orbitons
 
         virtual void init() override;
         virtual void swapBuffers() override;
+        virtual const char* getVersion() override {
+            return m_Version;
+        }
+        virtual const char* getShadingLanguageVersion() override {
+            return m_ShadingLanguageVersion;
+        }
     private:
         GLFWwindow * m_windowHandle;
+        char* m_Version;
+        char* m_ShadingLanguageVersion;
     };
 } // namespace Orbitons
 
