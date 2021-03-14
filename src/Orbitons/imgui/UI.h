@@ -32,6 +32,7 @@ namespace Orbitons
         void onEvent(Event& e);
 
         void render(const Orbitons::Ref<Orbitons::FrameBuffer>& frameBuffer);
+        void setEventCallback(std::function<void(Event&)> callbackFn) { m_EventCallback = callbackFn; }
         void close();
 
         ImVec2 getViewportSize();
@@ -47,6 +48,8 @@ namespace Orbitons
         
         bool showDemoWindow = true;
         bool b_showViewport = true;
+
+        std::function<void(Event&)> m_EventCallback;
 
 
 

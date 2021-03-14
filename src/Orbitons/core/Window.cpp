@@ -10,7 +10,12 @@ namespace Orbitons{
         int height = 720;
 
         
-
+        m_ui.setEventCallback(
+            [this](auto&&... args) -> decltype(auto) 
+            { 
+                return this->m_ui.onEvent(std::forward<decltype(args)>(args)...); 
+            }
+        );
         if (!glfwInit()){
             ORBITONS_ASSERT(false, "GLFW Error \n");
             glfwTerminate();

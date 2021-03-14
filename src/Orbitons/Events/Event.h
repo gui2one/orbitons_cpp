@@ -32,7 +32,7 @@ namespace Orbitons{
     class Event{
     
     public:
-        std::function<void()> m_Callback;
+        std::function<void(Event&)> m_Callback;
         bool m_Handled = false;
     public:
         virtual ~Event() = default;
@@ -61,7 +61,7 @@ namespace Orbitons{
         template<typename T, typename F>
         bool dispatch(const F& fn){
 
-            if( m_Event.GetName() == T.GetStaticName()){
+            if( m_Event.GetEventType() == T.GetStaticName()){
 
                 T.m_Handled = fn(static_cast<T&>(m_Event));
             }
@@ -69,52 +69,53 @@ namespace Orbitons{
         }
     private:
     };
-    /**
-     * EventQueue  
-     * Singleton Pattern  
-     */
-    class EventQueue{
+    
+    // /**
+    //  * EventQueue  
+    //  * Singleton Pattern  
+    //  */
+    // class EventQueue{
     
 
-    protected:
-        /// protected constructor ( singleton pattern )
-        EventQueue(){};
-        static EventQueue* m_instance; 
-    public:
+    // protected:
+    //     /// protected constructor ( singleton pattern )
+    //     EventQueue(){};
+    //     static EventQueue* m_instance; 
+    // public:
         
-        /// not cloneable
-        EventQueue(const EventQueue& other) = delete;
-        /// not assignable
-        void operator=(const EventQueue& other ) = delete;
+    //     /// not cloneable
+    //     EventQueue(const EventQueue& other) = delete;
+    //     /// not assignable
+    //     void operator=(const EventQueue& other ) = delete;
 
-        static EventQueue* getInstance();
+    //     static EventQueue* getInstance();
 
 
-        void push(const Ref<Event>& event){ 
+    //     void push(const Ref<Event>& event){ 
 
-            m_Events.push_back(event);
-            // printf("%s Event pushed ... \n", event->GetName()); 
-        }
+    //         m_Events.push_back(event);
+    //         // printf("%s Event pushed ... \n", event->GetName()); 
+    //     }
 
-        void process(){
-            for(Ref<Event>& ev : m_Events){
-                ev->m_Callback();
-                // printf("Callback Done ...\n");
-            }
+    //     // void process(){
+    //     //     for(Ref<Event>& ev : m_Events){
+    //     //         ev->m_Callback(ev->m_Callback);
+    //     //         // printf("Callback Done ...\n");
+    //     //     }
 
-            m_Events.erase(m_Events.begin(), m_Events.end());
-            // printf("Events in queue : %d\n", (int)m_Events.size());
-        }
+    //     //     m_Events.erase(m_Events.begin(), m_Events.end());
+    //     //     // printf("Events in queue : %d\n", (int)m_Events.size());
+    //     // }
 
-        std::vector<Ref<Event>>::iterator begin(){ return m_Events.begin(); }
-        std::vector<Ref<Event>>::iterator end(){ return m_Events.end(); }
+    //     std::vector<Ref<Event>>::iterator begin(){ return m_Events.begin(); }
+    //     std::vector<Ref<Event>>::iterator end(){ return m_Events.end(); }
 
-        std::vector<Ref<Event>>::const_iterator begin() const { return m_Events.begin(); }
-        std::vector<Ref<Event>>::const_iterator end() const { return m_Events.end(); }
+    //     std::vector<Ref<Event>>::const_iterator begin() const { return m_Events.begin(); }
+    //     std::vector<Ref<Event>>::const_iterator end() const { return m_Events.end(); }
 
-    private:
+    // private:
 
-        std::vector<Ref<Event>> m_Events;
-    };
+    //     std::vector<Ref<Event>> m_Events;
+    // };
 }
 #endif /* EVENT_H */    

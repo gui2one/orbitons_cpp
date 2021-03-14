@@ -3,14 +3,14 @@
 namespace Orbitons
 {
 
-    EventQueue * EventQueue::m_instance = nullptr;
+    // EventQueue * EventQueue::m_instance = nullptr;
     
-    EventQueue * EventQueue::getInstance(){
+    // EventQueue * EventQueue::getInstance(){
 
-        if( m_instance == nullptr){
-            m_instance = new EventQueue();
-        }
+    //     if( m_instance == nullptr){
+    //         m_instance = new EventQueue();
+    //     }
 
-        return m_instance;
-    }
+    //     return m_instance;
+    // }
 } // namespace Orbitons

@@ -28,7 +28,7 @@ namespace Orbitons{
         void run();
     private:
 
-        EventQueue* m_eventQueue;
+        // EventQueue* m_eventQueue;
 
 
 
