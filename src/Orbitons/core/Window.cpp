@@ -5,6 +5,7 @@
 #include "Events/MouseEvent.h"
 #include "Events/WindowEvent.h"
 namespace Orbitons{
+
     Window::Window(){
         int width = 1280;
         int height = 720;
@@ -152,10 +153,10 @@ namespace Orbitons{
 
             // put the stuff we've been drawing onto the display
             
-            m_context->swapBuffers();
             // update other events like input handling 
             glfwPollEvents();
 
+            m_context->swapBuffers();
     }
 
     bool Window::onKeyPressEvent(Event& e){

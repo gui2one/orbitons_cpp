@@ -9,13 +9,13 @@ namespace Orbitons
     void OpenGLFrameBuffer::invalidate(uint32_t width, uint32_t height){
 
         if(m_id){
-            glDeleteFramebuffers(1, &m_id);
+            
             glDeleteTextures(1, &m_colorAttachment);
             glDeleteTextures(1, &m_depthAttachment);
             
             m_colorAttachment = 0;
             m_depthAttachment = 0;
-
+            glDeleteFramebuffers(1, &m_id);
             // printf("deleted frame buffer data\n");
         }
 
