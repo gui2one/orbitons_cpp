@@ -11,6 +11,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Events/Event.h"
+#include "Events/KeyboardEvent.h"
 #include "Core/PlatformUtils.h"
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/GraphicContext.h"
@@ -29,7 +30,7 @@ namespace Orbitons
 
         void init(GLFWwindow * window);
 
-        bool onKeyPress(Event& e);
+        bool onKeyPressEvent(KeyPressEvent& e);
         void onEvent(Event& e);
 
         void render(const Ref<FrameBuffer>& frameBuffer);

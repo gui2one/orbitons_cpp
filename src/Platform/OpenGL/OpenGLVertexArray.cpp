@@ -35,7 +35,7 @@ namespace Orbitons{
 
     }
 
-    void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer){
+    void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer){
         int inc = 0;
 
         glBindVertexArray(m_id);
@@ -60,7 +60,7 @@ namespace Orbitons{
     
     }
     
-    void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer){
+    void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer){
         m_indexBuffer = indexBuffer; 
     }
 }

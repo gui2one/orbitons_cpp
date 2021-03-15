@@ -16,16 +16,16 @@ namespace Orbitons{
         virtual void bind() override;
         virtual void unbind() override;
 
-        virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
-        virtual void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
+        virtual void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
+        virtual void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
         virtual uint32_t getID() override { return m_id; };
 
     private:
 
         uint32_t m_id;
-        std::vector<std::shared_ptr<VertexBuffer>> m_vertexBuffers;
-        std::shared_ptr<IndexBuffer> m_indexBuffer;
+        std::vector<Ref<VertexBuffer>> m_vertexBuffers;
+        Ref<IndexBuffer> m_indexBuffer;
 
 
     };

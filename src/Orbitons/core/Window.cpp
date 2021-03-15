@@ -149,6 +149,7 @@ namespace Orbitons{
         
             m_frameBuffer->unbind();
             m_ui.render(m_frameBuffer);
+  
 
 
             // put the stuff we've been drawing onto the display
@@ -161,16 +162,20 @@ namespace Orbitons{
 
     bool Window::onKeyPressEvent(Event& e){
 
-
-        // printf("KeyPressEvent from Window\n");
-        return false;
+        KeyPressEvent& event = static_cast<KeyPressEvent&>(e);
+        if(event.m_Scancode == 57)/*space bar*/{
+            printf("space bar pressed\n");
+            return true;
+        }
+        return true;
     }
 
     bool Window::onEvent(Event& e)
     {
-        Dispatcher dispatcher(e);
 
+        Dispatcher dispatcher(e);
         dispatcher.dispatch<KeyPressEvent>(BIND_EVENT_FUNCTION(Window::onKeyPressEvent));
+
         return true;
     }
 

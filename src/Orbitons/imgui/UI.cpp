@@ -113,15 +113,22 @@ namespace Orbitons
     }
     
 
-    bool UI::onKeyPress(Event& e){
+    bool UI::onKeyPressEvent(KeyPressEvent& e){
+        
+        if( e.m_Scancode == 57)
+        {   
+            printf("haaaaa!!!!!!\n");
+            return false;
+        }
         
         return false;
     }
     
     void UI::onEvent(Event& e){
-        printf("%s\n", e.GetName());
+        
+        // printf("------------ %s\n", e.GetName());
         Dispatcher dispatcher(e);
-        dispatcher.dispatch<KeyPressEvent>(BIND_EVENT_FUNCTION(UI::onKeyPress));
+        dispatcher.dispatch<KeyPressEvent>(BIND_EVENT_FUNCTION(UI::onKeyPressEvent));
 
     }
 
@@ -207,8 +214,9 @@ namespace Orbitons
             if(ImGui::Button("Event Test")){
                 KeyPressEvent keypressed(42,0);
                 
-                // this->onKeyPress(keypressed);
-                this->onEvent(keypressed);
+
+                this->onKeyPressEvent(keypressed);
+                // this->onEvent(keypressed);
 
             }
         ImGui::End();

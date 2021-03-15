@@ -16,6 +16,8 @@ public:
     void update(float detla_time);
 private:
 
+    Ref<Camera> m_camera;
+
 };
 }
 #endif /* CAMERA_CONTROLS_H */
