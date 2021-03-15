@@ -87,7 +87,7 @@ namespace Orbitons{
     void Window::refresh(Scene& scene, Timer& timer){
 
             glEnable(GL_DEPTH_TEST);
-
+            m_controls.setCamera(scene.m_activeCamera);
             int width, height;
             ImVec2 viewportSize = m_ui.getViewportSize();
             width = viewportSize.x;
@@ -172,6 +172,8 @@ namespace Orbitons{
 
     bool Window::onEvent(Event& e)
     {
+
+        // m_controls.onEvent(e);
 
         Dispatcher dispatcher(e);
         dispatcher.dispatch<KeyPressEvent>(BIND_EVENT_FUNCTION(Window::onKeyPressEvent));

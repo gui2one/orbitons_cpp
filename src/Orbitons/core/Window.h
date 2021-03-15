@@ -6,6 +6,7 @@
 #include "pch.h"
 #include "Core/Scene.h"
 #include "Core/Camera.h"
+#include "Core/CameraControls.h"
 #include "Core/Timer.h"
 #include "Core/Object3d.h"
 #include "Imgui/UI.h"
@@ -21,6 +22,7 @@ namespace Orbitons{
         
     public:
             
+        CameraControls m_controls;
        
         UI m_ui;
         
