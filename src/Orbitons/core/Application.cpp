@@ -49,6 +49,6 @@ namespace Orbitons{
         m_window->m_controls.onEvent(e);
         // m_window->onEvent(e);
 
-        printf("[Application Event] %s\n", e.GetName());
+        // printf("[Application Event] %s\n", e.GetName());
     }
 }
