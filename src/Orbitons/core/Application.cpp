@@ -16,6 +16,8 @@ namespace Orbitons{
 
     }
 
+
+
     void Application::run(){
         while(!m_window->shouldClose()){
 
@@ -41,6 +43,6 @@ namespace Orbitons{
     }
 
     void Application::onEvent(Event& e){
-        printf("[Application Event] %s", e.GetName());
+        printf("[Application Event] %s\n", e.GetName());
     }
 }

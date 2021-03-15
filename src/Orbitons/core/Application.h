@@ -12,6 +12,9 @@
 #include "Events/Event.h"
 #include "Events/KeyboardEvent.h"
 namespace Orbitons{
+
+    
+    
     class Application{
 
     public : 
@@ -19,9 +22,6 @@ namespace Orbitons{
         Orbitons::Scene m_scene;
         Timer m_timer;
 
-        // void onKeyPress(Event& e){
-            
-        // }
 
     public:
         Application();
@@ -30,7 +30,6 @@ namespace Orbitons{
         void onEvent(Event& e);
     private:
 
-        // EventQueue* m_eventQueue;
 
 
 

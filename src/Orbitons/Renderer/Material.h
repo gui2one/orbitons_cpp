@@ -67,8 +67,8 @@ public:
 
     inline void initShader() override {
         m_shader = Shader::create();
-        m_shader->loadVertexShaderSource("../../resources/shaders/phong_shader.vert");
-        m_shader->loadFragmentShaderSource("../../resources/shaders/phong_shader.frag");
+        m_shader->loadVertexShaderSource(ORBITONS_RES_DIR"/shaders/phong_shader.vert");
+        m_shader->loadFragmentShaderSource(ORBITONS_RES_DIR"/shaders/phong_shader.frag");
         m_shader->createShader();
     }
 
@@ -92,8 +92,8 @@ public:
     }
     inline void initShader() override{
         m_shader = Shader::create();
-        m_shader->loadVertexShaderSource("../../resources/shaders/unlit_shader.vert");
-        m_shader->loadFragmentShaderSource("../../resources/shaders/unlit_shader.frag");
+        m_shader->loadVertexShaderSource(ORBITONS_RES_DIR"/shaders/unlit_shader.vert");
+        m_shader->loadFragmentShaderSource(ORBITONS_RES_DIR"/shaders/unlit_shader.frag");
         m_shader->createShader();
     }
 

@@ -1,6 +1,7 @@
 #ifndef OPENGL_SKYBOX_H
 #define OPENGL_SKYBOX_H
 
+#include "core.h"
 #include "pch.h"
 #include "Renderer/Shader.h"
 #include "Renderer/Skybox.h"

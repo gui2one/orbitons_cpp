@@ -14,7 +14,7 @@ void createObjects(){
     
     
     dragon = MakeRef<Object3d>();
-    dragon->m_mesh = loader.assimp_load("../../resources/objects/dragon_full.glb");
+    dragon->m_mesh = loader.assimp_load(ORBITONS_RES_DIR"/objects/dragon_full.glb");
     dragon->buildBuffers();
     dragon->setScale(glm::vec3(10.f));
     dragon->setPosition(glm::vec3(0.f, 0.0f, 0.f));
@@ -37,6 +37,7 @@ void createObjects(){
 int main(int argc, char** argv){
 
     createObjects();
+
 
     app.run();
 

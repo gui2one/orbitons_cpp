@@ -1,13 +1,13 @@
 #include "OpenGLSkybox.h"
-
+#include "core.h"
 #include <glad/glad.h>
 void OpenGLSkybox::init(){
     
-
+    printf("Directory : %s\n", ORBITONS_RES_DIR);
     // init shader
     m_shader = Shader::create();
-    m_shader->loadVertexShaderSource("../../resources/shaders/skybox_shader.vert");
-    m_shader->loadFragmentShaderSource("../../resources/shaders/skybox_shader.frag");
+    m_shader->loadVertexShaderSource(ORBITONS_RES_DIR"/shaders/skybox_shader.vert");
+    m_shader->loadFragmentShaderSource(ORBITONS_RES_DIR"/shaders/skybox_shader.frag");
 
     m_shader->createShader();
     //init openGL stuff
@@ -18,12 +18,12 @@ void OpenGLSkybox::init(){
 
 
     std::vector<std::string> paths = {
-        "../../resources/textures/skybox/right.jpg",
-        "../../resources/textures/skybox/left.jpg",
-        "../../resources/textures/skybox/top.jpg",
-        "../../resources/textures/skybox/bottom.jpg",
-        "../../resources/textures/skybox/front.jpg",
-        "../../resources/textures/skybox/back.jpg"
+        ORBITONS_RES_DIR"/textures/skybox/right.jpg",
+        ORBITONS_RES_DIR"/textures/skybox/left.jpg",
+        ORBITONS_RES_DIR"/textures/skybox/top.jpg",
+        ORBITONS_RES_DIR"/textures/skybox/bottom.jpg",
+        ORBITONS_RES_DIR"/textures/skybox/front.jpg",
+        ORBITONS_RES_DIR"/textures/skybox/back.jpg"
     };
 
     for(size_t i=0; i < paths.size(); i++){

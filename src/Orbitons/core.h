@@ -20,6 +20,7 @@
 #endif /*ORBITONS_PLATFORM_WINDOWS*/
 
 
+#include <string>
 
 #include <stb_image.h>
 #include <glad/glad.h>
@@ -40,11 +41,14 @@
 
 #define BIT(x) (1 << x)
 
+
+#define ORBITONS_RES_DIR "../../resources"
 /**
  * Base namespace for the whole application 
  * 
  */
 namespace Orbitons{
+
 
     template<typename T>
     using Ref = std::shared_ptr<T>;

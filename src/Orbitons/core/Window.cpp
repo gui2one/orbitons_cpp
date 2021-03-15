@@ -16,62 +16,76 @@ namespace Orbitons{
         }
 
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
-        win = glfwCreateWindow(width, height, "Orbitons -- v0.01 alpha", NULL, NULL);
-        if (!win)
+        m_window = glfwCreateWindow(width, height, "Orbitons -- v0.01 alpha", NULL, NULL);
+        if (!m_window)
         {
             ORBITONS_ASSERT(false, "GLFW Window Error\n");
             glfwTerminate();
             
         }
 
-        glfwSetWindowUserPointer(win, this);
+        m_data.Title = "Hello";
+        
+
+
         
         
-        glfwMakeContextCurrent(win);
+        //glfwMakeContextCurrent(m_window);
 
 
 
         // set GLFW window icon
         GLFWimage icons[1]; 
         icons[0].pixels = stbi_load("resources/icon.png", &icons[0].width, &icons[0].height, 0, 4); //rgba channels 
-        glfwSetWindowIcon(win, 1, icons); 
+        glfwSetWindowIcon(m_window, 1, icons); 
         stbi_image_free(icons[0].pixels);
         /////////////////////
 
 
                 
-        m_context = GraphicContext::create(win);
+        m_context = GraphicContext::create(m_window);
         m_context->init();
 
+        glfwSetWindowUserPointer(m_window, &m_data);
+        
         m_ui.setContext(*m_context);
-        m_frameBuffer = FrameBuffer::create();        
+              
 
-        m_ui.init(win);
+        m_ui.init(m_window);
         glfwSwapInterval(1);
 
         /* set callbacks */
-        glfwSetKeyCallback(win, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+        glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
             
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-            if( action == GLFW_PRESS){
-                KeyPressEvent event(key, 0);
-                data.eventCallback(event);
-                // static_cast<Window*>(glfwGetWindowUserPointer(window))->onKeyPressEvent(event);
-            }
+
+            switch (action) {
+                case GLFW_PRESS:
+                {
+                    KeyPressEvent event(scancode, 0);
+                    data.EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE:
+                {
+                    KeyReleaseEvent event(scancode);
+                    data.EventCallback(event);
+                    break;
+                }
+                case GLFW_REPEAT:
+                {
+                    KeyPressEvent event(scancode,1 );
+                    data.EventCallback(event);
+                    break;
+                }
+
+
+
+            };
+
         });
 
-        glfwSetMouseButtonCallback(win, [](GLFWwindow* window, int button, int action, int mods){
-
-        });
-
-        glfwSetWindowSizeCallback(win, [](GLFWwindow* window, int width, int height){
-
-        });
-
-        glfwSetWindowCloseCallback(win, [](GLFWwindow* window){
-
-        });
-
+        m_frameBuffer = FrameBuffer::create();
 
     }
 
@@ -90,7 +104,7 @@ namespace Orbitons{
                 m_frameBuffer->invalidate(width,height);
             }            
 
-            // glfwGetFramebufferSize(win, &width, &height);
+            // glfwGetFramebufferSize(m_window, &width, &height);
             glViewport(0,0,width, height);
             scene.m_activeCamera->setScreenRatio((float)width / (float)height);
             glm::mat4 view = glm::mat4(1.0f);
@@ -166,6 +180,6 @@ namespace Orbitons{
 
     bool Window::shouldClose(){
 
-        return glfwWindowShouldClose(win);
+        return glfwWindowShouldClose(m_window);
     }
 }
