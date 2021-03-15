@@ -4,26 +4,27 @@
 #include "../pch.h"
 #include "../core.h"
 
+namespace Orbitons{
+    class Entity3d{
+    private:
 
-class Entity3d{
-private:
+    public:
 
-public:
-
-    Entity3d();
-    virtual ~Entity3d(){};
-    std::string m_name;
-    glm::vec3 position;
-    glm::vec3 rotation;
-    glm::vec3 scale;
-    glm::mat4 transforms;
+        Entity3d();
+        virtual ~Entity3d(){};
+        std::string m_name;
+        glm::vec3 position;
+        glm::vec3 rotation;
+        glm::vec3 scale;
+        glm::mat4 transforms;
 
 
-    Orbitons::Ref<Entity3d> m_parent;
-    void applyTransforms();
+        Orbitons::Ref<Entity3d> m_parent;
+        void applyTransforms();
 
-    void setScale(glm::vec3 _scale); 
-    void setPosition(glm::vec3 _pos); 
-    void setRotation(glm::vec3 _rot); 
-};
+        void setScale(glm::vec3 _scale); 
+        void setPosition(glm::vec3 _pos); 
+        void setRotation(glm::vec3 _rot); 
+    };
+}
 #endif /* ENTITY_3D_H */

@@ -27,7 +27,7 @@ namespace Orbitons
         io.ConfigDockingWithShift = false;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; 
+        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; 
 
 
         ImVec4* colors = ImGui::GetStyle().Colors;
@@ -35,7 +35,7 @@ namespace Orbitons
         {
             colors[ImGuiCol_Text]                   = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
             colors[ImGuiCol_TextDisabled]           = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
-            colors[ImGuiCol_WindowBg]               = ImVec4(0.06f, 0.06f, 0.06f, 0.94f);
+            colors[ImGuiCol_WindowBg]               = ImVec4(0.06f, 0.06f, 0.06f, 1.00f);
             colors[ImGuiCol_ChildBg]                = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
             colors[ImGuiCol_PopupBg]                = ImVec4(0.08f, 0.08f, 0.08f, 0.94f);
             colors[ImGuiCol_Border]                 = ImVec4(0.43f, 0.43f, 0.50f, 0.50f);
@@ -214,7 +214,11 @@ namespace Orbitons
         ImGui::End();
         
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-        if(ImGui::Begin("Viewport")){
+        ImGuiDockNodeFlags flags = 0;
+        flags |= ImGuiDockNodeFlags_AutoHideTabBar;
+
+        
+        if(ImGui::Begin("Viewport", NULL, flags)){
 
             // Get the size of the child (i.e. the whole draw size of the windows).
             m_viewportSize = ImGui::GetContentRegionAvail();

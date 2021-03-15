@@ -4,20 +4,22 @@
 #include "core.h"
 #include "Buffer.h"
 
-class VertexArray{
-public:
-    virtual ~VertexArray(){}
+namespace Orbitons{
+    class VertexArray{
+    public:
+        virtual ~VertexArray(){}
 
-    virtual void bind() = 0;
-    virtual void unbind() = 0;
+        virtual void bind() = 0;
+        virtual void unbind() = 0;
 
-    virtual void addVertexBuffer(const Orbitons::Ref<VertexBuffer>& vertexBuffer) = 0;
-    virtual void setIndexBuffer(const Orbitons::Ref<IndexBuffer>& indexBuffer) = 0;
+        virtual void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) = 0;
+        virtual void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer) = 0;
 
-    virtual uint32_t getID() = 0;
+        virtual uint32_t getID() = 0;
 
-    static Orbitons::Ref<VertexArray> create();
-private:
+        static Ref<VertexArray> create();
+    private:
 
-};
+    };
+}
 #endif /* VERTEX_ARRAY_H */

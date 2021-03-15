@@ -6,16 +6,19 @@
 #include "Shader.h"
 #include "Core/Camera.h"
 
-class Skybox{
-public:
-    virtual ~Skybox() = default;
+namespace Orbitons{
 
-    static Orbitons::Ref<Skybox> create();
+    class Skybox{
+    public:
+        virtual ~Skybox() = default;
 
-    virtual void init() = 0;
-    virtual void draw(Camera* camera) = 0;
+        static Ref<Skybox> create();
 
-private:
+        virtual void init() = 0;
+        virtual void draw(Camera* camera) = 0;
 
-};
+    private:
+
+    };
+}
 #endif /* SKYBOX_H */

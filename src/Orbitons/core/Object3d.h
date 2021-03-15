@@ -9,20 +9,22 @@
 #include "Renderer/Buffer.h"
 #include "Renderer/VertexArray.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
-class Object3d : public Entity3d{
-public:
+namespace Orbitons{
+    class Object3d : public Entity3d{
+    public:
 
-    Object3d();
-    void buildBuffers();
-    void draw();
-    Mesh m_mesh;
-    Orbitons::Ref<Material> m_material; 
+        Object3d();
+        void buildBuffers();
+        void draw();
+        Mesh m_mesh;
+        Orbitons::Ref<Material> m_material; 
 
-    std::shared_ptr<VertexBuffer> m_vertexBuffer;
-    std::shared_ptr<IndexBuffer> m_indexBuffer;
-    Orbitons::Ref<VertexArray> m_vertexArray;
-    GLuint vao;
-private:
+        std::shared_ptr<VertexBuffer> m_vertexBuffer;
+        std::shared_ptr<IndexBuffer> m_indexBuffer;
+        Orbitons::Ref<VertexArray> m_vertexArray;
+        GLuint vao;
+    private:
 
-};
+    };
+}
 #endif /* OBJECT_3D_H */

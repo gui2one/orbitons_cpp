@@ -1,6 +1,9 @@
 #include "Material.h"
 
-Orbitons::Ref<Material> Material::create(){
+namespace Orbitons{
 
-    return Orbitons::MakeRef<PhongMaterial>();
+    Ref<Material> Material::create(){
+
+        return MakeRef<PhongMaterial>();
+    }
 }

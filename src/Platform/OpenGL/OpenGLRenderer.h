@@ -3,10 +3,15 @@
 
 #include "Renderer/Renderer.h"
 
-class OpenGLRenderer : public Renderer{
-public:
+namespace Orbitons
+{
 
-private:
+    class OpenGLRenderer : public Renderer{
+    public:
+
+    private:
 
 };
+    
+} // namespace Orbitons
 #endif /* OPENGL_RENDERER_H */

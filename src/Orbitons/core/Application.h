@@ -19,7 +19,7 @@ namespace Orbitons{
 
     public : 
         std::unique_ptr<Window> m_window;
-        Orbitons::Scene m_scene;
+        Scene m_scene;
         Timer m_timer;
 
 

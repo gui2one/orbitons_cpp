@@ -16,23 +16,15 @@ namespace Orbitons{
         }
 
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE);
+
         m_window = glfwCreateWindow(width, height, "Orbitons -- v0.01 alpha", NULL, NULL);
         if (!m_window)
         {
             ORBITONS_ASSERT(false, "GLFW Window Error\n");
             glfwTerminate();
-            
         }
 
         m_data.Title = "Hello";
-        
-
-
-        
-        
-        //glfwMakeContextCurrent(m_window);
-
-
 
         // set GLFW window icon
         GLFWimage icons[1]; 
@@ -41,18 +33,17 @@ namespace Orbitons{
         stbi_image_free(icons[0].pixels);
         /////////////////////
 
-
-                
         m_context = GraphicContext::create(m_window);
         m_context->init();
 
-        glfwSetWindowUserPointer(m_window, &m_data);
-        
         m_ui.setContext(*m_context);
-              
-
         m_ui.init(m_window);
+
+        m_frameBuffer = FrameBuffer::create();
+
+        glfwSetWindowUserPointer(m_window, &m_data);
         glfwSwapInterval(1);
+
 
         /* set callbacks */
         glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -78,22 +69,24 @@ namespace Orbitons{
                     data.EventCallback(event);
                     break;
                 }
-
-
-
             };
-
         });
 
-        m_frameBuffer = FrameBuffer::create();
+        glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height){
+                WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+                data.Width = width;
+                data.Height = height;
+
+                WindowResizeEvent event(width, height);
+                data.EventCallback(event);
+        });
 
     }
 
     void Window::refresh(Scene& scene, Timer& timer){
 
-
             glEnable(GL_DEPTH_TEST);
-            // timer.update();
+
             int width, height;
             ImVec2 viewportSize = m_ui.getViewportSize();
             width = viewportSize.x;
@@ -104,7 +97,6 @@ namespace Orbitons{
                 m_frameBuffer->invalidate(width,height);
             }            
 
-            // glfwGetFramebufferSize(m_window, &width, &height);
             glViewport(0,0,width, height);
             scene.m_activeCamera->setScreenRatio((float)width / (float)height);
             glm::mat4 view = glm::mat4(1.0f);
@@ -120,10 +112,13 @@ namespace Orbitons{
             );
 
 
+            glClearColor(0.1f, 0.1f, 0.1f,1.f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
             m_frameBuffer->bind();
 
 
-            glClearColor(1.0f, 0.f, 0.f,1.f);
+            // glClearColor(1.0f, 0.f, 0.f,1.f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
             scene.skybox->draw(scene.m_activeCamera.get());
