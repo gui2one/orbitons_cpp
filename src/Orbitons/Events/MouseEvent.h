@@ -36,5 +36,17 @@ namespace Orbitons{
 
         EVENT_CLASS_TYPE(MouseRelease)
     };    
+
+    class MouseScrollEvent : public MouseEvent{
+    public:
+        double m_xoffset;
+        double m_yoffset;
+
+    public:
+        MouseScrollEvent(double xoffset, double yoffset)
+        : m_xoffset(xoffset), m_yoffset(yoffset){}
+
+        EVENT_CLASS_TYPE(MouseScroll)
+    };  
 }
 #endif /* MOUSE_EVENT_H */

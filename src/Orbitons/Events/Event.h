@@ -17,7 +17,7 @@ namespace Orbitons{
     enum class EventType{
         None = 0,
         KeyPress, KeyRelease, 
-        MouseMove, MousePress, MouseRelease, MouseWheel,
+        MouseMove, MousePress, MouseRelease, MouseScroll,
         WindowResize, WindowClose
     };
 

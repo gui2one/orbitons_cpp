@@ -82,12 +82,21 @@ namespace Orbitons{
                 data.EventCallback(event);
         });
 
+        glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xoffset, double yoffset){
+                WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+      
+
+                MouseScrollEvent event(xoffset, yoffset);
+                data.EventCallback(event);
+        });
+
     }
 
     void Window::refresh(Scene& scene, Timer& timer){
 
             glEnable(GL_DEPTH_TEST);
             m_controls.setCamera(scene.m_activeCamera);
+            m_controls.update(timer.getDeltaTime());
             int width, height;
             ImVec2 viewportSize = m_ui.getViewportSize();
             width = viewportSize.x;

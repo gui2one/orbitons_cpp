@@ -6,7 +6,7 @@ namespace Orbitons{
 
     void OpenGLSkybox::init(){
         
-        printf("Directory : %s\n", ORBITONS_RES_DIR);
+        
         // init shader
         m_shader = Shader::create();
         m_shader->loadVertexShaderSource(ORBITONS_RES_DIR"/shaders/skybox_shader.vert");
