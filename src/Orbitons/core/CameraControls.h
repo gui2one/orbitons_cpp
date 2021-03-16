@@ -34,6 +34,9 @@ private:
 
     std::function<void(Event&)> m_EventCallback;
 
+    glm::vec2 m_cursorDelta;
+    glm::vec2 m_cursorOldPos;
+
 };
 }
 #endif /* CAMERA_CONTROLS_H */

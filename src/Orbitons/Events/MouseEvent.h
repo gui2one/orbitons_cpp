@@ -16,37 +16,50 @@ namespace Orbitons{
 
 
     class MousePressEvent : public MouseEvent{
-    public:
-        int m_Button;
-        uint32_t m_RepeatCount;
-    public:
-        MousePressEvent(int button, uint32_t repeat_count)
-        : m_Button(button), m_RepeatCount(repeat_count){}
+        public:
+            int m_Button;
+            uint32_t m_RepeatCount;
+        public:
+            MousePressEvent(int button, uint32_t repeat_count)
+            : m_Button(button), m_RepeatCount(repeat_count){}
 
-        EVENT_CLASS_TYPE(MousePress)
+            EVENT_CLASS_TYPE(MousePress)
     };
 
     class MouseReleaseEvent : public MouseEvent{
-    public:
-        int m_Button;
+        public:
+            int m_Button;
 
-    public:
-        MouseReleaseEvent(int button)
-        : m_Button(button){}
+        public:
+            MouseReleaseEvent(int button)
+            : m_Button(button){}
 
-        EVENT_CLASS_TYPE(MouseRelease)
+            EVENT_CLASS_TYPE(MouseRelease)
     };    
 
     class MouseScrollEvent : public MouseEvent{
-    public:
-        double m_xoffset;
-        double m_yoffset;
+        public:
+            double m_xoffset;
+            double m_yoffset;
 
-    public:
-        MouseScrollEvent(double xoffset, double yoffset)
-        : m_xoffset(xoffset), m_yoffset(yoffset){}
+        public:
+            MouseScrollEvent(double xoffset, double yoffset)
+            : m_xoffset(xoffset), m_yoffset(yoffset){}
 
-        EVENT_CLASS_TYPE(MouseScroll)
+            EVENT_CLASS_TYPE(MouseScroll)
     };  
+
+
+    class MouseMoveEvent : public MouseEvent{
+        public:
+            double m_xpos;
+            double m_ypos;
+
+        public:
+            MouseMoveEvent(double xpos, double ypos)
+            : m_xpos(xpos), m_ypos(ypos){}
+
+            EVENT_CLASS_TYPE(MouseMove)
+    };      
 }
 #endif /* MOUSE_EVENT_H */

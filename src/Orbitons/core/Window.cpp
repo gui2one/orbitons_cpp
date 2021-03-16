@@ -82,12 +82,17 @@ namespace Orbitons{
                 data.EventCallback(event);
         });
 
+        glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double x_pos, double y_pos){
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+            MouseMoveEvent event(x_pos, y_pos);
+            data.EventCallback(event);
+        });
         glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xoffset, double yoffset){
-                WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-      
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+    
 
-                MouseScrollEvent event(xoffset, yoffset);
-                data.EventCallback(event);
+            MouseScrollEvent event(xoffset, yoffset);
+            data.EventCallback(event);
         });
 
     }

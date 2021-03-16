@@ -9,6 +9,8 @@ namespace Orbitons
     class Input{
     public:
         static bool isKeyPressed(const int keycode);
+        static bool isMouseButtonClicked(int button);
+        static glm::vec2 getMousePos();
     private:
 
     };

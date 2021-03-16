@@ -223,7 +223,7 @@ namespace Orbitons
         
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGuiDockNodeFlags flags = 0;
-        flags |= ImGuiDockNodeFlags_AutoHideTabBar;
+        // flags |= ImGuiWindowFlags_;
 
         
         if(ImGui::Begin("Viewport", NULL, flags)){

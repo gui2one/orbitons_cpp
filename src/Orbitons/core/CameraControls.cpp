@@ -4,30 +4,49 @@
 namespace Orbitons{
 
     CameraControls::CameraControls()
-    :m_camera(nullptr), m_uvPos(glm::vec2(PI*0.9f,PI/2.2f)), m_radius(5.0f)
+        :   m_camera(nullptr), 
+            m_uvPos(glm::vec2(PI*0.9f,PI/2.2f)), 
+            m_radius(5.0f),
+            m_cursorDelta(glm::vec2(0.f)),
+            m_cursorOldPos(glm::vec2(0.f))
     {
+
 
     }
 
     CameraControls::CameraControls(Ref<Camera> camera)
-    :m_camera(camera), m_uvPos(glm::vec2(PI*0.9f,PI/2.2f)), m_radius(5.0f)    {
+        :   m_camera(camera), 
+            m_uvPos(glm::vec2(PI*0.9f,PI/2.2f)), 
+            m_radius(5.0f),
+            m_cursorDelta(glm::vec2(0.f)),
+            m_cursorOldPos(glm::vec2(0.f))
+    {
         
     }
-    void CameraControls::update(float detla_time){
+    void CameraControls::update(float delta_time){
 
         if( Input::isKeyPressed(GLFW_KEY_RIGHT)){
-            m_uvPos.x -= 1.0f * detla_time;
+            m_uvPos.x -= 1.0f * delta_time;
         }
         if(Input::isKeyPressed(GLFW_KEY_LEFT)){
-            m_uvPos.x += 1.0f * detla_time;
+            m_uvPos.x += 1.0f * delta_time;
         }
         if(Input::isKeyPressed(GLFW_KEY_DOWN)){
-            m_uvPos.y += 1.0f * detla_time;
+            m_uvPos.y += 1.0f * delta_time;
         }
         if(Input::isKeyPressed(GLFW_KEY_UP)){
-            m_uvPos.y -= 1.0f * detla_time;
+            m_uvPos.y -= 1.0f * delta_time;
         }
+
+        if( Input::isKeyPressed(GLFW_KEY_LEFT_CONTROL) && Input::isMouseButtonClicked(0)){
+
+            m_cursorDelta = Input::getMousePos() - m_cursorOldPos;
+
+            m_uvPos += glm::vec2(m_cursorDelta.x * delta_time, m_cursorDelta.y * -delta_time);
+        }
+        
         m_camera->position = fromPolar(m_uvPos);
+        m_cursorOldPos = Input::getMousePos();
     }
 
     glm::vec3 CameraControls::fromPolar(glm::vec2 uv_pos){
