@@ -8,7 +8,7 @@ namespace Orbitons
 {
     bool Input::isKeyPressed(const int keycode){
         
-        auto*  win = static_cast<GLFWwindow*>(Application::getInstance().getGLFWWindow());
+        // auto*  win = static_cast<GLFWwindow*>(Application::getInstance().getGLFWWindow());
         return true;
     
     }
