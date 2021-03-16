@@ -19,7 +19,7 @@ namespace Orbitons{
         glm::mat4 transforms;
 
 
-        Orbitons::Ref<Entity3d> m_parent;
+        Ref<Entity3d> m_parent;
         void applyTransforms();
 
         void setScale(glm::vec3 _scale); 

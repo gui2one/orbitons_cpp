@@ -23,7 +23,7 @@ namespace Orbitons{
     public:
             
         CameraControls m_controls;
-       
+        
         UI m_ui;
         
     public:
@@ -42,8 +42,8 @@ namespace Orbitons{
         void setEventCallback(std::function<void(Event&)> callback){ m_data.EventCallback = callback; }
 
         GLFWwindow* getNativeWindow() const  { return m_window;  }
+        // GLFWwindow* getNativeWindow()  { return m_window;  }
         Ref<GraphicContext> getContext() const { return m_context;  }
-
 
     private:
 
