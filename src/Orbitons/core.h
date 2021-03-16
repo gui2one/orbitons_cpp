@@ -25,7 +25,7 @@
 #include <stb_image.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
+#include "Core/Application.h"
 #define BIND_EVENT_FUNCTION(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 #ifdef _WIN32
@@ -58,6 +58,8 @@ namespace Orbitons{
         return std::make_shared<T>(std::forward<Args>(args)...);
     }
 
-};
+
+}
+
 
 #endif /*CORE_H*/

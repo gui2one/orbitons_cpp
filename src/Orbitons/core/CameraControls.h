@@ -6,13 +6,13 @@
 
 #include "Events/KeyboardEvent.h"
 #include "Events/MouseEvent.h"
+
+
 namespace Orbitons{
 
 class CameraControls{
 public: 
-    /**
-     *  NOT implemented !
-     */
+
     CameraControls();
     CameraControls(Ref<Camera> camera);
 
