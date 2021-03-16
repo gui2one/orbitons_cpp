@@ -21,8 +21,9 @@ void createObjects(){
     dragon->setPosition(glm::vec3(0.f, 0.0f, 0.f));
 
     std::static_pointer_cast<PhongMaterial>(dragon->m_material)->setDiffuseColor(glm::vec3(1.f));
-
-    app->m_scene.add(dragon);
+    
+    
+    app->getWindow().m_scene.add(dragon);
 
 
     plane = MakeRef<Object3d>();
@@ -32,7 +33,7 @@ void createObjects(){
     plane->buildBuffers();
     plane->setScale(glm::vec3(1.0f));
 
-    app->m_scene.add(plane);
+    app->getWindow().m_scene.add(plane);
 }
 
 int main(int argc, char** argv){

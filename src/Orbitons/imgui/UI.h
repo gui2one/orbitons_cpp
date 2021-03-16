@@ -44,6 +44,7 @@ namespace Orbitons
     private:
 
         GLFWwindow * m_window;
+  
         ImVec2 m_viewportSize;
         ImVec2 oldSize;
         bool m_viewportSizeChanged = false;

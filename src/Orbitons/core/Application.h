@@ -21,7 +21,7 @@ namespace Orbitons{
 
     public : 
         
-        Scene m_scene;
+        
         Timer m_timer;
         static Application* s_instance;
 

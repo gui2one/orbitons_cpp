@@ -40,7 +40,11 @@ namespace Orbitons{
         m_ui.setContext(*m_context);
         m_ui.init(m_window);
 
+        
+        
+
         m_frameBuffer = FrameBuffer::create();
+        m_scene.init();
 
         glfwSetWindowUserPointer(m_window, &m_data);
         glfwSwapInterval(1);
@@ -87,6 +91,7 @@ namespace Orbitons{
             MouseMoveEvent event(x_pos, y_pos);
             data.EventCallback(event);
         });
+        
         glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xoffset, double yoffset){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
     
@@ -97,10 +102,10 @@ namespace Orbitons{
 
     }
 
-    void Window::refresh(Scene& scene, Timer& timer){
+    void Window::refresh(Timer& timer){
 
             glEnable(GL_DEPTH_TEST);
-            m_controls.setCamera(scene.m_activeCamera);
+            m_controls.setCamera(m_scene.m_activeCamera);
             m_controls.update(timer.getDeltaTime());
             int width, height;
             ImVec2 viewportSize = m_ui.getViewportSize();
@@ -113,7 +118,7 @@ namespace Orbitons{
             }            
 
             glViewport(0,0,width, height);
-            scene.m_activeCamera->setScreenRatio((float)width / (float)height);
+            m_scene.m_activeCamera->setScreenRatio((float)width / (float)height);
             glm::mat4 view = glm::mat4(1.0f);
 
             float radius = 5.0f;
@@ -121,8 +126,8 @@ namespace Orbitons{
             float angle = timer.getElapsedTime() * speed;
             glm::vec3 up_vector(0.f,1.f,0.f);
             view *= glm::lookAt(
-                scene.m_activeCamera->position,
-                scene.m_activeCamera->target_position,
+                m_scene.m_activeCamera->position,
+                m_scene.m_activeCamera->target_position,
                 glm::normalize(up_vector)
             );
 
@@ -136,32 +141,37 @@ namespace Orbitons{
             // glClearColor(1.0f, 0.f, 0.f,1.f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
-            scene.skybox->draw(scene.m_activeCamera.get());
+            m_scene.skybox->draw(m_scene.m_activeCamera.get());
 
             glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
-            for(auto current : scene.objects){
+            for(auto current : m_scene.objects){
 
-                Ref<Object3d> object = std::static_pointer_cast<Object3d>(current);
-                Ref<Material> material = object->m_material;
-                material->useProgram();
-                glm::mat4 model(1.f);
-                model = current->transforms * model;
-            
-                glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_lightPos"), 1 , glm::value_ptr(lightPos));
-                glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(scene.m_activeCamera->position));
-
-                glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(),"u_model"), 1, GL_FALSE,glm::value_ptr(model));
-                glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(scene.m_activeCamera->projection));
-                glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
     
-                object->draw();
+                Ref<Object3d> object = std::dynamic_pointer_cast<Object3d>(current);
+                if(object){
+                    // printf("%d\n", object);
+                    Ref<Material> material = object->m_material;
+                    material->useProgram();
+                    glm::mat4 model(1.f);
+                    model = current->transforms * model;
+                
+                    glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_lightPos"), 1 , glm::value_ptr(lightPos));
+                    glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(m_scene.m_activeCamera->position));
 
-                glUseProgram(0);
+                    glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(),"u_model"), 1, GL_FALSE,glm::value_ptr(model));
+                    glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(m_scene.m_activeCamera->projection));
+                    glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
+        
+                    object->draw();
+
+                    glUseProgram(0);
+                }
 
                 
             }
         
             m_frameBuffer->unbind();
+
             m_ui.render(m_frameBuffer);
   
 

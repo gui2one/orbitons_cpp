@@ -25,7 +25,6 @@ namespace Orbitons{
         Renderer::setAPI(RenderAPI::OpenGL);
         Renderer::init();
 
-        m_scene.init();
 
     }
 
@@ -45,7 +44,7 @@ namespace Orbitons{
             glm::vec3 up_vector = glm::vec3(0.0f, 1.0f, 0.0f);        
 
 
-            m_window->refresh(m_scene, m_timer);
+            m_window->refresh(m_timer);
 
 
         }

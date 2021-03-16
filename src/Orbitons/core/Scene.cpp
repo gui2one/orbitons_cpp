@@ -8,6 +8,7 @@ namespace Orbitons{
 
         if(m_activeCamera == nullptr){
             m_activeCamera = MakeRef<Camera>(glm::radians(65.0f),16.0f/9.0f);
+            add(m_activeCamera);
         }
     }
     

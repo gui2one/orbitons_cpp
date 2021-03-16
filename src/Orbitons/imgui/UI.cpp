@@ -18,6 +18,7 @@ namespace Orbitons
 
         m_window = window;
 
+
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();

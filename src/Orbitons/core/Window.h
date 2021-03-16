@@ -23,13 +23,14 @@ namespace Orbitons{
     public:
             
         CameraControls m_controls;
-        
+        Scene m_scene;
+
         UI m_ui;
         
     public:
         Window();
 
-        void refresh(Orbitons::Scene& scene, Timer& timer);
+        void refresh(Timer& timer);
         bool shouldClose();
 
         //static void char_mods_callback(GLFWwindow* window, unsigned int key, int action);
