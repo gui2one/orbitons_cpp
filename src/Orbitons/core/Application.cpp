@@ -4,7 +4,9 @@ namespace Orbitons{
     Application* Application::s_instance = nullptr;
     Application * Application::getInstance(){
 
+        printf("GET_INSTANCE\n");
         if(s_instance == nullptr){
+            printf("CREATE_INSTANCE\n");
             s_instance = new Application();
         }
 

@@ -1,5 +1,5 @@
 #include "CameraControls.h"
-
+#include "Input.h"
 
 namespace Orbitons{
 
@@ -20,19 +20,26 @@ namespace Orbitons{
 
     bool CameraControls::onKeyPressEvent(KeyPressEvent& e){
 
-        // printf("scancode %d", e.m_Scancode);
-        if( e.m_Scancode == 17){
-            m_camera->position.x += 0.1f;
-            return true;
-        }else if(e.m_Scancode == 31){
+        Input::isKeyPressed(e.m_Keycode);
+        // printf("scancode %d", e.m_Keycode);
+
+        switch (e.m_Keycode)
+        {
+        case GLFW_KEY_W:
             m_camera->position.x -= 0.1f;
-            return true;
-        }else if(e.m_Scancode == 30){
+            break;
+        case GLFW_KEY_A:
             m_camera->position.z += 0.1f;
-            return true;
-        }else if(e.m_Scancode == 32){
+            break;
+        case GLFW_KEY_S:
+            m_camera->position.x += 0.1f;
+            break;    
+        case GLFW_KEY_D:
             m_camera->position.z -= 0.1f;
-            return true;
+            break;                       
+                
+        default:
+            break;
         }
         return false;
     }

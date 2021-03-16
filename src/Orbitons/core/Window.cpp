@@ -54,19 +54,19 @@ namespace Orbitons{
             switch (action) {
                 case GLFW_PRESS:
                 {
-                    KeyPressEvent event(scancode, 0);
+                    KeyPressEvent event(key, 0);
                     data.EventCallback(event);
                     break;
                 }
                 case GLFW_RELEASE:
                 {
-                    KeyReleaseEvent event(scancode);
+                    KeyReleaseEvent event(key);
                     data.EventCallback(event);
                     break;
                 }
                 case GLFW_REPEAT:
                 {
-                    KeyPressEvent event(scancode,1 );
+                    KeyPressEvent event(key,1 );
                     data.EventCallback(event);
                     break;
                 }
@@ -163,7 +163,7 @@ namespace Orbitons{
     bool Window::onKeyPressEvent(Event& e){
 
         KeyPressEvent& event = static_cast<KeyPressEvent&>(e);
-        if(event.m_Scancode == 57)/*space bar*/{
+        if(event.m_Keycode == 57)/*space bar*/{
             printf("space bar pressed\n");
             return true;
         }

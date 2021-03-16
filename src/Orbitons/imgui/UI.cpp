@@ -115,7 +115,7 @@ namespace Orbitons
 
     bool UI::onKeyPressEvent(KeyPressEvent& e){
         
-        if( e.m_Scancode == 57)
+        if( e.m_Keycode == GLFW_KEY_SPACE)
         {   
             printf("haaaaa!!!!!!\n");
             return false;

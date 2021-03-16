@@ -17,22 +17,22 @@ namespace Orbitons{
 
     class KeyPressEvent : public KeyboardEvent{
     public:
-        int m_Scancode;
+        int m_Keycode;
         uint32_t m_RepeatCount;
     public:
-        KeyPressEvent(int scancode, uint32_t repeat_count)
-        : m_Scancode(scancode), m_RepeatCount(repeat_count){}
+        KeyPressEvent(int keycode, uint32_t repeat_count)
+        : m_Keycode(keycode), m_RepeatCount(repeat_count){}
 
         EVENT_CLASS_TYPE(KeyPress)
     };
 
     class KeyReleaseEvent : public KeyboardEvent{
     public:
-        int m_Scancode;
+        int m_Keycode;
 
     public:
-        KeyReleaseEvent(int scancode)
-        : m_Scancode(scancode){}
+        KeyReleaseEvent(int keycode)
+        : m_Keycode(keycode){}
 
         EVENT_CLASS_TYPE(KeyRelease)
     };    
