@@ -23,10 +23,16 @@ namespace Orbitons{
         
         Scene m_scene;
         Timer m_timer;
+        static Application* s_instance;
 
 
-    public:
+    protected : 
         Application();
+    public:
+
+        Application(const Application& other) = delete;
+        Application(Application& other) = delete;
+        void operator=(const Application& other) = delete;
 
         void run();
         void onEvent(Event& e);
@@ -34,15 +40,17 @@ namespace Orbitons{
         GLFWwindow* getGLFWWindow(){ return m_window->getNativeWindow(); }
 
 
+        static Application* getInstance();
+
     private:
         std::unique_ptr<Window> m_window;
-        static Application* m_instance;
 
 
 
     };
 
-    // To be defined in CLIENT
+    
+
 
 }
 #endif /* APPLICATION_H */

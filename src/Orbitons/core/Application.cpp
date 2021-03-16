@@ -1,5 +1,16 @@
 #include "Application.h"
 namespace Orbitons{
+
+    Application* Application::s_instance = nullptr;
+    Application * Application::getInstance(){
+
+        if(s_instance == nullptr){
+            s_instance = new Application();
+        }
+
+        return s_instance;
+    }
+
     Application::Application(){
 
         

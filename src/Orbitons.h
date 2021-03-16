@@ -2,6 +2,7 @@
 #define ORBITONS_H
 
 #include "Core/Application.h"
+#include "Core/Input.h"
 #include "Core/Window.h"
 
 #include "Core/Scene.h"

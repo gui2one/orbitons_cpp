@@ -3,7 +3,7 @@
 using namespace Orbitons;
 
 
-Application app;
+Application* app = Application::getInstance();
 
 
 
@@ -22,7 +22,7 @@ void createObjects(){
 
     std::static_pointer_cast<PhongMaterial>(dragon->m_material)->setDiffuseColor(glm::vec3(1.f));
 
-    app.m_scene.add(dragon);
+    app->m_scene.add(dragon);
 
 
     plane = MakeRef<Object3d>();
@@ -32,7 +32,7 @@ void createObjects(){
     plane->buildBuffers();
     plane->setScale(glm::vec3(1.0f));
 
-    app.m_scene.add(plane);
+    app->m_scene.add(plane);
 }
 
 int main(int argc, char** argv){
@@ -40,7 +40,7 @@ int main(int argc, char** argv){
     createObjects();
 
 
-    app.run();
+    app->run();
 
     printf("Termination .....\n");
     exit(EXIT_SUCCESS);
