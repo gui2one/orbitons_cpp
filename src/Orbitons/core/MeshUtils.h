@@ -4,7 +4,8 @@
 #include "../pch.h"
 
 #include "Mesh.h"
-namespace Orbitons::MeshUtils{
+namespace Orbitons{
+namespace MeshUtils{
 
 
     // generators
@@ -18,6 +19,7 @@ namespace Orbitons::MeshUtils{
     void rotateZ(Mesh& mesh ,float radians);
 
     void computeNormals(Mesh& mesh, bool invert = false);
+};
 
 };
 #endif /* MESH_UTILS_H */
