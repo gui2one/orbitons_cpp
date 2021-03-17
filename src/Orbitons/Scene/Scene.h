@@ -27,6 +27,7 @@ namespace Orbitons
         void add(Ref<Entity3d> entity);
 
         Entity createEntity(const std::string &name = std::string());
+        void destroyEntity(entt::entity entity);
 
         std::vector<Ref<Entity3d>> objects;
         Ref<Skybox> skybox;

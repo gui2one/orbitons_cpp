@@ -285,7 +285,7 @@ namespace Orbitons
         auto view = m_scene->m_registry.view<TagComponent>();
 
         int inc = 0;
-        static size_t selection_id = 0;
+        static uint64_t selection_id = 0;
 
         if (ImGui::Button("Add Entity"))
         {
@@ -297,16 +297,23 @@ namespace Orbitons
             // printf("Entity %d --tag name : %s\n", inc, view.get<TagComponent>(entity).tagName.c_str());
 
             ImGuiTreeNodeFlags flags = 0;
-            flags |= (selection_id == (int)entity ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+            flags |= (selection_id == (uint64_t)entity ? ImGuiTreeNodeFlags_Selected : 0);
+            flags |= ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_OpenOnArrow;
             bool opened = ImGui::TreeNodeEx((void *)entity, flags, view.get<TagComponent>(entity).tagName.c_str());
-
             if (ImGui::IsItemClicked())
             {
-                selection_id = (int)entity;
+                // printf("selection_id : %zu\n", selection_id);
+                // printf("entity id : %d\n", entity);
+                selection_id = (uint64_t)entity;
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("X"))
+            {
+                m_scene->destroyEntity(entity);
             }
             if (opened)
             {
-                ImGui::Text("UUID : %zu", (int)entity);
+                ImGui::Text("UUID : %zu", (uint64_t)entity);
                 ImGui::TreePop();
             }
             inc++;

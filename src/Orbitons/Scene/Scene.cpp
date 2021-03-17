@@ -26,7 +26,7 @@ namespace Orbitons
     {
         Entity entity(m_registry.create(), this);
 
-        m_registry.emplace<TagComponent>(entity, "default name");
+        m_registry.emplace<TagComponent>(entity, name);
         m_registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
 
         Mesh mesh = MeshUtils::makeQuad();
@@ -35,4 +35,8 @@ namespace Orbitons
         return entity;
     }
 
+    void Scene::destroyEntity(entt::entity entity)
+    {
+        m_registry.destroy(entity);
+    }
 };
