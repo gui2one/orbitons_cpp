@@ -27,7 +27,7 @@ namespace Orbitons
         io.ConfigDockingWithShift = false;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; 
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
 
         ImVec4* colors = ImGui::GetStyle().Colors;

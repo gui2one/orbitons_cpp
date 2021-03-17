@@ -81,5 +81,7 @@
     "csignal": "cpp",
     "optional": "cpp"
   },
-  "html.autoClosingTags": false
+  "html.autoClosingTags": false,
+  "editor.fontFamily": "JetBrains Mono, monospace",
+  "editor.fontLigatures": true
 }

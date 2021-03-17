@@ -2,29 +2,23 @@
 #include "core.h"
 using namespace Orbitons;
 
+Application *app = Application::getInstance();
 
-Application* app = Application::getInstance();
-
-
-
-
-void createObjects(){
+void createObjects()
+{
     ObjLoader loader;
     Ref<Object3d> dragon;
     Ref<Object3d> plane;
-    
-    
+
     dragon = MakeRef<Object3d>();
-    dragon->m_mesh = loader.assimp_load(ORBITONS_RES_DIR"/objects/dragon_full.glb");
+    dragon->m_mesh = loader.assimp_load(ORBITONS_RES_DIR "/objects/dragon_full.glb");
     dragon->buildBuffers();
     dragon->setScale(glm::vec3(10.f));
     dragon->setPosition(glm::vec3(0.f, 0.0f, 0.f));
 
     std::static_pointer_cast<PhongMaterial>(dragon->m_material)->setDiffuseColor(glm::vec3(1.f));
-    
-    
-    app->getWindow().m_scene.add(dragon);
 
+    app->getWindow().m_scene.add(dragon);
 
     plane = MakeRef<Object3d>();
     plane->m_mesh = MeshUtils::makeGrid(1.f, 1.f, 2, 2);
@@ -36,10 +30,10 @@ void createObjects(){
     app->getWindow().m_scene.add(plane);
 }
 
-int main(int argc, char** argv){
+int main(int argc, char **argv)
+{
 
     createObjects();
-
 
     app->run();
 

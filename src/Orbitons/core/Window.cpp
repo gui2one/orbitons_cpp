@@ -41,7 +41,7 @@ namespace Orbitons{
         
         m_ui.init(m_window);
         m_ui.setScene(m_scene);
-
+        
         
         
 
@@ -172,9 +172,10 @@ namespace Orbitons{
                 
             }
         
-            m_frameBuffer->unbind();
 
+            m_frameBuffer->unbind();
             m_ui.render(m_frameBuffer);
+            m_context->swapBuffers();
   
 
 
@@ -183,7 +184,6 @@ namespace Orbitons{
             // update other events like input handling 
             glfwPollEvents();
 
-            m_context->swapBuffers();
     }
 
     bool Window::onKeyPressEvent(Event& e){

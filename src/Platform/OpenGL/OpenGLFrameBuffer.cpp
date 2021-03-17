@@ -10,11 +10,11 @@ namespace Orbitons
 
         if(m_id){
             
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
             glDeleteFramebuffers(1, &m_id);
             glDeleteTextures(1, &m_colorAttachment);
             glDeleteTextures(1, &m_depthAttachment);
             
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
             m_colorAttachment = 0;
             m_depthAttachment = 0;
 
