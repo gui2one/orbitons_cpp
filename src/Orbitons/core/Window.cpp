@@ -1,17 +1,20 @@
 #include "Window.h"
 
-
 #include "Events/KeyboardEvent.h"
 #include "Events/MouseEvent.h"
 #include "Events/WindowEvent.h"
-namespace Orbitons{
 
-    Window::Window(){
+#include "Scene/Entity.h"
+namespace Orbitons
+{
+
+    Window::Window()
+    {
         int width = 1280;
         int height = 720;
 
-
-        if (!glfwInit()){
+        if (!glfwInit())
+        {
             ORBITONS_ASSERT(false, "GLFW Error \n");
             glfwTerminate();
         }
@@ -28,9 +31,9 @@ namespace Orbitons{
         m_data.Title = "Hello";
 
         // set GLFW window icon
-        GLFWimage icons[1]; 
-        icons[0].pixels = stbi_load("resources/icon.png", &icons[0].width, &icons[0].height, 0, 4); //rgba channels 
-        glfwSetWindowIcon(m_window, 1, icons); 
+        GLFWimage icons[1];
+        icons[0].pixels = stbi_load("resources/icon.png", &icons[0].width, &icons[0].height, 0, 4); //rgba channels
+        glfwSetWindowIcon(m_window, 1, icons);
         stbi_image_free(icons[0].pixels);
         /////////////////////
 
@@ -38,165 +41,156 @@ namespace Orbitons{
         m_context->init();
 
         m_ui.setContext(*m_context);
-        
+
         m_ui.init(m_window);
         m_ui.setScene(m_scene);
-        
-        
-        
 
         m_frameBuffer = FrameBuffer::create();
         m_scene.init();
+        m_scene.createEntity("first");
 
         glfwSetWindowUserPointer(m_window, &m_data);
         glfwSwapInterval(1);
 
-
         /* set callbacks */
-        glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
-            
-            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+        glfwSetKeyCallback(m_window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+            WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
-            switch (action) {
-                case GLFW_PRESS:
-                {
-                    KeyPressEvent event(key, 0);
-                    data.EventCallback(event);
-                    break;
-                }
-                case GLFW_RELEASE:
-                {
-                    KeyReleaseEvent event(key);
-                    data.EventCallback(event);
-                    break;
-                }
-                case GLFW_REPEAT:
-                {
-                    KeyPressEvent event(key,1 );
-                    data.EventCallback(event);
-                    break;
-                }
+            switch (action)
+            {
+            case GLFW_PRESS:
+            {
+                KeyPressEvent event(key, 0);
+                data.EventCallback(event);
+                break;
+            }
+            case GLFW_RELEASE:
+            {
+                KeyReleaseEvent event(key);
+                data.EventCallback(event);
+                break;
+            }
+            case GLFW_REPEAT:
+            {
+                KeyPressEvent event(key, 1);
+                data.EventCallback(event);
+                break;
+            }
             };
         });
 
-        glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height){
-                WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-                data.Width = width;
-                data.Height = height;
+        glfwSetWindowSizeCallback(m_window, [](GLFWwindow *window, int width, int height) {
+            WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
+            data.Width = width;
+            data.Height = height;
 
-                WindowResizeEvent event(width, height);
-                data.EventCallback(event);
+            WindowResizeEvent event(width, height);
+            data.EventCallback(event);
         });
 
-        glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double x_pos, double y_pos){
-            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+        glfwSetCursorPosCallback(m_window, [](GLFWwindow *window, double x_pos, double y_pos) {
+            WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
             MouseMoveEvent event(x_pos, y_pos);
             data.EventCallback(event);
         });
-        
-        glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xoffset, double yoffset){
-            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-    
+
+        glfwSetScrollCallback(m_window, [](GLFWwindow *window, double xoffset, double yoffset) {
+            WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
             MouseScrollEvent event(xoffset, yoffset);
             data.EventCallback(event);
         });
-
     }
 
-    void Window::refresh(Timer& timer){
+    void Window::refresh(Timer &timer)
+    {
 
-            glEnable(GL_DEPTH_TEST);
-            m_controls.setCamera(m_scene.m_activeCamera);
-            m_controls.update(timer.getDeltaTime());
-            int width, height;
-            ImVec2 viewportSize = m_ui.getViewportSize();
-            width = viewportSize.x;
-            height = viewportSize.y;
+        glEnable(GL_DEPTH_TEST);
+        m_controls.setCamera(m_scene.m_activeCamera);
+        m_controls.update(timer.getDeltaTime());
+        int width, height;
+        ImVec2 viewportSize = m_ui.getViewportSize();
+        width = viewportSize.x;
+        height = viewportSize.y;
 
-            if( m_ui.getViewportSizeChanged()){
-                
-                m_frameBuffer->invalidate(width,height);
-            }            
+        if (m_ui.getViewportSizeChanged())
+        {
 
-            glViewport(0,0,width, height);
-            m_scene.m_activeCamera->setScreenRatio((float)width / (float)height);
-            glm::mat4 view = glm::mat4(1.0f);
+            m_frameBuffer->invalidate(width, height);
+        }
 
-            float radius = 5.0f;
-            float speed = 0.2f;
-            float angle = timer.getElapsedTime() * speed;
-            glm::vec3 up_vector(0.f,1.f,0.f);
-            view *= glm::lookAt(
-                m_scene.m_activeCamera->position,
-                m_scene.m_activeCamera->target_position,
-                glm::normalize(up_vector)
-            );
+        glViewport(0, 0, width, height);
+        m_scene.m_activeCamera->setScreenRatio((float)width / (float)height);
+        glm::mat4 view = glm::mat4(1.0f);
 
+        float radius = 5.0f;
+        float speed = 0.2f;
+        float angle = timer.getElapsedTime() * speed;
+        glm::vec3 up_vector(0.f, 1.f, 0.f);
+        view *= glm::lookAt(
+            m_scene.m_activeCamera->position,
+            m_scene.m_activeCamera->target_position,
+            glm::normalize(up_vector));
 
-            glClearColor(0.1f, 0.1f, 0.1f,1.f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            m_frameBuffer->bind();
+        m_frameBuffer->bind();
 
+        // glClearColor(1.0f, 0.f, 0.f,1.f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            // glClearColor(1.0f, 0.f, 0.f,1.f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            
-            m_scene.skybox->draw(m_scene.m_activeCamera.get());
+        m_scene.skybox->draw(m_scene.m_activeCamera.get());
 
-            glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
-            for(auto current : m_scene.objects){
+        glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
+        for (auto current : m_scene.objects)
+        {
 
-    
-                Ref<Object3d> object = std::dynamic_pointer_cast<Object3d>(current);
-                if(object){
-                    // printf("%d\n", object);
-                    Ref<Material> material = object->m_material;
-                    material->useProgram();
-                    glm::mat4 model(1.f);
-                    model = current->transforms * model;
-                
-                    glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_lightPos"), 1 , glm::value_ptr(lightPos));
-                    glUniform3fv(glGetUniformLocation(material->getShaderID(),"u_cameraPos"), 1 , glm::value_ptr(m_scene.m_activeCamera->position));
+            Ref<Object3d> object = std::dynamic_pointer_cast<Object3d>(current);
+            if (object)
+            {
+                // printf("%d\n", object);
+                Ref<Material> material = object->m_material;
+                material->useProgram();
+                glm::mat4 model(1.f);
+                model = current->transforms * model;
 
-                    glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(),"u_model"), 1, GL_FALSE,glm::value_ptr(model));
-                    glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(m_scene.m_activeCamera->projection));
-                    glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
-        
-                    object->draw();
+                glUniform3fv(glGetUniformLocation(material->getShaderID(), "u_lightPos"), 1, glm::value_ptr(lightPos));
+                glUniform3fv(glGetUniformLocation(material->getShaderID(), "u_cameraPos"), 1, glm::value_ptr(m_scene.m_activeCamera->position));
 
-                    glUseProgram(0);
-                }
+                glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_model"), 1, GL_FALSE, glm::value_ptr(model));
+                glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(m_scene.m_activeCamera->projection));
+                glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
 
-                
+                object->draw();
+
+                glUseProgram(0);
             }
-        
+        }
 
-            m_frameBuffer->unbind();
-            m_ui.render(m_frameBuffer);
-            m_context->swapBuffers();
-  
+        m_frameBuffer->unbind();
+        m_ui.render(m_frameBuffer);
+        m_context->swapBuffers();
 
+        // put the stuff we've been drawing onto the display
 
-            // put the stuff we've been drawing onto the display
-            
-            // update other events like input handling 
-            glfwPollEvents();
-
+        // update other events like input handling
+        glfwPollEvents();
     }
 
-    bool Window::onKeyPressEvent(Event& e){
+    bool Window::onKeyPressEvent(Event &e)
+    {
 
-        KeyPressEvent& event = static_cast<KeyPressEvent&>(e);
-        if(event.m_Keycode == 57)/*space bar*/{
+        KeyPressEvent &event = static_cast<KeyPressEvent &>(e);
+        if (event.m_Keycode == 57) /*space bar*/
+        {
             printf("space bar pressed\n");
             return true;
         }
         return true;
     }
 
-    bool Window::onEvent(Event& e)
+    bool Window::onEvent(Event &e)
     {
 
         // m_controls.onEvent(e);
@@ -207,7 +201,8 @@ namespace Orbitons{
         return true;
     }
 
-    bool Window::shouldClose(){
+    bool Window::shouldClose()
+    {
 
         return glfwWindowShouldClose(m_window);
     }

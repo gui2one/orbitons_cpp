@@ -1,137 +1,141 @@
 #include "UI.h"
 #include "Events/Event.h"
 #include "Events/KeyboardEvent.h"
+#include "Scene/Components.h"
+#include "entt/entt.hpp"
+#include "Scene/Entity.h"
 namespace Orbitons
 {
-    
 
     UI::UI()
-    :m_Context(nullptr),m_viewportSize(ImVec2(256,256)){
+        : m_Context(nullptr), m_viewportSize(ImVec2(256, 256))
+    {
         oldSize = m_viewportSize;
     }
 
-    UI::~UI(){
-
+    UI::~UI()
+    {
     }
 
-    void UI::init(GLFWwindow * window){
+    void UI::init(GLFWwindow *window)
+    {
 
         m_window = window;
 
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
+        ImGuiIO &io = ImGui::GetIO();
 
-        
         io.ConfigDockingWithShift = false;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-
-        ImVec4* colors = ImGui::GetStyle().Colors;
+        ImVec4 *colors = ImGui::GetStyle().Colors;
         // small scope to tidy a little
         {
-            colors[ImGuiCol_Text]                   = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-            colors[ImGuiCol_TextDisabled]           = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
-            colors[ImGuiCol_WindowBg]               = ImVec4(0.06f, 0.06f, 0.06f, 1.00f);
-            colors[ImGuiCol_ChildBg]                = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-            colors[ImGuiCol_PopupBg]                = ImVec4(0.08f, 0.08f, 0.08f, 0.94f);
-            colors[ImGuiCol_Border]                 = ImVec4(0.43f, 0.43f, 0.50f, 0.50f);
-            colors[ImGuiCol_BorderShadow]           = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-            colors[ImGuiCol_FrameBg]                = ImVec4(0.16f, 0.29f, 0.48f, 0.54f);
-            colors[ImGuiCol_FrameBgHovered]         = ImVec4(0.26f, 0.59f, 0.98f, 0.40f);
-            colors[ImGuiCol_FrameBgActive]          = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
-            colors[ImGuiCol_TitleBg]                = ImVec4(0.16f, 0.19f, 0.26f, 1.00f);
-            colors[ImGuiCol_TitleBgActive]          = ImVec4(0.16f, 0.29f, 0.48f, 1.00f);
-            colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
-            colors[ImGuiCol_MenuBarBg]              = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
-            colors[ImGuiCol_ScrollbarBg]            = ImVec4(0.02f, 0.02f, 0.02f, 0.53f);
-            colors[ImGuiCol_ScrollbarGrab]          = ImVec4(0.31f, 0.31f, 0.31f, 1.00f);
-            colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.41f, 0.41f, 0.41f, 1.00f);
-            colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
-            colors[ImGuiCol_CheckMark]              = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-            colors[ImGuiCol_SliderGrab]             = ImVec4(0.24f, 0.52f, 0.88f, 1.00f);
-            colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-            colors[ImGuiCol_Button]                 = ImVec4(0.26f, 0.59f, 0.98f, 0.40f);
-            colors[ImGuiCol_ButtonHovered]          = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-            colors[ImGuiCol_ButtonActive]           = ImVec4(0.06f, 0.53f, 0.98f, 1.00f);
-            colors[ImGuiCol_Header]                 = ImVec4(0.26f, 0.59f, 0.98f, 0.31f);
-            colors[ImGuiCol_HeaderHovered]          = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
-            colors[ImGuiCol_HeaderActive]           = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-            colors[ImGuiCol_Separator]              = ImVec4(0.43f, 0.43f, 0.50f, 0.50f);
-            colors[ImGuiCol_SeparatorHovered]       = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
-            colors[ImGuiCol_SeparatorActive]        = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
-            colors[ImGuiCol_ResizeGrip]             = ImVec4(0.26f, 0.59f, 0.98f, 0.20f);
-            colors[ImGuiCol_ResizeGripHovered]      = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
-            colors[ImGuiCol_ResizeGripActive]       = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
-            colors[ImGuiCol_Tab]                    = ImVec4(0.18f, 0.35f, 0.58f, 0.86f);
-            colors[ImGuiCol_TabHovered]             = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
-            colors[ImGuiCol_TabActive]              = ImVec4(0.20f, 0.41f, 0.68f, 1.00f);
-            colors[ImGuiCol_TabUnfocused]           = ImVec4(0.07f, 0.10f, 0.15f, 0.97f);
-            colors[ImGuiCol_TabUnfocusedActive]     = ImVec4(0.14f, 0.26f, 0.42f, 1.00f);
-            colors[ImGuiCol_DockingPreview]         = ImVec4(0.26f, 0.59f, 0.98f, 0.70f);
-            colors[ImGuiCol_DockingEmptyBg]         = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
-            colors[ImGuiCol_PlotLines]              = ImVec4(0.61f, 0.61f, 0.61f, 1.00f);
-            colors[ImGuiCol_PlotLinesHovered]       = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
-            colors[ImGuiCol_PlotHistogram]          = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
-            colors[ImGuiCol_PlotHistogramHovered]   = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
+            colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+            colors[ImGuiCol_TextDisabled] = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
+            colors[ImGuiCol_WindowBg] = ImVec4(0.06f, 0.06f, 0.06f, 1.00f);
+            colors[ImGuiCol_ChildBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+            colors[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.94f);
+            colors[ImGuiCol_Border] = ImVec4(0.43f, 0.43f, 0.50f, 0.50f);
+            colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+            colors[ImGuiCol_FrameBg] = ImVec4(0.16f, 0.29f, 0.48f, 0.54f);
+            colors[ImGuiCol_FrameBgHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.40f);
+            colors[ImGuiCol_FrameBgActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
+            colors[ImGuiCol_TitleBg] = ImVec4(0.16f, 0.19f, 0.26f, 1.00f);
+            colors[ImGuiCol_TitleBgActive] = ImVec4(0.16f, 0.29f, 0.48f, 1.00f);
+            colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
+            colors[ImGuiCol_MenuBarBg] = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
+            colors[ImGuiCol_ScrollbarBg] = ImVec4(0.02f, 0.02f, 0.02f, 0.53f);
+            colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.31f, 0.31f, 0.31f, 1.00f);
+            colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.41f, 0.41f, 0.41f, 1.00f);
+            colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.51f, 0.51f, 0.51f, 1.00f);
+            colors[ImGuiCol_CheckMark] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+            colors[ImGuiCol_SliderGrab] = ImVec4(0.24f, 0.52f, 0.88f, 1.00f);
+            colors[ImGuiCol_SliderGrabActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+            colors[ImGuiCol_Button] = ImVec4(0.26f, 0.59f, 0.98f, 0.40f);
+            colors[ImGuiCol_ButtonHovered] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+            colors[ImGuiCol_ButtonActive] = ImVec4(0.06f, 0.53f, 0.98f, 1.00f);
+            colors[ImGuiCol_Header] = ImVec4(0.26f, 0.59f, 0.98f, 0.31f);
+            colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
+            colors[ImGuiCol_HeaderActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+            colors[ImGuiCol_Separator] = ImVec4(0.43f, 0.43f, 0.50f, 0.50f);
+            colors[ImGuiCol_SeparatorHovered] = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
+            colors[ImGuiCol_SeparatorActive] = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
+            colors[ImGuiCol_ResizeGrip] = ImVec4(0.26f, 0.59f, 0.98f, 0.20f);
+            colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
+            colors[ImGuiCol_ResizeGripActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
+            colors[ImGuiCol_Tab] = ImVec4(0.18f, 0.35f, 0.58f, 0.86f);
+            colors[ImGuiCol_TabHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
+            colors[ImGuiCol_TabActive] = ImVec4(0.20f, 0.41f, 0.68f, 1.00f);
+            colors[ImGuiCol_TabUnfocused] = ImVec4(0.07f, 0.10f, 0.15f, 0.97f);
+            colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.14f, 0.26f, 0.42f, 1.00f);
+            colors[ImGuiCol_DockingPreview] = ImVec4(0.26f, 0.59f, 0.98f, 0.70f);
+            colors[ImGuiCol_DockingEmptyBg] = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
+            colors[ImGuiCol_PlotLines] = ImVec4(0.61f, 0.61f, 0.61f, 1.00f);
+            colors[ImGuiCol_PlotLinesHovered] = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
+            colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
+            colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
             // colors[ImGuiCol_TableHeaderBg]          = ImVec4(0.19f, 0.19f, 0.20f, 1.00f);
             // colors[ImGuiCol_TableBorderStrong]      = ImVec4(0.31f, 0.31f, 0.35f, 1.00f);
             // colors[ImGuiCol_TableBorderLight]       = ImVec4(0.23f, 0.23f, 0.25f, 1.00f);
             // colors[ImGuiCol_TableRowBg]             = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
             // colors[ImGuiCol_TableRowBgAlt]          = ImVec4(1.00f, 1.00f, 1.00f, 0.06f);
-            colors[ImGuiCol_TextSelectedBg]         = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
-            colors[ImGuiCol_DragDropTarget]         = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
-            colors[ImGuiCol_NavHighlight]           = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-            colors[ImGuiCol_NavWindowingHighlight]  = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
-            colors[ImGuiCol_NavWindowingDimBg]      = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
-            colors[ImGuiCol_ModalWindowDimBg]       = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
+            colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
+            colors[ImGuiCol_DragDropTarget] = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
+            colors[ImGuiCol_NavHighlight] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+            colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
+            colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
+            colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
         }
 
-
-        
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
-        const char* glsl_version = "#version 130";
+        const char *glsl_version = "#version 130";
         ImGui_ImplOpenGL3_Init(glsl_version);
-
     }
 
-    ImVec2 UI::getViewportSize(){
+    ImVec2 UI::getViewportSize()
+    {
 
         return m_viewportSize;
     }
 
-    bool UI::getViewportSizeChanged() { 
+    bool UI::getViewportSizeChanged()
+    {
         bool temp = m_viewportSizeChanged;
-        if(temp){
+        if (temp)
+        {
             m_viewportSizeChanged = false;
             return true;
         }
-        return false; 
+        return false;
     }
 
-    bool UI::onKeyPressEvent(KeyPressEvent& e){
-        
-        if( e.m_Keycode == GLFW_KEY_SPACE)
-        {   
+    bool UI::onKeyPressEvent(KeyPressEvent &e)
+    {
+
+        if (e.m_Keycode == GLFW_KEY_SPACE)
+        {
             printf("haaaaa!!!!!!\n");
             return false;
         }
-        
+
         return false;
     }
-    
-    void UI::onEvent(Event& e){
-        
+
+    void UI::onEvent(Event &e)
+    {
+
         // printf("------------ %s\n", e.GetName());
         Dispatcher dispatcher(e);
         dispatcher.dispatch<KeyPressEvent>(BIND_EVENT_FUNCTION(UI::onKeyPressEvent));
-
     }
 
-    void UI::render(const Ref<FrameBuffer>& frameBuffer){
+    void UI::render(const Ref<FrameBuffer> &frameBuffer)
+    {
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -140,96 +144,92 @@ namespace Orbitons
 
         bool active = true;
 
-    
-        
         if (active)
         {
             // Declare Central dockspace
 
-            ImGui::DockSpaceOverViewport(NULL, ImGuiDockNodeFlags_None|ImGuiDockNodeFlags_PassthruCentralNode /*|ImGuiDockNodeFlags_NoResize*/);
+            ImGui::DockSpaceOverViewport(NULL, ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode /*|ImGuiDockNodeFlags_NoResize*/);
         }
-
-
 
         ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-        if(ImGui::BeginMainMenuBar()){
+        if (ImGui::BeginMainMenuBar())
+        {
 
-            if(ImGui::BeginMenu("File")){
-                if(ImGui::MenuItem("Open ...")){
+            if (ImGui::BeginMenu("File"))
+            {
+                if (ImGui::MenuItem("Open ..."))
+                {
 
                     std::optional<std::string> path = PlatformUtils::openFileialog("../../resources/shaders/phong_shader.frag");
 
-                    if( path )
+                    if (path)
                         printf("File Path  --> %s\n", path->c_str());
-                    else    
+                    else
                         printf("No file \n");
-                }            
-                if(ImGui::MenuItem("Save as ...")){
-                    
+                }
+                if (ImGui::MenuItem("Save as ..."))
+                {
                 }
 
                 ImGui::EndMenu();
             }
-            if(ImGui::BeginMenu("About")){
-                if(ImGui::MenuItem(" ...")){
-                    
-                }         
+            if (ImGui::BeginMenu("About"))
+            {
+                if (ImGui::MenuItem(" ..."))
+                {
+                }
 
-                ImGui::EndMenu();  
+                ImGui::EndMenu();
             }
 
-            if(ImGui::BeginMenu("Misc")){
-                if(ImGui::MenuItem("Show Demo Window", "", &showDemoWindow)){
-                    
-                }    
+            if (ImGui::BeginMenu("Misc"))
+            {
+                if (ImGui::MenuItem("Show Demo Window", "", &showDemoWindow))
+                {
+                }
 
-                if(ImGui::MenuItem("Show Viewport", "", &b_showViewport)){
-                    
-                }                   
+                if (ImGui::MenuItem("Show Viewport", "", &b_showViewport))
+                {
+                }
 
-                
-
-                ImGui::EndMenu();  
-            }        
+                ImGui::EndMenu();
+            }
             ImGui::EndMainMenuBar();
         }
 
-
-        
         ImGui::Begin("Infos");
-            
-            size_t memory_usage = PlatformUtils::getMemoryUsage();
-            ImGui::Text("Memory used : %d Mb", memory_usage / 1024 / 1024);
-            ImGui::Separator();
-            ImGui::Text("Graphic Context : %s", m_Context->getVersion());
-            ImGui::Text("Shading Language : %s", m_Context->getShadingLanguageVersion());
 
+        size_t memory_usage = PlatformUtils::getMemoryUsage();
+        ImGui::Text("Memory used : %d Mb", memory_usage / 1024 / 1024);
+        ImGui::Separator();
+        ImGui::Text("Graphic Context : %s", m_Context->getVersion());
+        ImGui::Text("Shading Language : %s", m_Context->getShadingLanguageVersion());
 
         ImGui::End();
 
         ImGui::Begin("Properties");
-            static float value = 0.5f;
-            if(ImGui::Button("Event Test")){
-                KeyPressEvent keypressed(42,0);
-                
+        static float value = 0.5f;
+        if (ImGui::Button("Event Test"))
+        {
+            KeyPressEvent keypressed(42, 0);
 
-                this->onKeyPressEvent(keypressed);
-                // this->onEvent(keypressed);
-
-            }
+            this->onKeyPressEvent(keypressed);
+            // this->onEvent(keypressed);
+        }
         ImGui::End();
-        
+
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGuiDockNodeFlags flags = 0;
         // flags |= ImGuiWindowFlags_;
 
-        
-        if(ImGui::Begin("Viewport", NULL, flags)){
+        if (ImGui::Begin("Viewport", NULL, flags))
+        {
 
             // Get the size of the child (i.e. the whole draw size of the windows).
             m_viewportSize = ImGui::GetContentRegionAvail();
-            if( m_viewportSize.x != oldSize.x || m_viewportSize.y != oldSize.y){
+            if (m_viewportSize.x != oldSize.x || m_viewportSize.y != oldSize.y)
+            {
 
                 m_viewportSizeChanged = true;
                 oldSize = m_viewportSize;
@@ -244,12 +244,12 @@ namespace Orbitons
         ImGui::PopStyleVar();
 
         sceneHierarchyPanel();
-        
-        if(showDemoWindow){
+
+        if (showDemoWindow)
+        {
 
             ImGui::ShowDemoWindow(&showDemoWindow);
         }
-
 
         // Rendering
         ImGui::Render();
@@ -257,50 +257,78 @@ namespace Orbitons
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-
-        ImGuiIO& io = ImGui::GetIO();
+        ImGuiIO &io = ImGui::GetIO();
 
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
-            
+            GLFWwindow *backup_current_context = glfwGetCurrentContext();
+
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
-            
-            glfwMakeContextCurrent(backup_current_context);
-        }	    
 
+            glfwMakeContextCurrent(backup_current_context);
+        }
     }
 
-    void UI::close(){
+    void UI::close()
+    {
 
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
     }
 
-    void UI::sceneHierarchyPanel(){
+    void UI::sceneHierarchyPanel()
+    {
         ImGui::Begin("Scene Hieracrchy");
+
+        auto view = m_scene->m_registry.view<TagComponent>();
+
+        int inc = 0;
         static size_t selection_id = 0;
 
-        for(auto& entity : m_scene->objects){
+        if (ImGui::Button("Add Entity"))
+        {
+            m_scene->createEntity("new entity");
+        }
+        for (auto entity : view)
+        {
+
+            // printf("Entity %d --tag name : %s\n", inc, view.get<TagComponent>(entity).tagName.c_str());
 
             ImGuiTreeNodeFlags flags = 0;
-            flags |= (selection_id == entity->m_uuid ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
-            bool opened = ImGui::TreeNodeEx((void*)entity->m_uuid, flags, entity->m_name.c_str());
-            
-            if(ImGui::IsItemClicked()){
-                selection_id = entity->m_uuid;
+            flags |= (selection_id == (int)entity ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+            bool opened = ImGui::TreeNodeEx((void *)entity, flags, view.get<TagComponent>(entity).tagName.c_str());
+
+            if (ImGui::IsItemClicked())
+            {
+                selection_id = (int)entity;
             }
-            if( opened){
-                ImGui::Text("UUID : %zu", entity->m_uuid);
+            if (opened)
+            {
+                ImGui::Text("UUID : %zu", (int)entity);
                 ImGui::TreePop();
             }
-
-            
-
+            inc++;
         }
-        
+
+        // for (auto &entity : m_scene->objects)
+        // {
+
+        //     ImGuiTreeNodeFlags flags = 0;
+        //     flags |= (selection_id == entity->m_uuid ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+        //     bool opened = ImGui::TreeNodeEx((void *)entity->m_uuid, flags, entity->m_name.c_str());
+
+        //     if (ImGui::IsItemClicked())
+        //     {
+        //         selection_id = entity->m_uuid;
+        //     }
+        //     if (opened)
+        //     {
+        //         ImGui::Text("UUID : %zu", entity->m_uuid);
+        //         ImGui::TreePop();
+        //     }
+        // }
 
         ImGui::End();
     }
