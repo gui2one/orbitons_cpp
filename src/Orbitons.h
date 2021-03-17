@@ -5,7 +5,7 @@
 #include "Core/Input.h"
 #include "Core/Window.h"
 
-#include "Core/Scene.h"
+#include "Scene/Scene.h"
 #include "Core/Entity3d.h"
 #include "Core/Mesh.h"
 #include "Core/Object3d.h"

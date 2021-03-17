@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include "Entity.h"
+#include "Components.h"
 namespace Orbitons{
 
     void Scene::init(){
@@ -15,6 +17,14 @@ namespace Orbitons{
     void Scene::add(Ref<Entity3d> entity)
     {
         objects.push_back(entity);
+    }
+
+    Entity Scene::createEntity(const std::string& name){
+        Entity entity(m_registry.create(), this);
+        
+        m_registry.emplace<TransformComponent>(entity.getHandle(), glm::mat4(1.0f));
+
+        return entity;
     }
 
 

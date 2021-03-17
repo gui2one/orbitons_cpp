@@ -18,7 +18,7 @@
 
 
 
-#include "Core/Scene.h"
+#include "Scene/Scene.h"
 
 namespace Orbitons
 {

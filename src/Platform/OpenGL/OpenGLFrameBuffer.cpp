@@ -10,13 +10,15 @@ namespace Orbitons
 
         if(m_id){
             
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glDeleteFramebuffers(1, &m_id);
             glDeleteTextures(1, &m_colorAttachment);
             glDeleteTextures(1, &m_depthAttachment);
             
             m_colorAttachment = 0;
             m_depthAttachment = 0;
-            glDeleteFramebuffers(1, &m_id);
-            // printf("deleted frame buffer data\n");
+
+            // // printf("deleted frame buffer data\n");
         }
 
         if( width < 16) width = 16;

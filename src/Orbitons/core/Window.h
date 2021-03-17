@@ -4,7 +4,7 @@
 
 
 #include "pch.h"
-#include "Core/Scene.h"
+#include "Scene/Scene.h"
 #include "Core/Camera.h"
 #include "Core/CameraControls.h"
 #include "Core/Timer.h"

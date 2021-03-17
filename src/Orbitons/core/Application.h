@@ -4,7 +4,7 @@
 #include "core.h"
 #include "pch.h"
 #include "Window.h"
-#include "Core/Scene.h"
+#include "Scene/Scene.h"
 #include "Core/Camera.h"
 #include "Core/Timer.h"
 #include "Renderer/Renderer.h"

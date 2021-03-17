@@ -38,7 +38,7 @@ namespace Orbitons{
             m_uvPos.y -= 1.0f * delta_time;
         }
 
-        if( Input::isKeyPressed(GLFW_KEY_LEFT_CONTROL) && Input::isMouseButtonClicked(0)){
+        if( Input::isKeyPressed(GLFW_KEY_LEFT_ALT) && Input::isMouseButtonClicked(0)){
 
             m_cursorDelta = Input::getMousePos() - m_cursorOldPos;
 
