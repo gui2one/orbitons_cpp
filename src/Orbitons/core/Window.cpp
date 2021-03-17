@@ -38,7 +38,9 @@ namespace Orbitons{
         m_context->init();
 
         m_ui.setContext(*m_context);
+        
         m_ui.init(m_window);
+        m_ui.setScene(m_scene);
 
         
         

@@ -112,6 +112,7 @@ target_link_directories(
     ${CMAKE_PROJECT_NAME} PUBLIC
 
     vcpkg/installed/x64-windows/lib/
+    Rpcrt4.lib
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}

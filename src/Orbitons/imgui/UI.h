@@ -17,6 +17,9 @@
 #include "Renderer/GraphicContext.h"
 
 
+
+#include "Core/Scene.h"
+
 namespace Orbitons
 {
     
@@ -41,10 +44,13 @@ namespace Orbitons
         bool getViewportSizeChanged();
 
         void setContext(GraphicContext& ctx) { m_Context = &ctx; }
+        void setScene(Scene& scene){ m_scene = &scene; }
+        // panels
+        void sceneHierarchyPanel();
     private:
 
         GLFWwindow * m_window;
-  
+        Scene* m_scene;
         ImVec2 m_viewportSize;
         ImVec2 oldSize;
         bool m_viewportSizeChanged = false;

@@ -2,6 +2,7 @@
 
 namespace Orbitons{
     Object3d::Object3d() : Entity3d(){
+        m_name = "Mesh Object";
         m_material = Orbitons::MakeRef<PhongMaterial>();
     
     }

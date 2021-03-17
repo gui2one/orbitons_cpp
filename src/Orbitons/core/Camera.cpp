@@ -4,11 +4,12 @@ namespace Orbitons
 	
 
 	Camera::Camera(){
-		
+		m_name = "User Camera"; 
 	}
 
 	Camera::Camera(float fov_angle, float ratio)
 	{
+		m_name = "User Camera"; 
 		m_fov_angle = fov_angle;
 		m_screen_ratio = ratio;
 		m_near = 0.01f;

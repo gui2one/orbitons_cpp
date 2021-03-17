@@ -18,7 +18,6 @@ namespace Orbitons
 
         m_window = window;
 
-
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -112,7 +111,6 @@ namespace Orbitons
         }
         return false; 
     }
-    
 
     bool UI::onKeyPressEvent(KeyPressEvent& e){
         
@@ -245,11 +243,12 @@ namespace Orbitons
 
         ImGui::PopStyleVar();
 
+        sceneHierarchyPanel();
         
-        // if(showDemoWindow){
+        if(showDemoWindow){
 
-        //     ImGui::ShowDemoWindow(&showDemoWindow);
-        // }
+            ImGui::ShowDemoWindow(&showDemoWindow);
+        }
 
 
         // Rendering
@@ -279,4 +278,31 @@ namespace Orbitons
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
     }
+
+    void UI::sceneHierarchyPanel(){
+        ImGui::Begin("Scene Hieracrchy");
+        static size_t selection_id = 0;
+
+        for(auto& entity : m_scene->objects){
+
+            ImGuiTreeNodeFlags flags = 0;
+            flags |= (selection_id == entity->m_uuid ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+            bool opened = ImGui::TreeNodeEx((void*)entity->m_uuid, flags, entity->m_name.c_str());
+            
+            if(ImGui::IsItemClicked()){
+                selection_id = entity->m_uuid;
+            }
+            if( opened){
+                ImGui::Text("UUID : %zu", entity->m_uuid);
+                ImGui::TreePop();
+            }
+
+            
+
+        }
+        
+
+        ImGui::End();
+    }
+
 } // namespace Orbitons

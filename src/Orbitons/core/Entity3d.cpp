@@ -1,4 +1,6 @@
+
 #include "Entity3d.h"
+#include "IDGenerator.h"
 namespace Orbitons{
     Entity3d::Entity3d():
         m_name("default entity name"),
@@ -8,6 +10,7 @@ namespace Orbitons{
         transforms(glm::mat4(1.f)),
         m_parent(nullptr)
     {
+        IDGenerator::generateID(&m_uuid);
 
     }
 
