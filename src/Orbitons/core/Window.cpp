@@ -119,7 +119,6 @@ namespace Orbitons
 
         if (m_ui.getViewportSizeChanged())
         {
-
             m_frameBuffer->invalidate(width, height);
         }
 
@@ -146,7 +145,7 @@ namespace Orbitons
 
         m_scene.skybox->draw(m_scene.m_activeCamera.get());
 
-        glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
+        glm::vec3 lightPos = glm::vec3(2.f, 2.f, 2.f);
 
         auto meshes = m_scene.m_registry.view<MeshComponent, TagComponent, TransformComponent>();
 
@@ -158,6 +157,8 @@ namespace Orbitons
             glm::mat4 model(1.f);
             model = transform.transforms * model;
 
+            // printf("material id --> %d\n", mesh.material->getShaderID());
+
             glUniform3fv(glGetUniformLocation(mesh.material->getShaderID(), "u_lightPos"), 1, glm::value_ptr(lightPos));
             glUniform3fv(glGetUniformLocation(mesh.material->getShaderID(), "u_cameraPos"), 1, glm::value_ptr(m_scene.m_activeCamera->position));
 
@@ -165,15 +166,16 @@ namespace Orbitons
             glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(m_scene.m_activeCamera->projection));
             glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
 
+            mesh.material->useProgram();
             mesh.mesh_object->draw();
             glUseProgram(0);
         }
 
         m_frameBuffer->unbind();
         m_ui.render(m_frameBuffer);
-        m_context->swapBuffers();
 
         glfwPollEvents();
+        m_context->swapBuffers();
     }
 
     bool Window::onKeyPressEvent(Event &e)

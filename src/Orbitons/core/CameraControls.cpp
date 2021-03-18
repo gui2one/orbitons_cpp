@@ -32,6 +32,13 @@ namespace Orbitons
                 m_cursorDelta = Input::getMousePos() - m_cursorOldPos;
 
                 m_uvPos += glm::vec2(m_cursorDelta.x * delta_time, m_cursorDelta.y * -delta_time);
+
+                float radians_limit = PI * 0.05;
+                // printf("uv pos Y : %.3f\n", m_uvPos.y);
+                if (m_uvPos.y > PI - radians_limit)
+                    m_uvPos.y = PI - radians_limit;
+                else if (m_uvPos.y < radians_limit)
+                    m_uvPos.y = radians_limit;
             }
 
             m_cursorOldPos = Input::getMousePos();

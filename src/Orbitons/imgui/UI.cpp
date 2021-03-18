@@ -30,7 +30,7 @@ namespace Orbitons
         io.ConfigDockingWithShift = false;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
         ImVec4 *colors = ImGui::GetStyle().Colors;
         // small scope to tidy a little
@@ -256,9 +256,10 @@ namespace Orbitons
 
         // Rendering
         ImGui::Render();
-        int display_w, display_h;
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        ImGui::EndFrame();
 
         ImGuiIO &io = ImGui::GetIO();
 
@@ -271,8 +272,6 @@ namespace Orbitons
 
             glfwMakeContextCurrent(backup_current_context);
         }
-
-        ImGui::EndFrame();
     }
 
     void UI::close()
