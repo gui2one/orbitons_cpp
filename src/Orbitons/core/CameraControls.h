@@ -7,36 +7,38 @@
 #include "Events/KeyboardEvent.h"
 #include "Events/MouseEvent.h"
 
+namespace Orbitons
+{
 
-namespace Orbitons{
+    class CameraControls
+    {
 
-class CameraControls{
+    public:
+        glm::vec2 m_uvPos;
+        float m_radius;
 
-public:
-    glm::vec2 m_uvPos;
-    float m_radius;
-public: 
+        bool activated = true;
 
-    CameraControls();
-    CameraControls(Ref<Camera> camera);
+    public:
+        CameraControls();
+        CameraControls(Ref<Camera> camera);
 
-    void setCamera(Ref<Camera>& camera){ m_camera = camera; }
-    glm::vec3 fromPolar(glm::vec2 uv_pos);
-    void update(float detla_time);
+        void setCamera(Ref<Camera> &camera) { m_camera = camera; }
+        glm::vec3 fromPolar(glm::vec2 uv_pos);
+        void update(float detla_time);
 
-    void setEventCallback(std::function<void(Event&)> fn){ m_EventCallback = fn; }
-    bool onKeyPressEvent(KeyPressEvent& e);
-    bool onMouseScrollEvent(MouseScrollEvent& e);
-    bool onEvent(Event& e);
-private:
+        void setEventCallback(std::function<void(Event &)> fn) { m_EventCallback = fn; }
+        bool onKeyPressEvent(KeyPressEvent &e);
+        bool onMouseScrollEvent(MouseScrollEvent &e);
+        bool onEvent(Event &e);
 
-    Ref<Camera> m_camera;
+    private:
+        Ref<Camera> m_camera;
 
-    std::function<void(Event&)> m_EventCallback;
+        std::function<void(Event &)> m_EventCallback;
 
-    glm::vec2 m_cursorDelta;
-    glm::vec2 m_cursorOldPos;
-
-};
+        glm::vec2 m_cursorDelta;
+        glm::vec2 m_cursorOldPos;
+    };
 }
 #endif /* CAMERA_CONTROLS_H */

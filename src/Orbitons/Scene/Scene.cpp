@@ -30,7 +30,7 @@ namespace Orbitons
         m_registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
 
         Ref<MeshObject> mesh_oject = MakeRef<MeshObject>(); //
-        mesh_oject->m_mesh = MeshUtils::makeQuad();
+        mesh_oject->setMesh(MeshUtils::makeQuad());
         m_registry.emplace<MeshComponent>(entity, mesh_oject);
 
         return entity;

@@ -238,6 +238,9 @@ namespace Orbitons
             // "double cast" (ImTextureID)(intptr_t) needed to prevent a warning about convertion size. Maybe not prudent
             ImGui::Image((ImTextureID)(intptr_t)frameBuffer->getID(), m_viewportSize, ImVec2(0, 1), ImVec2(1, 0));
 
+            isMouseOverViewport = ImGui::IsItemHovered();
+            // printf("over viewport %s\n", isMouseOverViewport ? "true" : "false");
+
             ImGui::End();
         }
 
@@ -268,6 +271,8 @@ namespace Orbitons
 
             glfwMakeContextCurrent(backup_current_context);
         }
+
+        ImGui::EndFrame();
     }
 
     void UI::close()
@@ -320,24 +325,6 @@ namespace Orbitons
             }
             inc++;
         }
-
-        // for (auto &entity : m_scene->objects)
-        // {
-
-        //     ImGuiTreeNodeFlags flags = 0;
-        //     flags |= (selection_id == entity->m_uuid ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
-        //     bool opened = ImGui::TreeNodeEx((void *)entity->m_uuid, flags, entity->m_name.c_str());
-
-        //     if (ImGui::IsItemClicked())
-        //     {
-        //         selection_id = entity->m_uuid;
-        //     }
-        //     if (opened)
-        //     {
-        //         ImGui::Text("UUID : %zu", entity->m_uuid);
-        //         ImGui::TreePop();
-        //     }
-        // }
 
         ImGui::End();
     }

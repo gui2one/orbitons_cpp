@@ -96,6 +96,7 @@ namespace Orbitons
         });
 
         glfwSetScrollCallback(m_window, [](GLFWwindow *window, double xoffset, double yoffset) {
+            ImGui_ImplGlfw_ScrollCallback(window, xoffset, yoffset);
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
             MouseScrollEvent event(xoffset, yoffset);
@@ -108,6 +109,8 @@ namespace Orbitons
 
         glEnable(GL_DEPTH_TEST);
         m_controls.setCamera(m_scene.m_activeCamera);
+
+        m_controls.activated = m_ui.isMouseOverViewport;
         m_controls.update(timer.getDeltaTime());
         int width, height;
         ImVec2 viewportSize = m_ui.getViewportSize();
@@ -145,51 +148,31 @@ namespace Orbitons
 
         glm::vec3 lightPos = glm::vec3(0.f, 2.f, 2.f);
 
-        auto meshes = m_scene.m_registry.view<MeshComponent, TagComponent>();
+        auto meshes = m_scene.m_registry.view<MeshComponent, TagComponent, TransformComponent>();
 
         for (auto entity : meshes)
         {
-            auto [mesh, tag] = meshes.get<MeshComponent, TagComponent>(entity);
-
-            // printf("mesh name : %s\n", tag.tagName.c_str());
+            auto [mesh, tag, transform] = meshes.get<MeshComponent, TagComponent, TransformComponent>(entity);
 
             mesh.material->useProgram();
+            glm::mat4 model(1.f);
+            model = transform.transforms * model;
 
+            glUniform3fv(glGetUniformLocation(mesh.material->getShaderID(), "u_lightPos"), 1, glm::value_ptr(lightPos));
+            glUniform3fv(glGetUniformLocation(mesh.material->getShaderID(), "u_cameraPos"), 1, glm::value_ptr(m_scene.m_activeCamera->position));
+
+            glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_model"), 1, GL_FALSE, glm::value_ptr(model));
+            glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(m_scene.m_activeCamera->projection));
+            glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
+
+            mesh.mesh_object->draw();
             glUseProgram(0);
         }
-
-        // for (auto current : m_scene.objects)
-        // {
-
-        //     Ref<Object3d> object = std::dynamic_pointer_cast<Object3d>(current);
-        //     if (object)
-        //     {
-        //         // printf("%d\n", object);
-        //         Ref<Material> material = object->m_material;
-        //         material->useProgram();
-        //         glm::mat4 model(1.f);
-        //         model = current->transforms * model;
-
-        //         glUniform3fv(glGetUniformLocation(material->getShaderID(), "u_lightPos"), 1, glm::value_ptr(lightPos));
-        //         glUniform3fv(glGetUniformLocation(material->getShaderID(), "u_cameraPos"), 1, glm::value_ptr(m_scene.m_activeCamera->position));
-
-        //         glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_model"), 1, GL_FALSE, glm::value_ptr(model));
-        //         glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(m_scene.m_activeCamera->projection));
-        //         glUniformMatrix4fv(glGetUniformLocation(material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
-
-        //         object->draw();
-
-        //         glUseProgram(0);
-        //     }
-        // }
 
         m_frameBuffer->unbind();
         m_ui.render(m_frameBuffer);
         m_context->swapBuffers();
 
-        // put the stuff we've been drawing onto the display
-
-        // update other events like input handling
         glfwPollEvents();
     }
 

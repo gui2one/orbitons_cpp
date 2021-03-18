@@ -16,53 +16,51 @@
 #include "Renderer/FrameBuffer.h"
 #include "Renderer/GraphicContext.h"
 
-
-
 #include "Scene/Scene.h"
 
 namespace Orbitons
 {
-    
-    class UI{
 
-    public : 
-        GraphicContext* m_Context;
+    class UI
+    {
+
+    public:
+        GraphicContext *m_Context;
+
+        bool isMouseOverViewport = false;
+
     public:
         UI();
         ~UI();
 
-        void init(GLFWwindow * window);
+        void init(GLFWwindow *window);
 
-        bool onKeyPressEvent(KeyPressEvent& e);
-        void onEvent(Event& e);
+        bool onKeyPressEvent(KeyPressEvent &e);
+        void onEvent(Event &e);
 
-        void render(const Ref<FrameBuffer>& frameBuffer);
-        void setEventCallback(std::function<void(Event&)> callbackFn) { m_EventCallback = callbackFn; }
+        void render(const Ref<FrameBuffer> &frameBuffer);
+        void setEventCallback(std::function<void(Event &)> callbackFn) { m_EventCallback = callbackFn; }
         void close();
 
         ImVec2 getViewportSize();
         bool getViewportSizeChanged();
 
-        void setContext(GraphicContext& ctx) { m_Context = &ctx; }
-        void setScene(Scene& scene){ m_scene = &scene; }
+        void setContext(GraphicContext &ctx) { m_Context = &ctx; }
+        void setScene(Scene &scene) { m_scene = &scene; }
         // panels
         void sceneHierarchyPanel();
-    private:
 
-        GLFWwindow * m_window;
-        Scene* m_scene;
+    private:
+        GLFWwindow *m_window;
+        Scene *m_scene;
         ImVec2 m_viewportSize;
         ImVec2 oldSize;
         bool m_viewportSizeChanged = false;
-        
+
         bool showDemoWindow = true;
         bool b_showViewport = true;
 
-        std::function<void(Event&)> m_EventCallback;
-
-
-
-
+        std::function<void(Event &)> m_EventCallback;
     };
 } // namespace Orbitons
 #endif /* UI_H */

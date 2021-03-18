@@ -33,6 +33,9 @@ namespace Orbitons
             : transforms(matrix)
         {
         }
+
+        /* does not work as expected ... */
+        // operator glm::mat4() { return transforms; }
     };
 
     struct MeshComponent
@@ -51,4 +54,4 @@ namespace Orbitons
 
 } // namespace Orbitons
 
-#endif /*COMPONENTS_H*/
+#endif /* COMPONENTS_H  */
