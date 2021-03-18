@@ -20,10 +20,4 @@ const double  PI  = 3.14159265359;
 #include <memory>
 #include <optional>
 
-
-
-
-
-
-
 #endif /* PCH_H */

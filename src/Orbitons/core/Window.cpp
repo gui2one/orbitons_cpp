@@ -151,7 +151,7 @@ namespace Orbitons
         {
             auto [mesh, tag] = meshes.get<MeshComponent, TagComponent>(entity);
 
-            printf("mesh name : %s\n", tag.tagName.c_str());
+            // printf("mesh name : %s\n", tag.tagName.c_str());
 
             mesh.material->useProgram();
 

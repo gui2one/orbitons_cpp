@@ -307,7 +307,7 @@ namespace Orbitons
                 selection_id = (uint64_t)entity;
             }
             ImGui::SameLine();
-            if (ImGui::Button("X"))
+            if (ImGui::Button("x"))
             {
                 m_scene->destroyEntity(entity);
             }

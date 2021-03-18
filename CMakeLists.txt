@@ -34,6 +34,11 @@ add_executable(${CMAKE_PROJECT_NAME}
 
 )
 
+target_precompile_headers(${CMAKE_PROJECT_NAME}
+    PUBLIC
+        src/Orbitons/pch.cpp
+)
+
 find_package(glfw3 CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} glfw)
 
