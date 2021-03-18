@@ -307,10 +307,12 @@ namespace Orbitons
                 selection_id = (uint64_t)entity;
             }
             ImGui::SameLine();
+            ImGui::PushID(inc);
             if (ImGui::Button("x"))
             {
                 m_scene->destroyEntity(entity);
             }
+            ImGui::PopID();
             if (opened)
             {
                 ImGui::Text("UUID : %zu", (uint64_t)entity);
