@@ -9,6 +9,7 @@
 #include "Core/Camera.h"
 #include "Renderer/Skybox.h"
 
+#include "Scene/Components.h"
 #include "entt/entt.hpp"
 
 namespace Orbitons
@@ -37,6 +38,7 @@ namespace Orbitons
 
         friend class Entity;
         friend class UI;
+        friend class Window;
     };
 };     // end namespace
 #endif /* SCENE_H */

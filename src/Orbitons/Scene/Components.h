@@ -2,7 +2,9 @@
 #define COMPONENTS_H
 
 #include <glm/glm.hpp>
-#include "Core/Mesh.h"
+// #include "Core/Mesh.h"
+#include "Scene/MeshObject.h"
+#include "Renderer/Material.h"
 
 namespace Orbitons
 {
@@ -35,15 +37,18 @@ namespace Orbitons
 
     struct MeshComponent
     {
-        Mesh mesh;
+        Ref<MeshObject> mesh_object;
+        Ref<Material> material;
 
         MeshComponent() = default;
         MeshComponent(const MeshComponent &other) = default;
-        MeshComponent(const Mesh &_mesh)
-            : mesh(_mesh)
+        MeshComponent(const Ref<MeshObject> &_mesh)
+            : mesh_object(_mesh)
         {
+            material = MakeRef<PhongMaterial>();
         }
     };
+
 } // namespace Orbitons
 
 #endif /*COMPONENTS_H*/
