@@ -55,6 +55,7 @@ namespace Orbitons
 
         /* set callbacks */
         glfwSetKeyCallback(m_window, [](GLFWwindow *window, int key, int scancode, int action, int mods) {
+            ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
             WindowData &data = *(WindowData *)glfwGetWindowUserPointer(window);
 
             switch (action)

@@ -49,6 +49,11 @@ namespace Orbitons
         void setScene(Scene &scene) { m_scene = &scene; }
         // panels
         void sceneHierarchyPanel();
+        void resourceLibraryPanel();
+        void EntityComponentsPanel();
+
+        //components widgets
+        void drawTagComponent();
 
     private:
         GLFWwindow *m_window;
@@ -57,7 +62,7 @@ namespace Orbitons
         ImVec2 oldSize;
         bool m_viewportSizeChanged = false;
 
-        bool showDemoWindow = true;
+        bool showDemoWindow = false;
         bool b_showViewport = true;
 
         std::function<void(Event &)> m_EventCallback;

@@ -4,86 +4,94 @@
 #include "core.h"
 #include "pch.h"
 
+#define EVENT_CLASS_TYPE(type)                                                  \
+    static EventType GetStaticType() { return EventType::type; }                \
+    virtual EventType GetEventType() const override { return GetStaticType(); } \
+    virtual const char *GetName() const override { return #type; }
 
-#define EVENT_CLASS_TYPE(type)\
-static EventType GetStaticType() { return EventType::type; }\
-virtual EventType GetEventType() const override { return GetStaticType(); }\
-virtual const char* GetName() const override { return #type; }
+#define EVENT_CATEGORY_TYPE(category) \
+    virtual int GetCategoryFlags() const override { return category; }
 
-#define EVENT_CATEGORY_TYPE(category) virtual int GetCategoryFlags()const override { return category; } 
+namespace Orbitons
+{
 
-namespace Orbitons{
-
-    enum class EventType{
+    enum class EventType
+    {
         None = 0,
-        KeyPress, KeyRelease, 
-        MouseMove, MousePress, MouseRelease, MouseScroll,
-        WindowResize, WindowClose
+        KeyPress,
+        KeyRelease,
+        MouseMove,
+        MousePress,
+        MouseRelease,
+        MouseScroll,
+        WindowResize,
+        WindowClose
     };
 
-    enum EventCategoryFlag{
+    enum EventCategoryFlag
+    {
         None = 0,
-        EventCategoryKeyboard = BIT(0), 
-        EventCategoryMouse    = BIT(1), 
-        EventCategoryWindow   = BIT(2)
+        EventCategoryKeyboard = BIT(0),
+        EventCategoryMouse = BIT(1),
+        EventCategoryWindow = BIT(2)
     };
 
+    class Event
+    {
 
-    class Event{
-    
     public:
         // std::function<void(Event&)> m_Callback;
         bool m_Handled = false;
+
     public:
         virtual ~Event() = default;
 
-
         virtual EventType GetEventType() const = 0;
-        virtual const char * GetName() const = 0;
+        virtual const char *GetName() const = 0;
         virtual int GetCategoryFlags() const = 0;
 
-
     private:
-
     };
 
-    class Dispatcher{
+    class Dispatcher
+    {
     public:
-        Event& m_Event;
+        Event &m_Event;
 
-    public :
-        Dispatcher(Event& e)
-            :m_Event(e)
+    public:
+        Dispatcher(Event &e)
+            : m_Event(e)
         {
-            
         }
 
-        template<typename T, typename F>
-        bool dispatch(const F& fn){
+        template <typename T, typename F>
+        bool dispatch(const F &fn)
+        {
 
-            if( m_Event.GetEventType() == T::GetStaticType()){
-                
-                m_Event.m_Handled |= fn(static_cast<T&>(m_Event));
+            if (m_Event.GetEventType() == T::GetStaticType())
+            {
+
+                m_Event.m_Handled |= fn(static_cast<T &>(m_Event));
                 return true;
             }
             return false;
         }
+
     private:
     };
 
     // /**
-    //  * EventQueue  
-    //  * Singleton Pattern  
+    //  * EventQueue
+    //  * Singleton Pattern
     //  */
     // class EventQueue{
-    
 
     // protected:
     //     /// protected constructor ( singleton pattern )
     //     EventQueue(){};
-    //     static EventQueue* m_instance; 
+    //     static EventQueue* m_instance;
     // public:
-        
+
     //     /// not cloneable
     //     EventQueue(const EventQueue& other) = delete;
     //     /// not assignable
@@ -91,11 +99,10 @@ namespace Orbitons{
 
     //     static EventQueue* getInstance();
 
-
-    //     void push(const Ref<Event>& event){ 
+    //     void push(const Ref<Event>& event){
 
     //         m_Events.push_back(event);
-    //         // printf("%s Event pushed ... \n", event->GetName()); 
+    //         // printf("%s Event pushed ... \n", event->GetName());
     //     }
 
     //     // void process(){
@@ -119,4 +126,4 @@ namespace Orbitons{
     //     std::vector<Ref<Event>> m_Events;
     // };
 }
-#endif /* EVENT_H */    
+#endif /* EVENT_H */

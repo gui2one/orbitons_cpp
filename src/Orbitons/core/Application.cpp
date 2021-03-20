@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Scene/ResourceLibrary.h"
 namespace Orbitons
 {
 
@@ -18,6 +19,7 @@ namespace Orbitons
     Application::Application()
     {
 
+        ResourceLibrary::getInstance().addItem(MakeRef<TextureItem>());
         Renderer::setAPI(RenderAPI::OpenGL);
         Renderer::init();
 

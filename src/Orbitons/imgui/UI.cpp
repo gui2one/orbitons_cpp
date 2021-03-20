@@ -4,6 +4,8 @@
 #include "Scene/Components.h"
 #include "entt/entt.hpp"
 #include "Scene/Entity.h"
+#include "Scene/ResourceLibrary.h"
+#include "Scene/SelectionContext.h"
 namespace Orbitons
 {
 
@@ -208,17 +210,6 @@ namespace Orbitons
 
         ImGui::End();
 
-        ImGui::Begin("Properties");
-        static float value = 0.5f;
-        if (ImGui::Button("Event Test"))
-        {
-            KeyPressEvent keypressed(42, 0);
-
-            this->onKeyPressEvent(keypressed);
-            // this->onEvent(keypressed);
-        }
-        ImGui::End();
-
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGuiDockNodeFlags flags = 0;
         // flags |= ImGuiWindowFlags_;
@@ -247,6 +238,8 @@ namespace Orbitons
         ImGui::PopStyleVar();
 
         sceneHierarchyPanel();
+        resourceLibraryPanel();
+        EntityComponentsPanel();
 
         if (showDemoWindow)
         {
@@ -309,8 +302,9 @@ namespace Orbitons
                 // printf("selection_id : %zu\n", selection_id);
                 // printf("entity id : %d\n", entity);
                 selection_id = (uint64_t)entity;
+                SelectionContext::getInstance().setSelectedEntity((uint64_t)entity);
             }
-            ImGui::SameLine();
+            ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 15);
             ImGui::PushID(inc);
             if (ImGui::Button("x"))
             {
@@ -328,4 +322,55 @@ namespace Orbitons
         ImGui::End();
     }
 
+    void UI::resourceLibraryPanel()
+    {
+        ImGui::Begin("Resource Library");
+        if (ImGui::Button("add item"))
+        {
+            std::optional<std::string> file_path = PlatformUtils::openFileialog("");
+            if (file_path)
+            {
+
+                Ref<MeshItem> item = MakeRef<MeshItem>();
+                item->path = file_path.value();
+                // printf("file path ------> %s\n", file_path.value().c_str());
+                ResourceLibrary::getInstance().addItem(item);
+            }
+        }
+        ImGui::Separator();
+        for (auto &item : ResourceLibrary::getInstance().items)
+        {
+
+            ImGui::Text("%s : %s", item->GetName(), item->path.c_str());
+            ImGui::Separator();
+            // if (ImGui::Button("Item ..."))
+            // {
+            //     printf("item path : %s\n", item->path.c_str());
+            // }
+        }
+        ImGui::End();
+    }
+
+    void UI::EntityComponentsPanel()
+    {
+        ImGui::Begin("Components");
+
+        drawTagComponent();
+        ImGui::End();
+    }
+
+    void UI::drawTagComponent()
+    {
+        entt::entity ent = (entt::entity)SelectionContext::getInstance().m_selectedEntityID;
+        std::string tagName = m_scene->m_registry.get<TagComponent>(ent).tagName;
+
+        char *buff = (char *)(tagName.c_str());
+        if (ImGui::InputText("Tag Name", buff, 256))
+        {
+            tagName = std::string(buff);
+            m_scene->m_registry.replace<TagComponent>(ent, tagName);
+        }
+
+        ImGui::End();
+    }
 } // namespace Orbitons
