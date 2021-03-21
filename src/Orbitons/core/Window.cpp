@@ -156,7 +156,7 @@ namespace Orbitons
 
             mesh.material->useProgram();
             glm::mat4 model(1.f);
-            model = transform.transforms * model;
+            model = transform.getTransforms() * model;
 
             // printf("material id --> %d\n", mesh.material->getShaderID());
 

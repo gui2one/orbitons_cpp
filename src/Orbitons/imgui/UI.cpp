@@ -284,6 +284,7 @@ namespace Orbitons
         int inc = 0;
         static uint64_t selection_id = 0;
 
+        SelectionContext &Selection = SelectionContext::getInstance();
         if (ImGui::Button("Add Entity"))
         {
             m_scene->createEntity("new entity");
@@ -294,21 +295,30 @@ namespace Orbitons
             // printf("Entity %d --tag name : %s\n", inc, view.get<TagComponent>(entity).tagName.c_str());
 
             ImGuiTreeNodeFlags flags = 0;
-            flags |= (selection_id == (uint64_t)entity ? ImGuiTreeNodeFlags_Selected : 0);
+            flags |= ((Selection.m_selectedEntity) == entity ? ImGuiTreeNodeFlags_Selected : 0);
             flags |= ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_OpenOnArrow;
             bool opened = ImGui::TreeNodeEx((void *)entity, flags, view.get<TagComponent>(entity).tagName.c_str());
             if (ImGui::IsItemClicked())
             {
-                // printf("selection_id : %zu\n", selection_id);
-                // printf("entity id : %d\n", entity);
-                selection_id = (uint64_t)entity;
-                SelectionContext::getInstance().setSelectedEntity((uint64_t)entity);
+
+                // SelectionContext::getInstance().setSelectedEntity(entity);
+                Selection.setSelectedEntity(entity);
             }
             ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 15);
             ImGui::PushID(inc);
             if (ImGui::Button("x"))
             {
                 m_scene->destroyEntity(entity);
+                if (Selection.m_selectedEntity == entity)
+                {
+
+                    Selection.m_selectedEntity = {};
+                }
+                // if (SelectionContext::getInstance().m_selectedEntity == entity)
+                // {
+                //     printf("trying to deleting selected entity\n");
+                //     // SelectionContext::getInstance().setSelectedEntity(m_scene->m_registry.);
+                // }
             }
             ImGui::PopID();
             if (opened)
@@ -356,21 +366,73 @@ namespace Orbitons
         ImGui::Begin("Components");
 
         drawTagComponent();
+        drawTransformComponent();
+
         ImGui::End();
     }
 
     void UI::drawTagComponent()
     {
-        entt::entity ent = (entt::entity)SelectionContext::getInstance().m_selectedEntityID;
-        std::string tagName = m_scene->m_registry.get<TagComponent>(ent).tagName;
 
-        char *buff = (char *)(tagName.c_str());
-        if (ImGui::InputText("Tag Name", buff, 256))
+        entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (m_scene->m_registry.has<TagComponent>(ent))
         {
-            tagName = std::string(buff);
-            m_scene->m_registry.replace<TagComponent>(ent, tagName);
-        }
+            ImGuiTreeNodeFlags flags = 0;
+            flags |= ImGuiTreeNodeFlags_DefaultOpen;
+            if (ImGui::CollapsingHeader("Tag Component", flags))
+            {
 
-        ImGui::End();
+                std::string tagName = m_scene->m_registry.get<TagComponent>(ent).tagName;
+                char *buff = (char *)(tagName.c_str());
+                if (ImGui::InputText("Tag Name", buff, 256))
+                {
+                    tagName = std::string(buff);
+                    m_scene->m_registry.replace<TagComponent>(ent, tagName);
+                }
+            }
+        }
+    }
+
+    void UI::drawTransformComponent()
+    {
+        entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (m_scene->m_registry.has<TransformComponent>(ent))
+        {
+
+            auto &transforms = m_scene->m_registry.get<TransformComponent>(ent);
+            ImGuiTreeNodeFlags flags = 0;
+            flags |= ImGuiTreeNodeFlags_DefaultOpen;
+            if (ImGui::CollapsingHeader("Transform Component", flags))
+            {
+                drawVec3Widget(transforms.position, "position");
+                drawVec3Widget(transforms.rotation, "rotation");
+                drawVec3Widget(transforms.scale, "scale");
+            }
+        }
+    }
+
+    void UI::drawVec3Widget(glm::vec3 &vec, const char *label)
+    {
+        ImGui::PushID(label);
+        ImGui::Columns(4);
+        ImGui::Text("%s", label);
+        ImGui::NextColumn();
+
+        ImGui::Text("X");
+        ImGui::SameLine();
+        ImGui::DragFloat("##x", &vec.x);
+        ImGui::NextColumn();
+
+        ImGui::Text("Y");
+        ImGui::SameLine();
+        ImGui::DragFloat("##y", &vec.y);
+        ImGui::NextColumn();
+
+        ImGui::Text("Z");
+        ImGui::SameLine();
+        ImGui::DragFloat("##z", &vec.z);
+
+        ImGui::Columns(1);
+        ImGui::PopID();
     }
 } // namespace Orbitons

@@ -27,7 +27,7 @@ namespace Orbitons
         Entity entity(m_registry.create(), this);
 
         m_registry.emplace<TagComponent>(entity, name);
-        m_registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
+        m_registry.emplace<TransformComponent>(entity, glm::vec3(0.0f));
 
         Ref<MeshObject> mesh_oject = MakeRef<MeshObject>(); //
         mesh_oject->setMesh(MeshUtils::makeGrid(1.f, 1.f, 2, 2));

@@ -54,6 +54,10 @@ namespace Orbitons
 
         //components widgets
         void drawTagComponent();
+        void drawTransformComponent();
+
+        //widgets
+        void drawVec3Widget(glm::vec3 &vec, const char *label);
 
     private:
         GLFWwindow *m_window;
