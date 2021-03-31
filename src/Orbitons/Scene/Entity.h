@@ -17,6 +17,21 @@ namespace Orbitons
 
         operator entt::entity() { return m_entityHandle; }
 
+        template <typename T>
+        T &getComponent()
+        {
+            ORBITONS_ASSERT(hasComponent<T>(), "the component does'nt exists on this entity");
+            return m_scene->m_registry.get<T>(m_entityHandle);
+        }
+
+        template <typename T>
+        bool hasComponent()
+        {
+            return m_scene->m_registry.has<T>(m_entityHandle);
+        }
+
+        operator bool() const { return m_entityHandle != entt::null; }
+
     private:
         entt::entity m_entityHandle{entt::null};
         Scene *m_scene;

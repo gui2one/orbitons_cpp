@@ -32,6 +32,9 @@ add_executable(${CMAKE_PROJECT_NAME}
 	vendor/imgui/imgui_widgets.cpp
 	vendor/imgui/imgui_tables.cpp
 
+    vendor/ImGuizmo/ImGuizmo.h
+    vendor/ImGuizmo/ImGuizmo.cpp
+
 )
 
 target_precompile_headers(${CMAKE_PROJECT_NAME}
@@ -105,6 +108,7 @@ endforeach()
 include_directories(
     ${CMAKE_PROJECT_NAME}
     vendor/imgui/
+    vendor/ImGuizmo/
     vendor/include/
     vcpkg/installed/x64-windows/include/
 

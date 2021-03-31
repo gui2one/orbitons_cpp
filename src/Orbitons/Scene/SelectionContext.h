@@ -10,7 +10,7 @@ namespace Orbitons
     class SelectionContext
     {
     public:
-        entt::entity m_selectedEntity;
+        Entity m_selectedEntity;
 
         static SelectionContext &getInstance()
         {
@@ -19,9 +19,14 @@ namespace Orbitons
             return s_instance;
         }
 
-        void setSelectedEntity(entt::entity entity)
+        void setSelectedEntity(Entity entity)
         {
             m_selectedEntity = entity;
+        }
+
+        Entity getSelectedEntity()
+        {
+            return m_selectedEntity;
         }
 
     private:

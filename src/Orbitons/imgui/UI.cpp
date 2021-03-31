@@ -6,6 +6,8 @@
 #include "Scene/Entity.h"
 #include "Scene/ResourceLibrary.h"
 #include "Scene/SelectionContext.h"
+
+#include "ImGuizmo.h"
 namespace Orbitons
 {
 
@@ -143,7 +145,7 @@ namespace Orbitons
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
+        ImGuizmo::BeginFrame();
         bool active = true;
 
         if (active)
@@ -216,7 +218,6 @@ namespace Orbitons
 
         if (ImGui::Begin("Viewport", NULL, flags))
         {
-
             // Get the size of the child (i.e. the whole draw size of the windows).
             m_viewportSize = ImGui::GetContentRegionAvail();
             if (m_viewportSize.x != oldSize.x || m_viewportSize.y != oldSize.y)
@@ -228,10 +229,48 @@ namespace Orbitons
             // Because I use the texture from OpenGL, I need to invert the V from the UV.
             // "double cast" (ImTextureID)(intptr_t) needed to prevent a warning about convertion size. Maybe not prudent
             ImGui::Image((ImTextureID)(intptr_t)frameBuffer->getID(), m_viewportSize, ImVec2(0, 1), ImVec2(1, 0));
+            Entity selectedEntity = SelectionContext::getInstance().getSelectedEntity();
+
+            if (selectedEntity)
+            {
+
+                auto &trans = selectedEntity.getComponent<TransformComponent>();
+
+                glm::mat4 matrix = trans.getTransforms();
+
+                ImGuizmo::SetOrthographic(false);
+                ImGuizmo::SetDrawlist();
+
+                float windowWidth = (float)m_viewportSize.x;
+                float windowHeight = (float)m_viewportSize.y;
+                ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+                // printf("width : %.3f\n", ImGui::GetWindowPos().x);
+
+                glm::vec3 up_vector(0.f, 1.0f, 0.f);
+                glm::mat4 camProjection = m_scene->m_activeCamera->projection;
+                glm::mat4 camView = glm::mat4(1.0f) * glm::lookAt(
+                                                          m_scene->m_activeCamera->position,
+                                                          m_scene->m_activeCamera->target_position,
+                                                          glm::normalize(up_vector));
+                ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProjection), ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(matrix));
+
+                if (ImGuizmo::IsUsing())
+                {
+                    glm::vec3 scale, translation, skew;
+                    glm::quat orient;
+                    glm::vec4 perspective;
+                    glm::decompose(matrix, scale, orient, translation, skew, perspective);
+
+                    trans.position = translation;
+                    trans.rotation = glm::eulerAngles(orient);
+                    trans.scale = scale;
+                }
+            }
 
             isMouseOverViewport = ImGui::IsItemHovered();
             // printf("over viewport %s\n", isMouseOverViewport ? "true" : "false");
 
+            ImGui::End();
             ImGui::End();
         }
 
@@ -302,7 +341,8 @@ namespace Orbitons
             {
 
                 // SelectionContext::getInstance().setSelectedEntity(entity);
-                Selection.setSelectedEntity(entity);
+                Entity ent{entity, m_scene};
+                Selection.setSelectedEntity(ent);
             }
             ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 15);
             ImGui::PushID(inc);
@@ -311,14 +351,8 @@ namespace Orbitons
                 m_scene->destroyEntity(entity);
                 if (Selection.m_selectedEntity == entity)
                 {
-
                     Selection.m_selectedEntity = {};
                 }
-                // if (SelectionContext::getInstance().m_selectedEntity == entity)
-                // {
-                //     printf("trying to deleting selected entity\n");
-                //     // SelectionContext::getInstance().setSelectedEntity(m_scene->m_registry.);
-                // }
             }
             ImGui::PopID();
             if (opened)

@@ -43,12 +43,13 @@ namespace Orbitons
 
         m_ui.setContext(*m_context);
 
+        m_frameBuffer = FrameBuffer::create();
+        m_scene.init();
+
         m_ui.init(m_window);
         m_ui.setScene(m_scene);
 
-        m_frameBuffer = FrameBuffer::create();
-        m_scene.init();
-        m_scene.createEntity("first");
+        // m_scene.createEntity("first");
 
         glfwSetWindowUserPointer(m_window, &m_data);
         glfwSwapInterval(1);
