@@ -7,6 +7,8 @@
 #include "../imgui_impl_glfw.h"
 #include "../imgui_impl_opengl3.h"
 
+#include "ImGuizmo.h"
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -70,6 +72,8 @@ namespace Orbitons
         bool b_showViewport = true;
 
         std::function<void(Event &)> m_EventCallback;
+
+        ImGuizmo::OPERATION m_currentGizmo;
     };
 } // namespace Orbitons
 #endif /* UI_H */

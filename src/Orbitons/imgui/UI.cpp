@@ -99,6 +99,8 @@ namespace Orbitons
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
         const char *glsl_version = "#version 130";
         ImGui_ImplOpenGL3_Init(glsl_version);
+
+        m_currentGizmo = ImGuizmo::OPERATION::SCALE;
     }
 
     ImVec2 UI::getViewportSize()
@@ -120,6 +122,30 @@ namespace Orbitons
 
     bool UI::onKeyPressEvent(KeyPressEvent &e)
     {
+        const char *key_name = glfwGetKeyName(e.m_Keycode, e.m_Scancode);
+        if (key_name)
+        {
+
+            switch (key_name[0])
+            {
+            case NULL:
+                return true;
+            case 'z':
+                // printf("translate\n", key_name);
+                m_currentGizmo = ImGuizmo::OPERATION::TRANSLATE;
+                return true;
+            case 'e':
+                // printf("scale\n", key_name);
+                m_currentGizmo = ImGuizmo::OPERATION::SCALE;
+                return true;
+            case 'r':
+                // printf("rotate\n", key_name);
+                m_currentGizmo = ImGuizmo::OPERATION::ROTATE;
+                return true;
+            default:
+                return true;
+            }
+        }
 
         if (e.m_Keycode == GLFW_KEY_SPACE)
         {
@@ -243,8 +269,8 @@ namespace Orbitons
 
                 float windowWidth = (float)m_viewportSize.x;
                 float windowHeight = (float)m_viewportSize.y;
+
                 ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
-                // printf("width : %.3f\n", ImGui::GetWindowPos().x);
 
                 glm::vec3 up_vector(0.f, 1.0f, 0.f);
                 glm::mat4 camProjection = m_scene->m_activeCamera->projection;
@@ -252,7 +278,7 @@ namespace Orbitons
                                                           m_scene->m_activeCamera->position,
                                                           m_scene->m_activeCamera->target_position,
                                                           glm::normalize(up_vector));
-                ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProjection), ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(matrix));
+                ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProjection), m_currentGizmo, ImGuizmo::LOCAL, glm::value_ptr(matrix));
 
                 if (ImGuizmo::IsUsing())
                 {
@@ -262,7 +288,7 @@ namespace Orbitons
                     glm::decompose(matrix, scale, orient, translation, skew, perspective);
 
                     trans.position = translation;
-                    trans.rotation = glm::eulerAngles(orient);
+                    trans.rotation = glm::degrees(glm::eulerAngles(orient));
                     trans.scale = scale;
                 }
             }
@@ -270,7 +296,6 @@ namespace Orbitons
             isMouseOverViewport = ImGui::IsItemHovered();
             // printf("over viewport %s\n", isMouseOverViewport ? "true" : "false");
 
-            ImGui::End();
             ImGui::End();
         }
 

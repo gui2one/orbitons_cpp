@@ -63,19 +63,19 @@ namespace Orbitons
             {
             case GLFW_PRESS:
             {
-                KeyPressEvent event(key, 0);
+                KeyPressEvent event(key, scancode, 0);
                 data.EventCallback(event);
                 break;
             }
             case GLFW_RELEASE:
             {
-                KeyReleaseEvent event(key);
+                KeyReleaseEvent event(key, scancode);
                 data.EventCallback(event);
                 break;
             }
             case GLFW_REPEAT:
             {
-                KeyPressEvent event(key, 1);
+                KeyPressEvent event(key, scancode, 1);
                 data.EventCallback(event);
                 break;
             }

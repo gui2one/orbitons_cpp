@@ -12,7 +12,7 @@ namespace Orbitons
 
         if (m_activeCamera == nullptr)
         {
-            m_activeCamera = MakeRef<Camera>(glm::radians(65.0f), 16.0f / 9.0f);
+            m_activeCamera = MakeRef<Camera>(glm::radians(65.0f), 1.0f);
             add(m_activeCamera);
         }
     }
@@ -27,7 +27,7 @@ namespace Orbitons
         Entity entity(m_registry.create(), this);
 
         m_registry.emplace<TagComponent>(entity, name);
-        m_registry.emplace<TransformComponent>(entity, glm::vec3(0.0f));
+        m_registry.emplace<TransformComponent>(entity, glm::vec3(0.f, 0.f, 0.f));
 
         Ref<MeshObject> mesh_oject = MakeRef<MeshObject>(); //
         mesh_oject->setMesh(MeshUtils::makeGrid(1.f, 1.f, 2, 2));
