@@ -100,7 +100,7 @@ namespace Orbitons
         const char *glsl_version = "#version 130";
         ImGui_ImplOpenGL3_Init(glsl_version);
 
-        m_currentGizmo = ImGuizmo::OPERATION::SCALE;
+        m_currentGizmo = ImGuizmo::OPERATION::TRANSLATE;
     }
 
     ImVec2 UI::getViewportSize()
