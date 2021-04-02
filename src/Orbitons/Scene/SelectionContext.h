@@ -4,6 +4,7 @@
 #include "core.h"
 #include "entt/entt.hpp"
 #include "Entity.h"
+#include "ResourceLibrary.h"
 namespace Orbitons
 {
 
@@ -11,6 +12,7 @@ namespace Orbitons
     {
     public:
         Entity m_selectedEntity;
+        Ref<ResourceItem> m_selectedResource;
 
         static SelectionContext &getInstance()
         {

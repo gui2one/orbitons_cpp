@@ -19,6 +19,7 @@
 #include "Renderer/GraphicContext.h"
 
 #include "Scene/Scene.h"
+#include "Scene/ResourceLibrary.h"
 
 namespace Orbitons
 {
@@ -57,9 +58,11 @@ namespace Orbitons
         //components widgets
         void drawTagComponent();
         void drawTransformComponent();
+        void drawMeshComponent();
 
         //widgets
         void drawVec3Widget(glm::vec3 &vec, const char *label);
+        void drawResourceItem(Ref<ResourceItem> &item);
 
     private:
         GLFWwindow *m_window;

@@ -1,6 +1,6 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
-
+// #include "pch.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -8,6 +8,7 @@
 
 // #include "Core/Mesh.h"
 #include "Scene/MeshObject.h"
+#include "Scene/ResourceLibrary.h"
 #include "Renderer/Material.h"
 
 namespace Orbitons
@@ -54,7 +55,7 @@ namespace Orbitons
     {
         Ref<MeshObject> mesh_object;
         Ref<Material> material;
-
+        Ref<MeshItem> mesh_item = nullptr;
         MeshComponent() = default;
         MeshComponent(const MeshComponent &other) = default;
         MeshComponent(const Ref<MeshObject> &_mesh)

@@ -1,3 +1,5 @@
+#include <typeinfo>
+
 #include "UI.h"
 #include "Events/Event.h"
 #include "Events/KeyboardEvent.h"
@@ -399,7 +401,6 @@ namespace Orbitons
             std::optional<std::string> file_path = PlatformUtils::openFileialog("");
             if (file_path)
             {
-
                 Ref<MeshItem> item = MakeRef<MeshItem>();
                 item->path = file_path.value();
                 // printf("file path ------> %s\n", file_path.value().c_str());
@@ -407,17 +408,28 @@ namespace Orbitons
             }
         }
         ImGui::Separator();
-        for (auto &item : ResourceLibrary::getInstance().items)
+        static bool selected = false;
+        int inc_id = 0;
+        for (auto item : ResourceLibrary::getInstance().items)
         {
-
-            ImGui::Text("%s : %s", item->GetName(), item->path.c_str());
-            ImGui::Separator();
-            // if (ImGui::Button("Item ..."))
-            // {
-            //     printf("item path : %s\n", item->path.c_str());
-            // }
+            drawResourceItem(item);
         }
         ImGui::End();
+    }
+
+    void UI::drawResourceItem(Ref<ResourceItem> &item)
+    {
+        ImGui::PushID(item.get());
+        if (ImGui::Selectable(item->GetName(), SelectionContext::getInstance().m_selectedResource == item))
+        {
+            SelectionContext::getInstance().m_selectedResource = item;
+        }
+
+        ImGui::SameLine();
+        ImGui::Text(" | path: %s", item->path.c_str());
+        ImGui::Separator();
+
+        ImGui::PopID();
     }
 
     void UI::EntityComponentsPanel()
@@ -426,6 +438,7 @@ namespace Orbitons
 
         drawTagComponent();
         drawTransformComponent();
+        drawMeshComponent();
 
         ImGui::End();
     }
@@ -470,6 +483,38 @@ namespace Orbitons
         }
     }
 
+    void UI::drawMeshComponent()
+    {
+        entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (m_scene->m_registry.has<MeshComponent>(ent))
+        {
+
+            auto &meshComp = m_scene->m_registry.get<MeshComponent>(ent);
+            ImGuiTreeNodeFlags flags = 0;
+            flags |= ImGuiTreeNodeFlags_DefaultOpen;
+            if (ImGui::CollapsingHeader("Mesh Component", flags))
+            {
+
+                ImGui::Text("MeshItem Resource");
+                ImGui::SameLine();
+                if (ImGui::Button("set to selected item resource"))
+                {
+                    auto selected_res = SelectionContext::getInstance().m_selectedResource;
+                    if (SelectionContext::getInstance().m_selectedResource)
+                    {
+
+                        printf("before --> %d \n", meshComp.mesh_item.get());
+                        if (selected_res->GetEventType() == ResourceItemType::MeshItem)
+                        {
+                            printf("Good item Type\n");
+                            meshComp.mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
+                        }
+                        printf("after --> %d \n", meshComp.mesh_item.get());
+                    }
+                }
+            }
+        }
+    }
     void UI::drawVec3Widget(glm::vec3 &vec, const char *label)
     {
         ImGui::PushID(label);
@@ -494,4 +539,5 @@ namespace Orbitons
         ImGui::Columns(1);
         ImGui::PopID();
     }
+
 } // namespace Orbitons
