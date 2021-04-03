@@ -307,11 +307,11 @@ namespace Orbitons
         resourceLibraryPanel();
         EntityComponentsPanel();
 
-        if (showDemoWindow)
-        {
+        // if (showDemoWindow)
+        // {
 
-            ImGui::ShowDemoWindow(&showDemoWindow);
-        }
+        //     ImGui::ShowDemoWindow(&showDemoWindow);
+        // }
 
         // Rendering
         ImGui::Render();
@@ -401,7 +401,7 @@ namespace Orbitons
             std::optional<std::string> file_path = PlatformUtils::openFileialog("");
             if (file_path)
             {
-                Ref<MeshItem> item = MakeRef<MeshItem>();
+                Ref<MeshItem> item = MakeRef<MeshItem>(file_path.value());
                 item->path = file_path.value();
                 // printf("file path ------> %s\n", file_path.value().c_str());
                 ResourceLibrary::getInstance().addItem(item);
@@ -478,7 +478,7 @@ namespace Orbitons
             {
                 drawVec3Widget(transforms.position, "position");
                 drawVec3Widget(transforms.rotation, "rotation");
-                drawVec3Widget(transforms.scale, "scale");
+                drawVec3Widget(transforms.scale, "scale", 1.0f);
             }
         }
     }
@@ -503,40 +503,56 @@ namespace Orbitons
                     if (SelectionContext::getInstance().m_selectedResource)
                     {
 
-                        printf("before --> %d \n", meshComp.mesh_item.get());
                         if (selected_res->GetEventType() == ResourceItemType::MeshItem)
                         {
-                            printf("Good item Type\n");
-                            meshComp.mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
+                            meshComp.mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(selected_res)->mesh);
                         }
-                        printf("after --> %d \n", meshComp.mesh_item.get());
                     }
                 }
             }
         }
     }
-    void UI::drawVec3Widget(glm::vec3 &vec, const char *label)
+    void UI::drawVec3Widget(glm::vec3 &vec, const char *label, float default_value)
     {
         ImGui::PushID(label);
         ImGui::Columns(4);
         ImGui::Text("%s", label);
         ImGui::NextColumn();
 
-        ImGui::Text("X");
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.9f, 0.1f, 0.1f, 1.f)));
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.f, 0.f));
+        if (ImGui::Button("X", ImVec2(30, 20)))
+        {
+            vec.x = default_value;
+        }
+
+        ImGui::PopStyleColor();
         ImGui::SameLine();
         ImGui::DragFloat("##x", &vec.x);
+
         ImGui::NextColumn();
 
-        ImGui::Text("Y");
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.1f, 0.6f, 0.1f, 1.f)));
+        if (ImGui::Button("Y", ImVec2(30, 20)))
+        {
+            vec.y = default_value;
+        }
+        ImGui::PopStyleColor();
         ImGui::SameLine();
         ImGui::DragFloat("##y", &vec.y);
         ImGui::NextColumn();
 
-        ImGui::Text("Z");
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.1f, 0.1f, 0.9f, 1.f)));
+        if (ImGui::Button("Z", ImVec2(30, 20)))
+        {
+            vec.z = default_value;
+        }
+        ImGui::PopStyleColor();
         ImGui::SameLine();
         ImGui::DragFloat("##z", &vec.z);
 
         ImGui::Columns(1);
+        ImGui::PopStyleVar();
         ImGui::PopID();
     }
 

@@ -61,7 +61,7 @@ namespace Orbitons
         void drawMeshComponent();
 
         //widgets
-        void drawVec3Widget(glm::vec3 &vec, const char *label);
+        void drawVec3Widget(glm::vec3 &vec, const char *label, float default_value = 0.0f);
         void drawResourceItem(Ref<ResourceItem> &item);
 
     private:
