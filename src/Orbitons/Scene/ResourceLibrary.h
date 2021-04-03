@@ -3,6 +3,8 @@
 
 #include "pch.h"
 #include "core.h"
+#include "Core/Mesh.h"
+#include "Core/ObjectLoader.h"
 
 #define RESOURCE_TYPE_NAME(type)                                                       \
     static ResourceItemType GetStaticType() { return ResourceItemType::type; }         \
@@ -41,10 +43,19 @@ namespace Orbitons
     class MeshItem : public ResourceItem
     {
     public:
+        Mesh mesh;
         MeshItem() {}
+        MeshItem(std::string file_path)
+        {
+            ObjLoader loader;
+            mesh = loader.assimp_load(file_path);
+        }
         RESOURCE_TYPE_NAME(MeshItem)
     };
 
+    /*
+        resource library
+    */
     class ResourceLibrary
     {
     public:

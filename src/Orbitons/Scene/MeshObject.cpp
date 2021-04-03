@@ -1,5 +1,5 @@
 #include "MeshObject.h"
-
+#include "Core/MeshUtils.h"
 namespace Orbitons
 {
     MeshObject::MeshObject()
@@ -15,6 +15,7 @@ namespace Orbitons
     void MeshObject::setMesh(const Mesh &mesh)
     {
         m_mesh = mesh;
+        MeshUtils::computeNormals(m_mesh);
         buildBuffers();
     }
 

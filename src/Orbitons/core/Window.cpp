@@ -42,7 +42,6 @@ namespace Orbitons
         m_context->init();
 
         m_ui.setContext(*m_context);
-
         m_frameBuffer = FrameBuffer::create();
         m_scene.init();
 
@@ -108,29 +107,25 @@ namespace Orbitons
 
     void Window::refresh(Timer &timer)
     {
-
-        glEnable(GL_DEPTH_TEST);
-        m_controls.setCamera(m_scene.m_activeCamera);
-
-        m_controls.activated = m_ui.isMouseOverViewport;
-        m_controls.update(timer.getDeltaTime());
         int width, height;
         ImVec2 viewportSize = m_ui.getViewportSize();
         width = viewportSize.x;
         height = viewportSize.y;
 
+        // glViewport(0, 0, width, height);
+        m_scene.m_activeCamera->setScreenRatio((float)width / (float)height);
         if (m_ui.getViewportSizeChanged())
         {
             m_frameBuffer->invalidate(width, height);
         }
+        glEnable(GL_DEPTH_TEST);
+        m_controls.setCamera(m_scene.m_activeCamera);
 
-        glViewport(0, 0, width, height);
-        m_scene.m_activeCamera->setScreenRatio((float)width / (float)height);
+        m_controls.activated = m_ui.isMouseOverViewport;
+        m_controls.update(timer.getDeltaTime());
+
         glm::mat4 view = glm::mat4(1.0f);
 
-        float radius = 5.0f;
-        float speed = 0.2f;
-        float angle = timer.getElapsedTime() * speed;
         glm::vec3 up_vector(0.f, 1.f, 0.f);
         view *= glm::lookAt(
             m_scene.m_activeCamera->position,
@@ -178,6 +173,7 @@ namespace Orbitons
 
         glfwPollEvents();
         m_context->swapBuffers();
+
     }
 
     bool Window::onKeyPressEvent(Event &e)
