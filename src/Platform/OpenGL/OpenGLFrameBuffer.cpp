@@ -4,12 +4,23 @@ namespace Orbitons
 {
     OpenGLFrameBuffer::OpenGLFrameBuffer()
     {
+        // printf("creating frameBuffer\n");
         invalidate(400, 400);
+    }
+
+    OpenGLFrameBuffer::~OpenGLFrameBuffer()
+    {
+        printf("delete frameBuffer\n");
+        glDeleteFramebuffers(1, &m_id);
+        glDeleteTextures(1, &m_colorAttachment);
+        glDeleteTextures(1, &m_depthAttachment);
     }
 
     void OpenGLFrameBuffer::invalidate(uint32_t width, uint32_t height)
     {
 
+        m_width = width;
+        m_height = height;
         if (m_id)
         {
 
@@ -17,7 +28,6 @@ namespace Orbitons
             glDeleteTextures(1, &m_colorAttachment);
             glDeleteTextures(1, &m_depthAttachment);
 
-            // glBindFramebuffer(GL_FRAMEBUFFER, 0);
             m_colorAttachment = 0;
             m_depthAttachment = 0;
 
@@ -29,9 +39,9 @@ namespace Orbitons
         if (height < 16)
             height = 16;
 
-        glGenFramebuffers(1, &m_id);
-
+        glCreateFramebuffers(1, &m_id);
         glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+
         glCreateTextures(GL_TEXTURE_2D, 1, &m_colorAttachment);
         glBindTexture(GL_TEXTURE_2D, m_colorAttachment);
 
@@ -58,6 +68,7 @@ namespace Orbitons
     void OpenGLFrameBuffer::bind()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, m_id);
+        glViewport(0, 0, m_width, m_height);
     }
     void OpenGLFrameBuffer::unbind()
     {
