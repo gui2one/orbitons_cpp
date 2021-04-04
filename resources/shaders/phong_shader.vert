@@ -13,6 +13,6 @@ out vec3 f_normal;
 void main(){
 
     f_position = vec3(u_model * vec4(position, 1.0));
-    f_normal = inverse(transpose(mat3(u_model))) * normal;
+    f_normal = inverse(transpose(mat3(u_model))) * -normal;
     gl_Position = u_projection * u_view  * vec4(f_position,1.0);
 }

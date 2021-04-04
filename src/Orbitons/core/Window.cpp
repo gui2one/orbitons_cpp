@@ -119,6 +119,8 @@ namespace Orbitons
             m_frameBuffer->invalidate(width, height);
         }
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
         m_controls.setCamera(m_scene.m_activeCamera);
 
         m_controls.activated = m_ui.isMouseOverViewport;
@@ -173,7 +175,6 @@ namespace Orbitons
 
         glfwPollEvents();
         m_context->swapBuffers();
-
     }
 
     bool Window::onKeyPressEvent(Event &e)
