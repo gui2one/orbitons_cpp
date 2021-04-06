@@ -12,6 +12,7 @@ const double PI = 3.14159265359;
 
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <vector>
 #include <chrono>

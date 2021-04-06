@@ -1,5 +1,10 @@
 #include "Orbitons.h"
 #include "core.h"
+
+#include "boost/lexical_cast.hpp"
+#include "boost/uuid/random_generator.hpp"
+#include "boost/uuid/uuid_io.hpp"
+#include "iostream"
 using namespace Orbitons;
 
 Application *app = Application::getInstance();
@@ -32,7 +37,8 @@ void createObjects()
 
 int main(int argc, char **argv)
 {
-
+    boost::uuids::random_generator gen;
+    std::cout << boost::lexical_cast<std::string>(gen()) << std::endl;
     createObjects();
 
     app->run();

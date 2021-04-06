@@ -14,6 +14,18 @@
 namespace Orbitons
 {
 
+    struct UUIDComponent
+    {
+
+        std::string uuid;
+
+        UUIDComponent() = default;
+        UUIDComponent(const UUIDComponent &other) = default;
+        UUIDComponent(const std::string &_uuid)
+            : uuid(_uuid)
+        {
+        }
+    };
     struct TagComponent
     {
 

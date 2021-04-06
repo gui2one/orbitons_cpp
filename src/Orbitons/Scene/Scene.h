@@ -39,6 +39,7 @@ namespace Orbitons
         friend class Entity;
         friend class UI;
         friend class Window;
+        friend class Serializer;
     };
 };     // end namespace
 #endif /* SCENE_H */

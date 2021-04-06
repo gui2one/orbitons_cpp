@@ -9,6 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(orbitons)
 
 add_definitions(-DOGL_DEBUG)
+
+# needed for boost::uuid
+add_definitions(-DBOOST_UUID_FORCE_AUTO_LINK)
+
 # add_definitions(-DORBITONS_PLATFORM_WINDOWS)
 
 set(CMAKE_CXX_FLAGS "/MP /arch:AVX2 /EHsc")
@@ -32,7 +36,7 @@ add_executable(${CMAKE_PROJECT_NAME}
 	vendor/imgui/imgui_widgets.cpp
 	vendor/imgui/imgui_tables.cpp
 
-    vendor/ImGuizmo/ImGuizmo.h
+    # vendor/ImGuizmo/ImGuizmo.h
     vendor/ImGuizmo/ImGuizmo.cpp
 
 )
@@ -65,21 +69,6 @@ add_custom_command(
         $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>\\resources
 )
 
-# add_custom_command(
-#     TARGET ${CMAKE_PROJECT_NAME} 
-#     POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy_directory
-#         ${PROJECT_SOURCE_DIR}\\data
-#         $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>\\data
-# )
-
-# add_custom_command(
-#     TARGET ${CMAKE_PROJECT_NAME}  
-#     POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy_directory
-#         ${PROJECT_SOURCE_DIR}/share
-#         $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/share
-# )
 
 
 foreach(FILE ${fileCollection}) 

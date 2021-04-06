@@ -1,5 +1,6 @@
 {
   "files.associations": {
+    "*.orbitons": "yaml",
     "vector": "cpp",
     "xstring": "cpp",
     "memory": "cpp",
@@ -79,7 +80,8 @@
     "xtree": "cpp",
     "xutility": "cpp",
     "csignal": "cpp",
-    "optional": "cpp"
+    "optional": "cpp",
+    "variant": "cpp"
   },
   "html.autoClosingTags": false,
   "editor.fontFamily": "JetBrains Mono, monospace",

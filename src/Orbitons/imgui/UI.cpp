@@ -11,6 +11,10 @@
 
 #include "ImGuizmo.h"
 #include "../vendor/imgui/imgui_internal.h"
+
+#include "Core/Serializer.h"
+#include "Core/IDGenerator.h"
+
 namespace Orbitons
 {
 
@@ -203,6 +207,22 @@ namespace Orbitons
                 }
                 if (ImGui::MenuItem("Save as ..."))
                 {
+                    std::optional<std::string> path = PlatformUtils::saveFileDialog("Orbitons\0 *.orbitons\0");
+
+                    if (path)
+                    {
+
+                        Serializer serializer;
+
+                        YAML::Emitter emitter;
+                        emitter << YAML::BeginSeq;
+                        emitter << serializer.serializeScene(m_scene);
+                        emitter << serializer.serializeResources(ResourceLibrary::getInstance());
+                        emitter << YAML::EndSeq;
+
+                        std::ofstream out(path->c_str());
+                        out << emitter.c_str();
+                    }
                 }
 
                 ImGui::EndMenu();
@@ -385,7 +405,7 @@ namespace Orbitons
             ImGui::PopID();
             if (opened)
             {
-                ImGui::Text("UUID : %zu", (uint64_t)entity);
+                ImGui::Text("UUID : %X", (uint64_t)entity);
                 ImGui::TreePop();
             }
             inc++;
@@ -402,7 +422,11 @@ namespace Orbitons
             std::optional<std::string> file_path = PlatformUtils::openFileialog("");
             if (file_path)
             {
+
                 Ref<MeshItem> item = MakeRef<MeshItem>(file_path.value());
+
+                item->setUUID(IDGenerator::generateUUID());
+                printf("id --> %s\n", item->getUUID().c_str());
                 item->path = file_path.value();
                 // printf("file path ------> %s\n", file_path.value().c_str());
                 ResourceLibrary::getInstance().addItem(item);
@@ -501,11 +525,13 @@ namespace Orbitons
                 if (ImGui::Button("set to selected item resource"))
                 {
                     auto selected_res = SelectionContext::getInstance().m_selectedResource;
+
                     if (SelectionContext::getInstance().m_selectedResource)
                     {
 
                         if (selected_res->GetEventType() == ResourceItemType::MeshItem)
                         {
+                            meshComp.mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
                             meshComp.mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(selected_res)->mesh);
                         }
                     }

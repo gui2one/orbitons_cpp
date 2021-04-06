@@ -19,7 +19,7 @@ namespace Orbitons
     Application::Application()
     {
 
-        ResourceLibrary::getInstance().addItem(MakeRef<TextureItem>());
+        // ResourceLibrary::getInstance().addItem(MakeRef<TextureItem>());
         Renderer::setAPI(RenderAPI::OpenGL);
         Renderer::init();
 

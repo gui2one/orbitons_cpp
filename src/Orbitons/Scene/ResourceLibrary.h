@@ -24,9 +24,15 @@ namespace Orbitons
     class ResourceItem
     {
     public:
+        std::string path;
+        std::string uuid;
+
+    public:
         virtual ~ResourceItem(){};
 
-        std::string path;
+        void setUUID(std::string generated) { uuid = generated; }
+        std::string getUUID() { return uuid; }
+
         virtual ResourceItemType GetEventType() const = 0;
         virtual const char *GetName() const = 0;
     };

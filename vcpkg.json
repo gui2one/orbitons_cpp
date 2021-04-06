@@ -1,5 +1,13 @@
 {
   "name": "orbitons",
   "version": "0.0.1",
-  "dependencies": ["glfw3", "assimp", "glm", "glad", "yaml-cpp", "entt"]
+  "dependencies": [
+    "glfw3",
+    "assimp",
+    "glm",
+    "glad",
+    "yaml-cpp",
+    "entt",
+    "boost-uuid"
+  ]
 }
