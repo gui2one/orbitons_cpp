@@ -98,21 +98,16 @@ namespace Orbitons
 
         for (auto node : nodes)
         {
-
             if (node["resources"])
             {
 
-                printf("resources :: \n");
+                // found resources node
                 for (auto &node : node["resources"])
                 {
-
-                    // std::cout << node["type"] << std::endl;
                     if (node["type"].as<std::string>() == std::string("MeshItem"))
                     {
                         Ref<MeshItem> item = MakeRef<MeshItem>(node["path"].as<std::string>());
                         resources.addItem(item);
-
-                        printf("meshItem type\n");
                     }
                 }
             }
@@ -120,6 +115,24 @@ namespace Orbitons
             if (node["entities"])
             {
                 // found entities node
+
+                for (auto &entt_node : node["entities"])
+                {
+                    std::string name = "";
+                    if (entt_node["tagComponent"])
+                    {
+                        name = entt_node["tagComponent"]["tagName"].as<std::string>();
+                    }
+                    Entity &entity = scene->createEntity(name);
+
+                    if (entt_node["UUIDComponent"])
+                    {
+                        std::string uuid = "";
+                        uuid = entt_node["UUIDComponent"]["uuid"].as<std::string>();
+                        // uuid = "ahhhh gotcha ?!";
+                        entity.getComponent<UUIDComponent>().uuid = uuid;
+                    }
+                }
             }
         }
     }
