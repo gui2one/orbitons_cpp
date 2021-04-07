@@ -79,6 +79,21 @@ namespace Orbitons
         }
     };
 
+    struct CameraComponent
+    {
+
+        bool active = false;
+        float angle;
+        float near = 0.01f;
+        float far = 100.0f;
+
+        CameraComponent() = default;
+        CameraComponent(const CameraComponent &other) = default;
+        CameraComponent(float _angle, float _near = 0.01f, float _far = 100.0f)
+            : angle(_angle), near(_near), far(_far)
+        {
+        }
+    };
 } // namespace Orbitons
 
 #endif /* COMPONENTS_H  */

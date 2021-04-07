@@ -4,7 +4,7 @@ namespace Orbitons
 {
     Serializer::Serializer()
     {
-        printf("Serializer constructor\n");
+        // printf("Serializer constructor\n");
     }
 
     YAML::Node Serializer::serializeScene(Scene *scene)
@@ -53,8 +53,24 @@ namespace Orbitons
 
                     node["meshItem"] = comp.mesh_item->getUUID();
                 }
+                else
+                {
+                    node["meshItem"] = "";
+                }
 
                 entity_node["meshComponent"] = node;
+            }
+
+            if (ent.hasComponent<CameraComponent>())
+            {
+                YAML::Node node;
+                auto &comp = ent.getComponent<CameraComponent>();
+                node["active"] = comp.active;
+                node["angle"] = comp.angle;
+                node["near"] = comp.near;
+                node["far"] = comp.far;
+
+                entity_node["cameraComponent"] = node;
             }
 
             entities.push_back(entity_node);
@@ -89,13 +105,15 @@ namespace Orbitons
         // clear all resources
 
         SelectionContext::getInstance().setSelectedEntity(Entity(entt::null, scene));
+        SelectionContext::getInstance().m_selectedResource = nullptr;
+
         resources.items.clear();
 
         for (const auto entity : scene->m_registry.view<UUIDComponent>())
         {
+            scene->m_registry.remove_all(entity);
             scene->m_registry.destroy(entity);
         }
-
         for (auto node : nodes)
         {
             if (node["resources"])
@@ -107,10 +125,19 @@ namespace Orbitons
                     if (node["type"].as<std::string>() == std::string("MeshItem"))
                     {
                         Ref<MeshItem> item = MakeRef<MeshItem>(node["path"].as<std::string>());
+
                         resources.addItem(item);
+
+                        // set UUID AFTER adding to resource library to override UUID as it is set in addItem method
+                        item->setUUID(node["uuid"].as<std::string>());
+                        ///////////////
                     }
                 }
             }
+        }
+
+        for (auto node : nodes)
+        {
 
             if (node["entities"])
             {
@@ -129,8 +156,65 @@ namespace Orbitons
                     {
                         std::string uuid = "";
                         uuid = entt_node["UUIDComponent"]["uuid"].as<std::string>();
-                        // uuid = "ahhhh gotcha ?!";
+
                         entity.getComponent<UUIDComponent>().uuid = uuid;
+                    }
+
+                    if (entt_node["transformComponent"])
+                    {
+                        glm::vec3 position, rotation, scale;
+                        position = entt_node["transformComponent"]["position"].as<glm::vec3>();
+                        rotation = entt_node["transformComponent"]["rotation"].as<glm::vec3>();
+                        scale = entt_node["transformComponent"]["scale"].as<glm::vec3>();
+
+                        if (!entity.hasComponent<TransformComponent>())
+                        {
+                            scene->m_registry.emplace<TransformComponent>(entity, position);
+                        }
+                        entity.getComponent<TransformComponent>().position = position;
+                        entity.getComponent<TransformComponent>().rotation = rotation;
+                        entity.getComponent<TransformComponent>().scale = scale;
+                    }
+
+                    if (entt_node["meshComponent"])
+                    {
+                        std::string item_uuid = entt_node["meshComponent"]["meshItem"].as<std::string>();
+
+                        // printf("item uui : %s\n", item_uuid.c_str());
+
+                        if (!item_uuid.empty())
+                        {
+                            Ref<ResourceItem> res_item = nullptr;
+                            res_item = ResourceLibrary::getInstance().getItemByUUID(item_uuid);
+
+                            if (!entity.hasComponent<MeshComponent>())
+                            {
+                                printf("adding MeshComponent beacuse it's missing\n");
+                                scene->m_registry.emplace<MeshComponent>(entity, nullptr);
+                            }
+
+                            // Ref<MeshObject> mesh_object = MakeRef<MeshObject>();
+                            // Ref<MeshItem> mesh_item = std::dynamic_pointer_cast<MeshItem>(res_item);
+                            // mesh_object->setMesh(mesh_item->mesh);
+                            // mesh_object->buildBuffers();
+
+                            entity.getComponent<MeshComponent>().mesh_item = std::dynamic_pointer_cast<MeshItem>(res_item);
+                            entity.getComponent<MeshComponent>().mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(res_item)->mesh);
+                        }
+                    }
+
+                    if (entt_node["cameraComponent"])
+                    {
+
+                        if (!entity.hasComponent<CameraComponent>())
+                        {
+                            scene->m_registry.emplace<CameraComponent>(entity);
+                        }
+
+                        entity.getComponent<CameraComponent>().active = entt_node["cameraComponent"]["active"].as<bool>();
+                        entity.getComponent<CameraComponent>().angle = entt_node["cameraComponent"]["angle"].as<float>();
+                        entity.getComponent<CameraComponent>().near = entt_node["cameraComponent"]["near"].as<float>();
+                        entity.getComponent<CameraComponent>().far = entt_node["cameraComponent"]["far"].as<float>();
                     }
                 }
             }

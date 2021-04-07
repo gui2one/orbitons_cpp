@@ -426,13 +426,17 @@ namespace Orbitons
 
                 Ref<MeshItem> item = MakeRef<MeshItem>(file_path.value());
 
-                // item->setUUID(IDGenerator::generateUUID());
-                // printf("id --> %s\n", item->getUUID().c_str());
                 item->path = file_path.value();
-                // printf("file path ------> %s\n", file_path.value().c_str());
+
                 ResourceLibrary::getInstance().addItem(item);
             }
         }
+        ImGui::SameLine();
+        if (ImGui::Button("Clear Items"))
+        {
+            ResourceLibrary::getInstance().items.clear();
+        }
+
         ImGui::Separator();
         static bool selected = false;
         int inc_id = 0;
@@ -462,9 +466,14 @@ namespace Orbitons
     {
         ImGui::Begin("Components");
 
+        if (ImGui::Button("Add Component"))
+        {
+            m_scene->m_registry.emplace<CameraComponent>(SelectionContext::getInstance().getSelectedEntity());
+        }
         drawTagComponent();
         drawTransformComponent();
         drawMeshComponent();
+        drawCameraComponent();
 
         ImGui::End();
     }
@@ -509,6 +518,25 @@ namespace Orbitons
         }
     }
 
+    void UI::drawCameraComponent()
+    {
+        entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (m_scene->m_registry.has<CameraComponent>(ent))
+        {
+
+            auto &camera = m_scene->m_registry.get<CameraComponent>(ent);
+            ImGuiTreeNodeFlags flags = 0;
+            flags |= ImGuiTreeNodeFlags_DefaultOpen;
+            if (ImGui::CollapsingHeader("Camera Component", flags))
+            {
+                ImGui::Checkbox("Active", &(camera.active));
+                ImGui::DragFloat("angle", &(camera.angle));
+                ImGui::DragFloat("near", &(camera.near));
+                ImGui::DragFloat("far", &(camera.far));
+            }
+        }
+    }
+
     void UI::drawMeshComponent()
     {
         entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
@@ -525,12 +553,12 @@ namespace Orbitons
                 ImGui::SameLine();
                 if (ImGui::Button("set to selected item resource"))
                 {
-                    auto selected_res = SelectionContext::getInstance().m_selectedResource;
+                    auto &selected_res = SelectionContext::getInstance().m_selectedResource;
 
                     if (SelectionContext::getInstance().m_selectedResource)
                     {
 
-                        if (selected_res->GetEventType() == ResourceItemType::MeshItem)
+                        if (selected_res->GetItemType() == ResourceItemType::MeshItem)
                         {
                             meshComp.mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
                             meshComp.mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(selected_res)->mesh);

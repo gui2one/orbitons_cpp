@@ -7,9 +7,9 @@
 #include "Core/ObjectLoader.h"
 #include "Core/IDGenerator.h"
 
-#define RESOURCE_TYPE_NAME(type)                                                       \
-    static ResourceItemType GetStaticType() { return ResourceItemType::type; }         \
-    virtual ResourceItemType GetEventType() const override { return GetStaticType(); } \
+#define RESOURCE_TYPE_NAME(type)                                                      \
+    static ResourceItemType GetStaticType() { return ResourceItemType::type; }        \
+    virtual ResourceItemType GetItemType() const override { return GetStaticType(); } \
     virtual const char *GetName() const override { return #type; }
 namespace Orbitons
 {
@@ -32,9 +32,9 @@ namespace Orbitons
         virtual ~ResourceItem(){};
 
         void setUUID(std::string generated) { uuid = generated; }
-        std::string getUUID() { return uuid; }
+        const std::string getUUID() const { return uuid; }
 
-        virtual ResourceItemType GetEventType() const = 0;
+        virtual ResourceItemType GetItemType() const = 0;
         virtual const char *GetName() const = 0;
     };
 
@@ -85,6 +85,22 @@ namespace Orbitons
         {
             item->setUUID(IDGenerator::generateUUID());
             items.push_back(item);
+        }
+
+        Ref<ResourceItem> getItemByUUID(std::string uuid)
+        {
+
+            auto it = std::find_if(items.begin(), items.end(), [&uuid](const Ref<ResourceItem> item) { return item->getUUID() == uuid; });
+            if (it != items.end())
+            {
+                // found element. it is an iterator to the first matching element.
+                // if you really need the index, you can also get it:
+                auto index = std::distance(items.begin(), it);
+
+                return items[index];
+            }
+
+            return nullptr;
         }
 
     private:
