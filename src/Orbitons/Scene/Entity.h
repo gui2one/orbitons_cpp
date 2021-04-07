@@ -33,6 +33,12 @@ namespace Orbitons
             return m_scene->m_registry.has<T>(m_entityHandle);
         }
 
+        template <typename T>
+        void removeComponent()
+        {
+            m_scene->m_registry.remove<T>(m_entityHandle);
+        }
+
         operator bool() const { return m_entityHandle != entt::null; }
 
     private:

@@ -147,13 +147,15 @@ namespace Orbitons
         glm::vec3 lightPos = glm::vec3(2.f, 2.f, 2.f);
 
         auto meshes = m_scene.m_registry.view<UUIDComponent, MeshComponent, TagComponent, TransformComponent>();
-
+        // printf("meshes size : %d\n", meshes.size_hint);
         for (auto entity : meshes)
         {
+
             auto [uuid, mesh, tag, transform] = meshes.get<UUIDComponent, MeshComponent, TagComponent, TransformComponent>(entity);
 
             mesh.material->useProgram();
             glm::mat4 model(1.f);
+
             model = transform.getTransforms() * model;
 
             // printf("material id --> %d\n", mesh.material->getShaderID());

@@ -283,10 +283,13 @@ namespace Orbitons
 
             if (selectedEntity)
             {
+                glm::mat4 matrix(1.0f);
+                if (selectedEntity.hasComponent<TransformComponent>())
+                {
 
-                auto &trans = selectedEntity.getComponent<TransformComponent>();
-
-                glm::mat4 matrix = trans.getTransforms();
+                    auto &trans = selectedEntity.getComponent<TransformComponent>();
+                    matrix = trans.getTransforms();
+                }
 
                 ImGuizmo::SetOrthographic(false);
                 ImGuizmo::SetDrawlist();
@@ -310,10 +313,14 @@ namespace Orbitons
                     glm::quat orient;
                     glm::vec4 perspective;
                     glm::decompose(matrix, scale, orient, translation, skew, perspective);
+                    if (selectedEntity.hasComponent<TransformComponent>())
+                    {
 
-                    trans.position = translation;
-                    trans.rotation = glm::degrees(glm::eulerAngles(orient));
-                    trans.scale = scale;
+                        auto &trans = selectedEntity.getComponent<TransformComponent>();
+                        trans.position = translation;
+                        trans.rotation = glm::degrees(glm::eulerAngles(orient));
+                        trans.scale = scale;
+                    }
                 }
             }
 
@@ -465,15 +472,50 @@ namespace Orbitons
     void UI::EntityComponentsPanel()
     {
         ImGui::Begin("Components");
-
-        if (ImGui::Button("Add Component"))
+        if (SelectionContext::getInstance().getSelectedEntity())
         {
-            m_scene->m_registry.emplace<CameraComponent>(SelectionContext::getInstance().getSelectedEntity());
+
+            if (ImGui::BeginCombo("Add Component", ""))
+            {
+                Entity entity = SelectionContext::getInstance().getSelectedEntity();
+                if (ImGui::Selectable("Transform"))
+                {
+                    if (!entity.hasComponent<TransformComponent>())
+                    {
+                        m_scene->m_registry.emplace<TransformComponent>(entity, glm::vec3(0.f));
+                    }
+                }
+                if (ImGui::Selectable("Mesh"))
+                {
+                    if (!entity.hasComponent<MeshComponent>())
+                    {
+                        // crashes
+                        // need more stuff
+
+                        Ref<MeshObject> mesh_oject = MakeRef<MeshObject>(); //
+                        mesh_oject->setMesh(MeshUtils::makeGrid(1.f, 1.f, 2, 2));
+
+                        MeshUtils::rotateX(mesh_oject->m_mesh, -PI / 2.0f);
+                        // MeshUtils::computeNormals(mesh_oject->m_mesh);
+                        mesh_oject->buildBuffers();
+                        m_scene->m_registry.emplace<MeshComponent>(entity, mesh_oject);
+                    }
+                }
+                if (ImGui::Selectable("Camera"))
+                {
+
+                    if (!entity.hasComponent<CameraComponent>())
+                    {
+                        m_scene->m_registry.emplace<CameraComponent>(entity);
+                    }
+                }
+                ImGui::EndCombo();
+            }
+            drawTagComponent();
+            drawTransformComponent();
+            drawMeshComponent();
+            drawCameraComponent();
         }
-        drawTagComponent();
-        drawTransformComponent();
-        drawMeshComponent();
-        drawCameraComponent();
 
         ImGui::End();
     }
@@ -481,15 +523,15 @@ namespace Orbitons
     void UI::drawTagComponent()
     {
 
-        entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
-        if (m_scene->m_registry.has<TagComponent>(ent))
+        Entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (ent.hasComponent<TagComponent>())
         {
             ImGuiTreeNodeFlags flags = 0;
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Tag Component", flags))
             {
 
-                std::string tagName = m_scene->m_registry.get<TagComponent>(ent).tagName;
+                std::string tagName = ent.getComponent<TagComponent>().tagName;
                 char *buff = (char *)(tagName.c_str());
                 if (ImGui::InputText("Tag Name", buff, 256))
                 {
@@ -502,11 +544,10 @@ namespace Orbitons
 
     void UI::drawTransformComponent()
     {
-        entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
-        if (m_scene->m_registry.has<TransformComponent>(ent))
+        Entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (ent.hasComponent<TransformComponent>())
         {
-
-            auto &transforms = m_scene->m_registry.get<TransformComponent>(ent);
+            auto &transforms = ent.getComponent<TransformComponent>();
             ImGuiTreeNodeFlags flags = 0;
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Transform Component", flags))
@@ -514,17 +555,25 @@ namespace Orbitons
                 drawVec3Widget(transforms.position, "position");
                 drawVec3Widget(transforms.rotation, "rotation");
                 drawVec3Widget(transforms.scale, "scale", 1.0f);
+
+                ImGui::PushID("remove_transform_component");
+                if (ImGui::Button("remove"))
+                {
+                    ent.removeComponent<TransformComponent>();
+                }
+
+                ImGui::PopID();
             }
         }
     }
 
     void UI::drawCameraComponent()
     {
-        entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
-        if (m_scene->m_registry.has<CameraComponent>(ent))
+        Entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (ent.hasComponent<CameraComponent>())
         {
 
-            auto &camera = m_scene->m_registry.get<CameraComponent>(ent);
+            auto &camera = ent.getComponent<CameraComponent>();
             ImGuiTreeNodeFlags flags = 0;
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Camera Component", flags))
@@ -533,17 +582,25 @@ namespace Orbitons
                 ImGui::DragFloat("angle", &(camera.angle));
                 ImGui::DragFloat("near", &(camera.near));
                 ImGui::DragFloat("far", &(camera.far));
+
+                ImGui::PushID("remove_camera_component");
+                if (ImGui::Button("remove"))
+                {
+                    ent.removeComponent<CameraComponent>();
+                }
+
+                ImGui::PopID();
             }
         }
     }
 
     void UI::drawMeshComponent()
     {
-        entt::entity ent = SelectionContext::getInstance().m_selectedEntity;
-        if (m_scene->m_registry.has<MeshComponent>(ent))
+        Entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (ent.hasComponent<MeshComponent>())
         {
 
-            auto &meshComp = m_scene->m_registry.get<MeshComponent>(ent);
+            auto &meshComp = ent.getComponent<MeshComponent>();
             ImGuiTreeNodeFlags flags = 0;
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Mesh Component", flags))
@@ -565,9 +622,18 @@ namespace Orbitons
                         }
                     }
                 }
+
+                ImGui::PushID("remove_mesh_component");
+                if (ImGui::Button("remove"))
+                {
+                    ent.removeComponent<MeshComponent>();
+                }
+
+                ImGui::PopID();
             }
         }
     }
+
     void UI::drawVec3Widget(glm::vec3 &vec, const char *label, float default_value)
     {
         ImGui::PushID(label);
