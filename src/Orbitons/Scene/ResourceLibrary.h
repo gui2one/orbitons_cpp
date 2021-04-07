@@ -5,6 +5,7 @@
 #include "core.h"
 #include "Core/Mesh.h"
 #include "Core/ObjectLoader.h"
+#include "Core/IDGenerator.h"
 
 #define RESOURCE_TYPE_NAME(type)                                                       \
     static ResourceItemType GetStaticType() { return ResourceItemType::type; }         \
@@ -54,7 +55,8 @@ namespace Orbitons
         MeshItem(std::string file_path)
         {
             ObjLoader loader;
-            mesh = loader.assimp_load(file_path);
+            path = file_path;
+            mesh = loader.assimp_load(path);
         }
         RESOURCE_TYPE_NAME(MeshItem)
     };
@@ -81,6 +83,7 @@ namespace Orbitons
 
         void addItem(Ref<ResourceItem> item)
         {
+            item->setUUID(IDGenerator::generateUUID());
             items.push_back(item);
         }
 

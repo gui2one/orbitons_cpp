@@ -81,4 +81,46 @@ namespace Orbitons
         root["resources"] = node;
         return root;
     }
+
+    void Serializer::deserialize(const std::string &file_path, Scene *scene, ResourceLibrary &resources)
+    {
+        std::vector<YAML::Node> nodes = YAML::LoadAllFromFile(file_path);
+
+        // clear all resources
+
+        SelectionContext::getInstance().setSelectedEntity(Entity(entt::null, scene));
+        resources.items.clear();
+
+        for (const auto entity : scene->m_registry.view<UUIDComponent>())
+        {
+            scene->m_registry.destroy(entity);
+        }
+
+        for (auto node : nodes)
+        {
+
+            if (node["resources"])
+            {
+
+                printf("resources :: \n");
+                for (auto &node : node["resources"])
+                {
+
+                    // std::cout << node["type"] << std::endl;
+                    if (node["type"].as<std::string>() == std::string("MeshItem"))
+                    {
+                        Ref<MeshItem> item = MakeRef<MeshItem>(node["path"].as<std::string>());
+                        resources.addItem(item);
+
+                        printf("meshItem type\n");
+                    }
+                }
+            }
+
+            if (node["entities"])
+            {
+                // found entities node
+            }
+        }
+    }
 } // namespace Orbitons

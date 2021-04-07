@@ -13,7 +13,7 @@
 #include "../vendor/imgui/imgui_internal.h"
 
 #include "Core/Serializer.h"
-#include "Core/IDGenerator.h"
+// #include "Core/IDGenerator.h"
 
 namespace Orbitons
 {
@@ -198,12 +198,13 @@ namespace Orbitons
                 if (ImGui::MenuItem("Open ..."))
                 {
 
-                    std::optional<std::string> path = PlatformUtils::openFileialog("../../resources/shaders/phong_shader.frag");
+                    std::optional<std::string> path = PlatformUtils::openFileialog("../../resources/shaders/phong_shader.frag", "Orbitons\0 *.orbitons\0");
 
                     if (path)
-                        printf("File Path  --> %s\n", path->c_str());
-                    else
-                        printf("No file \n");
+                    {
+                        Serializer serializer;
+                        serializer.deserialize(path->data(), m_scene, ResourceLibrary::getInstance());
+                    }
                 }
                 if (ImGui::MenuItem("Save as ..."))
                 {
@@ -215,10 +216,10 @@ namespace Orbitons
                         Serializer serializer;
 
                         YAML::Emitter emitter;
-                        emitter << YAML::BeginSeq;
+
                         emitter << serializer.serializeScene(m_scene);
                         emitter << serializer.serializeResources(ResourceLibrary::getInstance());
-                        emitter << YAML::EndSeq;
+                        // emitter << YAML::EndMap;
 
                         std::ofstream out(path->c_str());
                         out << emitter.c_str();
@@ -425,8 +426,8 @@ namespace Orbitons
 
                 Ref<MeshItem> item = MakeRef<MeshItem>(file_path.value());
 
-                item->setUUID(IDGenerator::generateUUID());
-                printf("id --> %s\n", item->getUUID().c_str());
+                // item->setUUID(IDGenerator::generateUUID());
+                // printf("id --> %s\n", item->getUUID().c_str());
                 item->path = file_path.value();
                 // printf("file path ------> %s\n", file_path.value().c_str());
                 ResourceLibrary::getInstance().addItem(item);

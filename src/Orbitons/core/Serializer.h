@@ -6,6 +6,7 @@
 #include "Scene/Scene.h"
 #include "Scene/Entity.h"
 #include "Scene/Components.h"
+#include "Scene/SelectionContext.h"
 
 namespace YAML
 {
@@ -69,6 +70,7 @@ namespace Orbitons
 
         YAML::Node serializeScene(Scene *scene);
         YAML::Node serializeResources(const ResourceLibrary &resources);
+        void deserialize(const std::string &file_path, Scene *scene, ResourceLibrary &resources);
 
     private:
     };

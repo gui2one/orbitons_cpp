@@ -146,11 +146,11 @@ namespace Orbitons
 
         glm::vec3 lightPos = glm::vec3(2.f, 2.f, 2.f);
 
-        auto meshes = m_scene.m_registry.view<MeshComponent, TagComponent, TransformComponent>();
+        auto meshes = m_scene.m_registry.view<UUIDComponent, MeshComponent, TagComponent, TransformComponent>();
 
         for (auto entity : meshes)
         {
-            auto [mesh, tag, transform] = meshes.get<MeshComponent, TagComponent, TransformComponent>(entity);
+            auto [uuid, mesh, tag, transform] = meshes.get<UUIDComponent, MeshComponent, TagComponent, TransformComponent>(entity);
 
             mesh.material->useProgram();
             glm::mat4 model(1.f);
