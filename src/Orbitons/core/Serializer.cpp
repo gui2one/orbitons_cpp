@@ -193,13 +193,7 @@ namespace Orbitons
                                 scene->m_registry.emplace<MeshComponent>(entity);
                             }
 
-                            // Ref<MeshObject> mesh_object = MakeRef<MeshObject>();
-                            // Ref<MeshItem> mesh_item = std::dynamic_pointer_cast<MeshItem>(res_item);
-                            // mesh_object->setMesh(mesh_item->mesh);
-                            // mesh_object->buildBuffers();
-
                             entity.getComponent<MeshComponent>().mesh_item = std::dynamic_pointer_cast<MeshItem>(res_item);
-                            // entity.getComponent<MeshComponent>().mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(res_item)->mesh);
                         }
                     }
 

@@ -618,13 +618,7 @@ namespace Orbitons
 
                         if (selected_res->GetItemType() == ResourceItemType::MeshItem)
                         {
-
-                            Ref<MeshItem> &mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
-                            // meshComp.vertex_array = mesh_item->mesh_object->m_vertexArray;
-
                             meshComp.mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
-
-                            // meshComp.mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(selected_res)->mesh);
                         }
                     }
                 }

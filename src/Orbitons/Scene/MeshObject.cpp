@@ -47,11 +47,8 @@ namespace Orbitons
 
     void MeshObject::draw()
     {
-
-        // material->useProgram();
         glBindVertexArray(m_vertexArray->getID());
         glDrawElements(GL_TRIANGLES, m_num_elements, GL_UNSIGNED_INT, nullptr);
         glBindVertexArray(0);
-        // glUseProgram(0);
     }
 } // namespace Orbitons

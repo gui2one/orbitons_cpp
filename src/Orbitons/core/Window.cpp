@@ -158,7 +158,7 @@ namespace Orbitons
 
             model = transform.getTransforms() * model;
 
-            // printf("material id --> %d\n", mesh.material->getShaderID());
+
 
             glUniform3fv(glGetUniformLocation(mesh.material->getShaderID(), "u_lightPos"), 1, glm::value_ptr(lightPos));
             glUniform3fv(glGetUniformLocation(mesh.material->getShaderID(), "u_cameraPos"), 1, glm::value_ptr(m_scene.m_activeCamera->position));
