@@ -190,7 +190,7 @@ namespace Orbitons
                             if (!entity.hasComponent<MeshComponent>())
                             {
                                 printf("adding MeshComponent beacuse it's missing\n");
-                                scene->m_registry.emplace<MeshComponent>(entity, nullptr);
+                                scene->m_registry.emplace<MeshComponent>(entity);
                             }
 
                             // Ref<MeshObject> mesh_object = MakeRef<MeshObject>();
@@ -199,7 +199,7 @@ namespace Orbitons
                             // mesh_object->buildBuffers();
 
                             entity.getComponent<MeshComponent>().mesh_item = std::dynamic_pointer_cast<MeshItem>(res_item);
-                            entity.getComponent<MeshComponent>().mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(res_item)->mesh);
+                            // entity.getComponent<MeshComponent>().mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(res_item)->mesh);
                         }
                     }
 

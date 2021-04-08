@@ -499,7 +499,7 @@ namespace Orbitons
                         MeshUtils::rotateX(mesh_oject->m_mesh, -PI / 2.0f);
                         // MeshUtils::computeNormals(mesh_oject->m_mesh);
                         mesh_oject->buildBuffers();
-                        m_scene->m_registry.emplace<MeshComponent>(entity, mesh_oject);
+                        m_scene->m_registry.emplace<MeshComponent>(entity);
                     }
                 }
                 if (ImGui::Selectable("Camera"))
@@ -618,8 +618,13 @@ namespace Orbitons
 
                         if (selected_res->GetItemType() == ResourceItemType::MeshItem)
                         {
+
+                            Ref<MeshItem> &mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
+                            // meshComp.vertex_array = mesh_item->mesh_object->m_vertexArray;
+
                             meshComp.mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
-                            meshComp.mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(selected_res)->mesh);
+
+                            // meshComp.mesh_object->setMesh(std::dynamic_pointer_cast<MeshItem>(selected_res)->mesh);
                         }
                     }
                 }

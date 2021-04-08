@@ -6,7 +6,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
-// #include "Core/Mesh.h"
+#include "Renderer/VertexArray.h"
 #include "Scene/MeshObject.h"
 #include "Scene/ResourceLibrary.h"
 #include "Renderer/Material.h"
@@ -65,18 +65,18 @@ namespace Orbitons
 
     struct MeshComponent
     {
-        Ref<MeshObject> mesh_object;
+
         Ref<Material> material;
         Ref<MeshItem> mesh_item = nullptr;
-        MeshComponent() = default;
-        MeshComponent(const MeshComponent &other) = default;
-        MeshComponent(const Ref<MeshObject> &_mesh)
-            : mesh_object(_mesh)
+
+        // MeshComponent() = default;
+        MeshComponent()
         {
             material = MakeRef<PhongMaterial>();
 
             // material->setDiffuseColor(glm::vec3(1.0f, 0.f, 0.f));
         }
+        MeshComponent(const MeshComponent &other) = default;
     };
 
     struct CameraComponent

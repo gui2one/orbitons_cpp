@@ -7,6 +7,8 @@
 #include "Core/ObjectLoader.h"
 #include "Core/IDGenerator.h"
 
+#include "Scene/MeshObject.h"
+
 #define RESOURCE_TYPE_NAME(type)                                                      \
     static ResourceItemType GetStaticType() { return ResourceItemType::type; }        \
     virtual ResourceItemType GetItemType() const override { return GetStaticType(); } \
@@ -50,13 +52,17 @@ namespace Orbitons
     class MeshItem : public ResourceItem
     {
     public:
-        Mesh mesh;
+        MeshObject mesh_object;
         MeshItem() {}
         MeshItem(std::string file_path)
         {
             ObjLoader loader;
+            Mesh mesh;
             path = file_path;
             mesh = loader.assimp_load(path);
+            mesh_object.setMesh(mesh);
+
+            // mesh_object->buildBuffers();
         }
         RESOURCE_TYPE_NAME(MeshItem)
     };

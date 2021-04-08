@@ -14,8 +14,8 @@ namespace Orbitons
 
     void MeshObject::setMesh(const Mesh &mesh)
     {
-
         m_mesh = mesh;
+        printf("seeting Mesh ....\n");
 
         // MeshUtils::computeNormals(m_mesh);
         buildBuffers();
@@ -23,6 +23,7 @@ namespace Orbitons
 
     void MeshObject::buildBuffers()
     {
+
         m_vertexBuffer.reset(VertexBuffer::create((float *)m_mesh.vertices.data(), m_mesh.vertices.size() * sizeof(Vertex)));
         // m_vertexBuffer->bind();
 
@@ -40,8 +41,8 @@ namespace Orbitons
         // m_indexBuffer->bind();
 
         m_num_elements = m_mesh.indices.size();
-        m_mesh.vertices.clear();
-        m_mesh.indices.clear();
+        // m_mesh.vertices.clear();
+        // m_mesh.indices.clear();
     }
 
     void MeshObject::draw()

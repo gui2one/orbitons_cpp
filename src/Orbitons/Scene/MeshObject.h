@@ -28,7 +28,7 @@ namespace Orbitons
         void setMesh(const Mesh &mesh);
 
     private:
-        uint64_t m_num_elements;
+        uint64_t m_num_elements = 0;
     };
 } // namespace Orbitons
 
