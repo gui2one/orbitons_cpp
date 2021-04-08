@@ -58,9 +58,6 @@ namespace Orbitons
             glm::mat4 rot_matrix = glm::toMat4(glm::quat(glm::radians(rotation)));
             return glm::translate(glm::mat4(1.0f), position) * rot_matrix * glm::scale(glm::mat4(1.0f), scale);
         }
-
-        /* does not work as expected ... */
-        // operator glm::mat4() { return transforms; }
     };
 
     struct MeshComponent

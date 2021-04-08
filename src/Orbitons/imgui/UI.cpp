@@ -470,6 +470,69 @@ namespace Orbitons
         ImGui::PopID();
     }
 
+    void UI::drawVec3Widget(glm::vec3 &vec, const char *label, float default_value)
+    {
+        ImGui::PushID(label);
+        ImGui::Columns(2);
+        ImGui::SetColumnWidth(0, 90.f);
+
+        ImGui::Text("%s", label);
+
+        ImGui::NextColumn();
+        ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
+
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.f, 0.f));
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.8f, 0.1f, 0.1f, 1.f)));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(0.9f, 0.1f, 0.1f, 1.f)));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(1.0f, 0.1f, 0.1f, 1.f)));
+
+        if (ImGui::Button("X", ImVec2(30, 20)))
+        {
+            vec.x = default_value;
+        }
+
+        ImGui::PopStyleColor(3);
+        ImGui::SameLine();
+        ImGui::DragFloat("##x", &vec.x);
+        ImGui::PopItemWidth();
+        ImGui::SameLine();
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.1f, 0.5f, 0.1f, 1.f)));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(0.1f, 0.6f, 0.1f, 1.f)));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(0.1f, 0.7f, 0.1f, 1.f)));
+        if (ImGui::Button("Y", ImVec2(30, 20)))
+        {
+            vec.y = default_value;
+        }
+        ImGui::PopStyleColor(3);
+        ImGui::SameLine();
+        ImGui::DragFloat("##y", &vec.y);
+        ImGui::PopItemWidth();
+        ImGui::SameLine();
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.1f, 0.1f, 0.8f, 1.f)));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(0.1f, 0.1f, 0.9f, 1.f)));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(0.1f, 0.1f, 1.0f, 1.f)));
+        if (ImGui::Button("Z", ImVec2(30, 20)))
+        {
+            vec.z = default_value;
+        }
+        ImGui::PopStyleColor(3);
+        ImGui::SameLine();
+        ImGui::DragFloat("##z", &vec.z);
+
+        ImGui::PopItemWidth();
+        ImGui::Columns(1);
+        ImGui::PopStyleVar();
+        ImGui::PopID();
+    }
+
+    /*
+    -------------------------
+        Components
+    -------------------------
+    */
+
     void UI::EntityComponentsPanel()
     {
         ImGui::Begin("Components");
@@ -632,63 +695,6 @@ namespace Orbitons
                 ImGui::PopID();
             }
         }
-    }
-
-    void UI::drawVec3Widget(glm::vec3 &vec, const char *label, float default_value)
-    {
-        ImGui::PushID(label);
-        ImGui::Columns(2);
-        ImGui::SetColumnWidth(0, 90.f);
-
-        ImGui::Text("%s", label);
-
-        ImGui::NextColumn();
-        ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
-
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.f, 0.f));
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.8f, 0.1f, 0.1f, 1.f)));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(0.9f, 0.1f, 0.1f, 1.f)));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(1.0f, 0.1f, 0.1f, 1.f)));
-
-        if (ImGui::Button("X", ImVec2(30, 20)))
-        {
-            vec.x = default_value;
-        }
-
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##x", &vec.x);
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.1f, 0.5f, 0.1f, 1.f)));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(0.1f, 0.6f, 0.1f, 1.f)));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(0.1f, 0.7f, 0.1f, 1.f)));
-        if (ImGui::Button("Y", ImVec2(30, 20)))
-        {
-            vec.y = default_value;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##y", &vec.y);
-        ImGui::PopItemWidth();
-        ImGui::SameLine();
-
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0.1f, 0.1f, 0.8f, 1.f)));
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(0.1f, 0.1f, 0.9f, 1.f)));
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(0.1f, 0.1f, 1.0f, 1.f)));
-        if (ImGui::Button("Z", ImVec2(30, 20)))
-        {
-            vec.z = default_value;
-        }
-        ImGui::PopStyleColor(3);
-        ImGui::SameLine();
-        ImGui::DragFloat("##z", &vec.z);
-
-        ImGui::PopItemWidth();
-        ImGui::Columns(1);
-        ImGui::PopStyleVar();
-        ImGui::PopID();
     }
 
 } // namespace Orbitons
