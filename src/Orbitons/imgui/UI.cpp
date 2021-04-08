@@ -306,8 +306,15 @@ namespace Orbitons
                                                           m_scene->m_activeCamera->position,
                                                           m_scene->m_activeCamera->target_position,
                                                           glm::normalize(up_vector));
+                // glEnable(GL_DEPTH_TEST);
+                // ImGuizmo::DrawGrid(glm::value_ptr(camView), glm::value_ptr(camProjection), glm::value_ptr(glm::mat4(1.0f)), 100.f);
+                // glDisable(GL_DEPTH_TEST);
                 ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProjection), m_currentGizmo, ImGuizmo::LOCAL, glm::value_ptr(matrix));
 
+                // float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
+                // float viewManipulateTop = ImGui::GetWindowPos().y;
+
+                // ImGuizmo::ViewManipulate((float *)glm::value_ptr(camView), 10.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128.0f, 128.f), 0x10101010);
                 if (ImGuizmo::IsUsing())
                 {
                     glm::vec3 scale, translation, skew;
@@ -442,7 +449,7 @@ namespace Orbitons
         ImGui::SameLine();
         if (ImGui::Button("add texture"))
         {
-            std::optional<std::string> file_path = PlatformUtils::openFileialog("", "BMP|*.bmp|GIF|*.gif|JPG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tif;*.tiff");
+            std::optional<std::string> file_path = PlatformUtils::openFileialog("", "All(*.png;*.jpg)\0 *.png;*.jpg\0");
             if (file_path)
             {
 
@@ -587,12 +594,21 @@ namespace Orbitons
                         m_scene->m_registry.emplace<CameraComponent>(entity);
                     }
                 }
+                if (ImGui::Selectable("Material"))
+                {
+
+                    if (!entity.hasComponent<MaterialComponent>())
+                    {
+                        m_scene->m_registry.emplace<MaterialComponent>(entity);
+                    }
+                }
                 ImGui::EndCombo();
             }
             drawTagComponent();
             drawTransformComponent();
             drawMeshComponent();
             drawCameraComponent();
+            drawMaterialComponent();
         }
 
         ImGui::End();
@@ -711,4 +727,26 @@ namespace Orbitons
         }
     }
 
+    void UI::drawMaterialComponent()
+    {
+        Entity ent = SelectionContext::getInstance().m_selectedEntity;
+        if (ent.hasComponent<MaterialComponent>())
+        {
+
+            auto &material = ent.getComponent<MaterialComponent>();
+            ImGuiTreeNodeFlags flags = 0;
+            flags |= ImGuiTreeNodeFlags_DefaultOpen;
+            if (ImGui::CollapsingHeader("Material Component", flags))
+            {
+
+                ImGui::PushID("remove_camera_component");
+                if (ImGui::Button("remove"))
+                {
+                    ent.removeComponent<MaterialComponent>();
+                }
+
+                ImGui::PopID();
+            }
+        }
+    }
 } // namespace Orbitons

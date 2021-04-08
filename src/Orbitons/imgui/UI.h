@@ -60,6 +60,7 @@ namespace Orbitons
         void drawTransformComponent();
         void drawMeshComponent();
         void drawCameraComponent();
+        void drawMaterialComponent();
 
         //widgets
         void drawVec3Widget(glm::vec3 &vec, const char *label, float default_value = 0.0f);

@@ -62,9 +62,11 @@ namespace Orbitons
 
         inline void setUniforms() override
         {
-
-            glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.diffuseColor"), 1, glm::value_ptr(diffuseColor));
-            glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.specularColor"), 1, glm::value_ptr(specularColor));
+            // printf("---------- setUniforms ------------- \n");
+            m_shader->uploadUniform3fv(diffuseColor, "material.diffuseColor");
+            m_shader->uploadUniform3fv(specularColor, "material.specularColor");
+            // glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.diffuseColor"), 1, glm::value_ptr(diffuseColor));
+            // glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.specularColor"), 1, glm::value_ptr(specularColor));
         }
 
         inline void initShader() override
@@ -104,8 +106,13 @@ namespace Orbitons
 
         inline void setUniforms() override
         {
+            m_shader->uploadUniform3fv(color, "material.color");
+            // glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.color"), 1, glm::value_ptr(color));
+        }
 
-            glUniform3fv(glGetUniformLocation(m_shader->getID(), "material.color"), 1, glm::value_ptr(color));
+        inline void setDiffuseColor(glm::vec3 clr)
+        {
+            color = clr;
         }
     };
 

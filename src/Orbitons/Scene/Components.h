@@ -71,7 +71,7 @@ namespace Orbitons
         {
             material = MakeRef<PhongMaterial>();
 
-            material->setDiffuseColor(glm::vec3(0.0f, 1.f, 0.f));
+            material->setDiffuseColor(glm::vec3(1.0f, 1.f, 0.f));
         }
         MeshComponent(const MeshComponent &other) = default;
     };
@@ -90,6 +90,15 @@ namespace Orbitons
             : angle(_angle), near(_near), far(_far)
         {
         }
+    };
+
+    struct MaterialComponent
+    {
+
+        std::vector<Ref<Texture>> textures;
+
+        MaterialComponent() = default;
+        MaterialComponent(const MaterialComponent &other) = default;
     };
 } // namespace Orbitons
 

@@ -15,7 +15,6 @@ namespace Orbitons
     void MeshObject::setMesh(const Mesh &mesh)
     {
         m_mesh = mesh;
-        printf("seeting Mesh ....\n");
 
         // MeshUtils::computeNormals(m_mesh);
         buildBuffers();
