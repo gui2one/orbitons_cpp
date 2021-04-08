@@ -1,7 +1,9 @@
 #include "FrameBuffer.h"
 #include "Platform/OpenGL/OpenGLFrameBuffer.h"
-namespace Orbitons{
-    Ref<FrameBuffer> FrameBuffer::create(){
-        return MakeRef<OpenGLFrameBuffer>();
+namespace Orbitons
+{
+    FrameBuffer *FrameBuffer::create()
+    {
+        return new OpenGLFrameBuffer();
     }
 }
