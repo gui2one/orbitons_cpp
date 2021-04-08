@@ -4,6 +4,8 @@
 #include "pch.h"
 #include "core.h"
 #include "Core/Mesh.h"
+#include "Renderer/Texture.h"
+#include "Platform/OpenGL/OpenGLTexture.h"
 #include "Core/ObjectLoader.h"
 #include "Core/IDGenerator.h"
 
@@ -46,6 +48,15 @@ namespace Orbitons
         unsigned int width;
         unsigned int height;
 
+        std::shared_ptr<Texture> texture;
+
+    public:
+        TextureItem() {}
+        TextureItem(std::string file_path)
+        {
+            texture.reset(Texture::create());
+            texture->load(file_path);
+        }
         RESOURCE_TYPE_NAME(TextureItem)
     };
 

@@ -426,13 +426,27 @@ namespace Orbitons
     void UI::resourceLibraryPanel()
     {
         ImGui::Begin("Resource Library");
-        if (ImGui::Button("add item"))
+        if (ImGui::Button("add mesh"))
         {
             std::optional<std::string> file_path = PlatformUtils::openFileialog("");
             if (file_path)
             {
 
                 Ref<MeshItem> item = MakeRef<MeshItem>(file_path.value());
+
+                item->path = file_path.value();
+
+                ResourceLibrary::getInstance().addItem(item);
+            }
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("add texture"))
+        {
+            std::optional<std::string> file_path = PlatformUtils::openFileialog("", "BMP|*.bmp|GIF|*.gif|JPG|*.jpg;*.jpeg|PNG|*.png|TIFF|*.tif;*.tiff");
+            if (file_path)
+            {
+
+                Ref<TextureItem> item = MakeRef<TextureItem>(file_path.value());
 
                 item->path = file_path.value();
 
