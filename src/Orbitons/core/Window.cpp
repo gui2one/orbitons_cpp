@@ -168,7 +168,9 @@ namespace Orbitons
             glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
 
             mesh.material->useProgram();
-            mesh.mesh_object->draw();
+
+            if (mesh.mesh_item != nullptr)
+                mesh.mesh_item->mesh_object.draw();
             glUseProgram(0);
         }
 
