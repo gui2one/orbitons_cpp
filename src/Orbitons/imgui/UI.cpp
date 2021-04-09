@@ -539,6 +539,7 @@ namespace Orbitons
         }
 
         ImGui::PushStyleColor(ImGuiCol_Text, clr);
+
         if (ImGui::Selectable(item->GetName(), SelectionContext::getInstance().m_selectedResource == item))
         {
             SelectionContext::getInstance().m_selectedResource = item;
@@ -546,6 +547,33 @@ namespace Orbitons
 
         ImGui::PopStyleColor();
 
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::BeginTooltip();
+
+            ImGui::Text(item->GetName());
+            if (item->GetItemType() == ResourceItemType::TextureItem)
+            {
+
+                Ref<TextureItem> texture_item = std::dynamic_pointer_cast<TextureItem>(item);
+                ImGui::SameLine();
+                ImGui::Text(" : %d / %d", texture_item->texture->getWidth(), texture_item->texture->getHeight());
+                float max_dim = 512.f;
+                ImVec2 texture_size = ImVec2((float)texture_item->texture->getWidth(), (float)texture_item->texture->getHeight());
+                ImVec2 image_size = texture_size;
+
+                if (texture_size.x > max_dim)
+                {
+                    float width_ratio = texture_size.x / texture_size.y;
+                    image_size.x = max_dim;
+                    image_size.y = max_dim / width_ratio;
+                }
+
+                ImGui::Image((ImTextureID)(intptr_t)texture_item->texture->getID(), image_size, ImVec2(0, 1), ImVec2(1, 0));
+            }
+
+            ImGui::EndTooltip();
+        }
         ImGui::SameLine();
         ImGui::Text(" | path: %s", item->path.c_str());
         ImGui::Separator();
