@@ -292,12 +292,11 @@ namespace Orbitons
                     matrix = trans.getTransforms();
                 }
 
-                ImGuizmo::SetOrthographic(false);
-                ImGuizmo::SetDrawlist();
-
                 float windowWidth = (float)m_viewportSize.x;
                 float windowHeight = (float)m_viewportSize.y;
 
+                ImGuizmo::SetOrthographic(false);
+                ImGuizmo::SetDrawlist();
                 ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
                 glm::vec3 up_vector(0.f, 1.0f, 0.f);
@@ -306,15 +305,9 @@ namespace Orbitons
                                                           m_scene->m_activeCamera->position,
                                                           m_scene->m_activeCamera->target_position,
                                                           glm::normalize(up_vector));
-                // glEnable(GL_DEPTH_TEST);
-                // ImGuizmo::DrawGrid(glm::value_ptr(camView), glm::value_ptr(camProjection), glm::value_ptr(glm::mat4(1.0f)), 100.f);
-                // glDisable(GL_DEPTH_TEST);
+
                 ImGuizmo::Manipulate(glm::value_ptr(camView), glm::value_ptr(camProjection), m_currentGizmo, ImGuizmo::LOCAL, glm::value_ptr(matrix));
 
-                // float viewManipulateRight = ImGui::GetWindowPos().x + windowWidth;
-                // float viewManipulateTop = ImGui::GetWindowPos().y;
-
-                // ImGuizmo::ViewManipulate((float *)glm::value_ptr(camView), 10.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128.0f, 128.f), 0x10101010);
                 if (ImGuizmo::IsUsing())
                 {
                     glm::vec3 scale, translation, skew;

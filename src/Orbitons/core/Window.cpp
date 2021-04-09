@@ -48,7 +48,6 @@ namespace Orbitons
         m_ui.init(m_window);
         m_ui.setScene(m_scene);
 
-        
         glfwSetWindowUserPointer(m_window, &m_data);
         glfwSwapInterval(1);
 

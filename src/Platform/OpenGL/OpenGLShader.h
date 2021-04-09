@@ -50,8 +50,8 @@ namespace Orbitons
 
 	private:
 		std::string vertexShaderSource;
+
 		std::string fragmentShaderSource;
-		/* add your private declarations */
 	};
 }
 
