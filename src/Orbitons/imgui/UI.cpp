@@ -129,15 +129,60 @@ namespace Orbitons
         return false;
     }
 
+    bool UI::saveProject()
+    {
+        if (projectFilePath == "")
+        {
+            std::optional<std::string> path = PlatformUtils::saveFileDialog("Orbitons\0 *.orbitons\0");
+
+            if (path)
+            {
+                projectFilePath = path->data();
+                glfwSetWindowTitle(m_window, projectFilePath.c_str());
+                return saveProjectAs(path->data());
+            }
+        }
+        else
+        {
+            glfwSetWindowTitle(m_window, projectFilePath.c_str());
+            return saveProjectAs(projectFilePath);
+        }
+        printf("Saving project\n");
+        return true;
+    }
+
+    bool UI::saveProjectAs(std::string file_path)
+    {
+        projectFilePath = file_path;
+        glfwSetWindowTitle(m_window, projectFilePath.c_str());
+
+        Serializer serializer;
+
+        YAML::Emitter emitter;
+
+        emitter << serializer.serializeScene(m_scene);
+        emitter << serializer.serializeResources(ResourceLibrary::getInstance());
+
+        std::ofstream out(file_path.c_str());
+        out << emitter.c_str();
+        return true;
+    }
     bool UI::onKeyPressEvent(KeyPressEvent &e)
     {
         const char *key_name = glfwGetKeyName(e.m_Keycode, e.m_Scancode);
+
+        ImGuiIO &io = ImGui::GetIO();
+
         if (key_name)
         {
 
             switch (key_name[0])
             {
             case NULL:
+                return true;
+            case 's':
+                if (io.KeyCtrl)
+                    saveProject();
                 return true;
             case 'z':
                 // printf("translate\n", key_name);
@@ -206,6 +251,8 @@ namespace Orbitons
                     {
                         Serializer serializer;
                         serializer.deserialize(path->data(), m_scene, ResourceLibrary::getInstance());
+                        projectFilePath = path->data();
+                        glfwSetWindowTitle(m_window, projectFilePath.c_str());
                     }
                 }
                 if (ImGui::MenuItem("Save as ..."))
@@ -214,17 +261,7 @@ namespace Orbitons
 
                     if (path)
                     {
-
-                        Serializer serializer;
-
-                        YAML::Emitter emitter;
-
-                        emitter << serializer.serializeScene(m_scene);
-                        emitter << serializer.serializeResources(ResourceLibrary::getInstance());
-                        // emitter << YAML::EndMap;
-
-                        std::ofstream out(path->c_str());
-                        out << emitter.c_str();
+                        saveProjectAs(path->data());
                     }
                 }
 
@@ -789,12 +826,11 @@ namespace Orbitons
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Mesh Component", flags))
             {
-
+                auto &selected_res = SelectionContext::getInstance().m_selectedResource;
                 ImGui::Text("MeshItem Resource");
                 ImGui::SameLine();
                 if (ImGui::Button("set to selected item resource"))
                 {
-                    auto &selected_res = SelectionContext::getInstance().m_selectedResource;
 
                     if (SelectionContext::getInstance().m_selectedResource)
                     {
@@ -804,6 +840,10 @@ namespace Orbitons
                             meshComp.mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
                         }
                     }
+                }
+                if (ImGui::Button("select resource"))
+                {
+                    SelectionContext::getInstance().m_selectedResource = meshComp.mesh_item;
                 }
 
                 ImGui::PushID("remove_mesh_component");

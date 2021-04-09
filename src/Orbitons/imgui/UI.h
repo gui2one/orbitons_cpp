@@ -31,6 +31,7 @@ namespace Orbitons
         GraphicContext *m_Context;
 
         bool isMouseOverViewport = false;
+        std::string projectFilePath = std::string("");
 
     public:
         UI();
@@ -50,6 +51,9 @@ namespace Orbitons
 
         void setContext(GraphicContext &ctx) { m_Context = &ctx; }
         void setScene(Scene &scene) { m_scene = &scene; }
+
+        bool saveProject();
+        bool saveProjectAs(std::string file_path);
         // panels
         void sceneHierarchyPanel();
         void resourceLibraryPanel();
