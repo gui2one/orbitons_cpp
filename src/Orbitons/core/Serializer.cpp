@@ -103,6 +103,15 @@ namespace Orbitons
             res_node["type"] = res->GetName();
             res_node["uuid"] = res->getUUID();
             res_node["path"] = res->path;
+
+            //material items
+            Ref<MaterialItem> material_res = std::dynamic_pointer_cast<MaterialItem>(res);
+
+            if (material_res)
+            {
+                res_node["materialItemType"] = (int)material_res->material_type;
+            }
+
             node.push_back(res_node);
         }
         node.end();
@@ -162,6 +171,7 @@ namespace Orbitons
 
                         // set UUID AFTER adding to resource library to override UUID as it is set in addItem method
                         item->setUUID(node["uuid"].as<std::string>());
+                        item->material_type = (MaterialItemType)(node["materialItemType"].as<int>());
                         ///////////////
                     }
                 }

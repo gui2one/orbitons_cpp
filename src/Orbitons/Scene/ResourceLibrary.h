@@ -26,6 +26,13 @@ namespace Orbitons
         MaterialItem
     };
 
+    enum class MaterialItemType
+    {
+        none = 0,
+        Unlit,
+        Phong
+    };
+
     class ResourceItem
     {
     public:
@@ -82,6 +89,8 @@ namespace Orbitons
     class MaterialItem : public ResourceItem
     {
     public:
+        MaterialItemType material_type;
+        Ref<Material> material;
         MaterialItem() {}
         MaterialItem(std::string file_path)
         {
@@ -92,13 +101,19 @@ namespace Orbitons
     class PhongMaterialItem : public MaterialItem
     {
     public:
-        PhongMaterialItem(){};
+        PhongMaterialItem()
+        {
+            material_type = MaterialItemType::Phong;
+        };
     };
 
     class UnlitMaterialItem : public MaterialItem
     {
     public:
-        UnlitMaterialItem(){};
+        UnlitMaterialItem()
+        {
+            material_type = MaterialItemType::Unlit;
+        };
     };
 
     /*

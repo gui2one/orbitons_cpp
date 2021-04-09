@@ -70,6 +70,36 @@ namespace Orbitons
         void drawVec3Widget(glm::vec3 &vec, const char *label, float default_value = 0.0f);
         void drawResourceItem(Ref<ResourceItem> &item);
 
+        template <typename T>
+        Ref<T> drawResourceItemTarget(Ref<T> &target)
+        {
+
+            Ref<T> res_item;
+
+            ImGui::PushID(&target);
+            if (ImGui::Button("set"))
+            {
+                target = std::dynamic_pointer_cast<T>(SelectionContext::getInstance().m_selectedResource);
+            }
+
+            if (target)
+            {
+                ImGui::Text("%s", target->getUUID().c_str());
+            }
+            else
+            {
+                ImGui::Text("None");
+            }
+
+            if (ImGui::Button("Highlight in Lib"))
+            {
+                SelectionContext::getInstance().m_selectedResource = target;
+            }
+
+            ImGui::PopID();
+            return res_item;
+        }
+
     private:
         GLFWwindow *m_window;
         Scene *m_scene;

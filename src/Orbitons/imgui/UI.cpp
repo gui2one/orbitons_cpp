@@ -826,25 +826,7 @@ namespace Orbitons
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Mesh Component", flags))
             {
-                auto &selected_res = SelectionContext::getInstance().m_selectedResource;
-                ImGui::Text("MeshItem Resource");
-                ImGui::SameLine();
-                if (ImGui::Button("set to selected item resource"))
-                {
-
-                    if (SelectionContext::getInstance().m_selectedResource)
-                    {
-
-                        if (selected_res->GetItemType() == ResourceItemType::MeshItem)
-                        {
-                            meshComp.mesh_item = std::dynamic_pointer_cast<MeshItem>(selected_res);
-                        }
-                    }
-                }
-                if (ImGui::Button("select resource"))
-                {
-                    SelectionContext::getInstance().m_selectedResource = meshComp.mesh_item;
-                }
+                drawResourceItemTarget<MeshItem>(meshComp.mesh_item);
 
                 ImGui::PushID("remove_mesh_component");
                 if (ImGui::Button("remove"))
@@ -868,24 +850,26 @@ namespace Orbitons
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Material Component", flags))
             {
+                drawResourceItemTarget<MaterialItem>(material.material_item);
 
-                auto &selected_res = SelectionContext::getInstance().m_selectedResource;
-
-                if (ImGui::Button("Set To Selected Material"))
+                if (material.material_item)
                 {
-                    if (SelectionContext::getInstance().m_selectedResource)
+
+                    if (material.material_item->material_type == MaterialItemType::Phong)
                     {
 
-                        if (selected_res->GetItemType() == ResourceItemType::MaterialItem)
-                        {
-                            material.material_item = std::dynamic_pointer_cast<MaterialItem>(selected_res);
-                        }
+                        ImGui::Text("Phong");
+                    }
+                    else if (material.material_item->material_type == MaterialItemType::Unlit)
+                    {
+                        ImGui::Text("Unlit");
+                    }
+                    else
+                    {
+                        ImGui::Text("Bad !!!!!");
                     }
                 }
-                if (ImGui::Button("Highlight Material"))
-                {
-                    SelectionContext::getInstance().m_selectedResource = material.material_item;
-                }
+                ImGui::Separator();
 
                 ImGui::PushID(&material);
                 if (ImGui::Button("remove"))
