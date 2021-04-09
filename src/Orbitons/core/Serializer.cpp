@@ -140,6 +140,26 @@ namespace Orbitons
                         item->setUUID(node["uuid"].as<std::string>());
                         ///////////////
                     }
+                    if (node["type"].as<std::string>() == std::string("TextureItem"))
+                    {
+                        Ref<TextureItem> item = MakeRef<TextureItem>(node["path"].as<std::string>());
+
+                        resources.addItem(item);
+
+                        // set UUID AFTER adding to resource library to override UUID as it is set in addItem method
+                        item->setUUID(node["uuid"].as<std::string>());
+                        ///////////////
+                    }
+                    if (node["type"].as<std::string>() == std::string("MaterialItem"))
+                    {
+                        Ref<MaterialItem> item = MakeRef<MaterialItem>();
+
+                        resources.addItem(item);
+
+                        // set UUID AFTER adding to resource library to override UUID as it is set in addItem method
+                        item->setUUID(node["uuid"].as<std::string>());
+                        ///////////////
+                    }
                 }
             }
         }

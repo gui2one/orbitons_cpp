@@ -37,7 +37,7 @@ namespace Orbitons
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO &io = ImGui::GetIO();
-
+        io.Fonts->AddFontFromFileTTF(ORBITONS_RES_DIR "/fonts/JetBrainsMono-Regular.ttf", 16);
         io.ConfigDockingWithShift = false;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -374,7 +374,7 @@ namespace Orbitons
 
     void UI::sceneHierarchyPanel()
     {
-        ImGui::Begin("Scene Hieracrchy");
+        ImGui::Begin("Scene");
 
         auto view = m_scene->m_registry.view<TagComponent>();
 
@@ -382,6 +382,12 @@ namespace Orbitons
         static uint64_t selection_id = 0;
 
         SelectionContext &Selection = SelectionContext::getInstance();
+
+        if (ImGui::IsMouseClicked(0) && ImGui::IsWindowHovered())
+        {
+
+            Selection.setSelectedEntity(Entity(entt::null, m_scene));
+        }
         if (ImGui::Button("Add Entity"))
         {
             m_scene->createEntity("new entity");
@@ -432,6 +438,12 @@ namespace Orbitons
 
         ImGui::Begin("Resource Library", NULL, flags);
 
+        if (ImGui::IsMouseClicked(0) && ImGui::IsWindowHovered())
+        {
+
+            SelectionContext::getInstance().m_selectedResource = nullptr;
+        }
+
         // menu bar
         if (ImGui::BeginMenuBar())
         {
@@ -464,10 +476,14 @@ namespace Orbitons
                     if (ImGui::Selectable("Unlit"))
                     {
                         printf("adding Unlit Material\n");
+                        Ref<MaterialItem> item = MakeRef<MaterialItem>();
+                        ResourceLibrary::getInstance().addItem(item);
                     }
 
                     if (ImGui::Selectable("Phong"))
                     {
+                        Ref<MaterialItem> item = MakeRef<MaterialItem>();
+                        ResourceLibrary::getInstance().addItem(item);
                         printf("adding Phong Material\n");
                     }
 
@@ -502,10 +518,33 @@ namespace Orbitons
     void UI::drawResourceItem(Ref<ResourceItem> &item)
     {
         ImGui::PushID(item.get());
+
+        ImVec4 clr(1.0f, 0.2f, 0.2f, 1.0f);
+
+        switch (item->GetItemType())
+        {
+
+        case ResourceItemType::MeshItem:
+            // printf("drawing meshItem\n");
+            clr = ImVec4(0.2f, 0.8f, 0.2f, 1.0f);
+            break;
+        case ResourceItemType::TextureItem:
+            // printf("drawing meshItem\n");
+            clr = ImVec4(1.0f, 0.2f, 0.3f, 1.0f);
+            break;
+        case ResourceItemType::MaterialItem:
+            // printf("drawing meshItem\n");
+            clr = ImVec4(0.2f, 0.2f, 0.9f, 1.0f);
+            break;
+        }
+
+        ImGui::PushStyleColor(ImGuiCol_Text, clr);
         if (ImGui::Selectable(item->GetName(), SelectionContext::getInstance().m_selectedResource == item))
         {
             SelectionContext::getInstance().m_selectedResource = item;
         }
+
+        ImGui::PopStyleColor();
 
         ImGui::SameLine();
         ImGui::Text(" | path: %s", item->path.c_str());
