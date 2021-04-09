@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2)
 set(CMAKE_TOOLCHAIN_FILE "vcpkg/scripts/buildsystems/vcpkg.cmake")
 # set(CMAKE_C_FLAGS="-mwindows")
 set(VCPKG_MANIFEST_MODE ON)
-
+# add_definitions(-DVCPKG_FEATURE_FLAGS '../vcpkg.json')
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(orbitons)
@@ -38,6 +38,7 @@ add_executable(${CMAKE_PROJECT_NAME}
 
     # vendor/ImGuizmo/ImGuizmo.h
     vendor/ImGuizmo/ImGuizmo.cpp
+
 
 )
 
@@ -111,6 +112,7 @@ target_link_directories(
 
     vcpkg/installed/x64-windows/lib/
     Rpcrt4.lib
+
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
