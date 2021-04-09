@@ -41,6 +41,7 @@ namespace Orbitons
         io.ConfigDockingWithShift = false;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
         // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
         ImVec4 *colors = ImGui::GetStyle().Colors;
@@ -105,6 +106,7 @@ namespace Orbitons
             colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
         }
 
+        ImGui::GetStyle().WindowMenuButtonPosition = ImGuiDir_Left;
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
         const char *glsl_version = "#version 130";
         ImGui_ImplOpenGL3_Init(glsl_version);
@@ -302,8 +304,11 @@ namespace Orbitons
         ImGui::End();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-        ImGuiDockNodeFlags flags = 0;
-        // flags |= ImGuiWindowFlags_;
+
+        // .WindowMenuButtonPosition = ImGuiDir_None;
+        ImGuiWindowFlags flags = 0;
+
+        // flags |= ImGuiWindowFlags_Window;
 
         if (ImGui::Begin("Viewport", NULL, flags))
         {

@@ -77,6 +77,8 @@ namespace Orbitons
             Ref<T> res_item;
 
             ImGui::PushID(&target);
+
+            ImGui::Text("%s", target->GetName());
             if (ImGui::Button("set"))
             {
                 target = std::dynamic_pointer_cast<T>(SelectionContext::getInstance().m_selectedResource);
