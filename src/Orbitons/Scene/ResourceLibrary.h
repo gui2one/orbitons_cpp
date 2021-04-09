@@ -89,6 +89,18 @@ namespace Orbitons
         RESOURCE_TYPE_NAME(MaterialItem)
     };
 
+    class PhongMaterialItem : public MaterialItem
+    {
+    public:
+        PhongMaterialItem(){};
+    };
+
+    class UnlitMaterialItem : public MaterialItem
+    {
+    public:
+        UnlitMaterialItem(){};
+    };
+
     /*
         resource library
     */

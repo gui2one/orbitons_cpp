@@ -19,8 +19,8 @@ namespace Orbitons
 		virtual int getWidth() = 0;
 		virtual int getHeight() = 0;
 		virtual int getBPP() = 0;
-		virtual void bind() = 0;
-		virtual void unbind() = 0;
+		virtual void bind(unsigned int slot = 0) = 0;
+		virtual void unbind(unsigned int slot = 0) = 0;
 
 	private:
 	};

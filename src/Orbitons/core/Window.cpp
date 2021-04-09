@@ -150,6 +150,18 @@ namespace Orbitons
         for (auto entity : meshes)
         {
 
+            Ref<ResourceItem> selected_res = SelectionContext::getInstance().m_selectedResource;
+            if (selected_res)
+            {
+
+                Ref<TextureItem> texture_item = std::dynamic_pointer_cast<TextureItem>(selected_res);
+                if (texture_item)
+                {
+                    texture_item->texture->bind(1);
+                    texture_item->texture->bind(0);
+                }
+            }
+
             auto [uuid, mesh, tag, transform] = meshes.get<UUIDComponent, MeshComponent, TagComponent, TransformComponent>(entity);
 
             mesh.material->useProgram();
@@ -169,6 +181,19 @@ namespace Orbitons
             if (mesh.mesh_item != nullptr)
                 mesh.mesh_item->mesh_object.draw();
             glUseProgram(0);
+
+            // Ref<ResourceItem> selected_res = SelectionContext::getInstance().m_selectedResource;
+            if (selected_res)
+            {
+
+                Ref<TextureItem> texture_item = std::dynamic_pointer_cast<TextureItem>(selected_res);
+                if (texture_item)
+                {
+
+                    texture_item->texture->unbind(1);
+                    texture_item->texture->unbind(0);
+                }
+            }
         }
 
         m_frameBuffer->unbind();

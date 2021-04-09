@@ -57,14 +57,15 @@ namespace Orbitons
 		//~ std::cout << "__ setting texture data : " << _width << "/" << _height  << "\n";
 	}
 
-	void OpenGLTexture::bind()
+	void OpenGLTexture::bind(unsigned int slot)
 	{
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, id);
 	}
 
-	void OpenGLTexture::unbind()
+	void OpenGLTexture::unbind(unsigned int slot)
 	{
+		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 

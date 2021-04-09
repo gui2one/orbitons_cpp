@@ -4,6 +4,7 @@
 
 #include "pch.h"
 #include "Scene/Scene.h"
+#include "Scene/SelectionContext.h"
 #include "Core/Camera.h"
 #include "Core/CameraControls.h"
 #include "Core/Timer.h"

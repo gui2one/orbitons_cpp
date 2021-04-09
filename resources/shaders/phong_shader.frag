@@ -4,10 +4,13 @@
 struct Material{
     vec3 diffuseColor;
     vec3 specularColor;
+
+    sampler2D diffuseTexture;
 };
 
 in vec3 f_position;
 in vec3 f_normal;
+in vec2 f_coords;
 
 uniform mat4 u_model;
 uniform mat4 u_projection;
@@ -18,6 +21,7 @@ uniform vec3 u_lightPos;
 uniform vec3 u_cameraPos;    
 
 uniform Material material;
+
 
 void main() {
 
@@ -33,6 +37,8 @@ void main() {
     vec3 specular = lightColor * spec * material.specularColor;
     
     float diff = max(dot(normal, lightDir),0.0);
-    gl_FragColor = vec4( diff * material.diffuseColor + specular, 1.0);
-//   gl_FragColor = vec4(f_normal, 1.0);
+    
+    vec4 diffTextureColor = texture(material.diffuseTexture, f_coords);
+    gl_FragColor = vec4( diff * material.diffuseColor * diffTextureColor.rgb + specular, 1.0);
+//   gl_FragColor = vec4(normalize(f_normal), 1.0);
 }

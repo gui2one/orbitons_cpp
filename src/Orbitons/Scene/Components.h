@@ -94,7 +94,7 @@ namespace Orbitons
 
     struct MaterialComponent
     {
-
+        Ref<MaterialItem> material_item;
         std::vector<Ref<Texture>> textures;
 
         MaterialComponent() = default;

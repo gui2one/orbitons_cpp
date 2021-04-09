@@ -147,7 +147,7 @@ namespace Orbitons
             glfwSetWindowTitle(m_window, projectFilePath.c_str());
             return saveProjectAs(projectFilePath);
         }
-        printf("Saving project\n");
+        // printf("Saving project\n");
         return true;
     }
 
@@ -513,13 +513,13 @@ namespace Orbitons
                     if (ImGui::Selectable("Unlit"))
                     {
                         printf("adding Unlit Material\n");
-                        Ref<MaterialItem> item = MakeRef<MaterialItem>();
+                        Ref<UnlitMaterialItem> item = MakeRef<UnlitMaterialItem>();
                         ResourceLibrary::getInstance().addItem(item);
                     }
 
                     if (ImGui::Selectable("Phong"))
                     {
-                        Ref<MaterialItem> item = MakeRef<MaterialItem>();
+                        Ref<PhongMaterialItem> item = MakeRef<PhongMaterialItem>();
                         ResourceLibrary::getInstance().addItem(item);
                         printf("adding Phong Material\n");
                     }
@@ -869,7 +869,25 @@ namespace Orbitons
             if (ImGui::CollapsingHeader("Material Component", flags))
             {
 
-                ImGui::PushID("remove_camera_component");
+                auto &selected_res = SelectionContext::getInstance().m_selectedResource;
+
+                if (ImGui::Button("Set To Selected Material"))
+                {
+                    if (SelectionContext::getInstance().m_selectedResource)
+                    {
+
+                        if (selected_res->GetItemType() == ResourceItemType::MaterialItem)
+                        {
+                            material.material_item = std::dynamic_pointer_cast<MaterialItem>(selected_res);
+                        }
+                    }
+                }
+                if (ImGui::Button("Highlight Material"))
+                {
+                    SelectionContext::getInstance().m_selectedResource = material.material_item;
+                }
+
+                ImGui::PushID(&material);
                 if (ImGui::Button("remove"))
                 {
                     ent.removeComponent<MaterialComponent>();
@@ -879,4 +897,5 @@ namespace Orbitons
             }
         }
     }
+
 } // namespace Orbitons

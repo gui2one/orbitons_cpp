@@ -78,6 +78,10 @@ namespace Orbitons
                 YAML::Node node;
                 auto &comp = ent.getComponent<MaterialComponent>();
 
+                if (comp.material_item)
+                {
+                    node["materialItem"] = comp.material_item->getUUID();
+                }
                 entity_node["materialComponent"] = node;
             }
 
@@ -241,11 +245,15 @@ namespace Orbitons
 
                     if (entt_node["materialComponent"])
                     {
-
+                        std::string item_uuid = entt_node["materialComponent"]["materialItem"].as<std::string>();
+                        Ref<ResourceItem> res_item = nullptr;
+                        res_item = ResourceLibrary::getInstance().getItemByUUID(item_uuid);
                         if (!entity.hasComponent<MaterialComponent>())
                         {
                             scene->m_registry.emplace<MaterialComponent>(entity);
                         }
+
+                        entity.getComponent<MaterialComponent>().material_item = std::dynamic_pointer_cast<MaterialItem>(res_item);
 
                         // entity.getComponent<MaterialComponent>().active = entt_node["cameraComponent"]["active"].as<bool>();
                     }
