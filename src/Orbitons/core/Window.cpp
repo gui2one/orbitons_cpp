@@ -116,9 +116,7 @@ namespace Orbitons
         {
             m_frameBuffer->invalidate(width, height);
         }
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
+
         m_controls.setCamera(m_scene.m_activeCamera);
 
         m_controls.activated = m_ui.isMouseOverViewport;
@@ -138,8 +136,11 @@ namespace Orbitons
         m_frameBuffer->bind();
 
         // glClearColor(1.0f, 0.f, 0.f,1.f);
+        // glViewport(0, 0, width, height);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
         m_scene.skybox->draw(m_scene.m_activeCamera.get());
 
         glm::vec3 lightPos = glm::vec3(2.f, 2.f, 2.f);

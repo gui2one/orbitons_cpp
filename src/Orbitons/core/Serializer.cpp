@@ -73,6 +73,14 @@ namespace Orbitons
                 entity_node["cameraComponent"] = node;
             }
 
+            if (ent.hasComponent<MaterialComponent>())
+            {
+                YAML::Node node;
+                auto &comp = ent.getComponent<MaterialComponent>();
+
+                entity_node["materialComponent"] = node;
+            }
+
             entities.push_back(entity_node);
         });
 
@@ -209,6 +217,17 @@ namespace Orbitons
                         entity.getComponent<CameraComponent>().angle = entt_node["cameraComponent"]["angle"].as<float>();
                         entity.getComponent<CameraComponent>().near = entt_node["cameraComponent"]["near"].as<float>();
                         entity.getComponent<CameraComponent>().far = entt_node["cameraComponent"]["far"].as<float>();
+                    }
+
+                    if (entt_node["materialComponent"])
+                    {
+
+                        if (!entity.hasComponent<MaterialComponent>())
+                        {
+                            scene->m_registry.emplace<MaterialComponent>(entity);
+                        }
+
+                        // entity.getComponent<MaterialComponent>().active = entt_node["cameraComponent"]["active"].as<bool>();
                     }
                 }
             }

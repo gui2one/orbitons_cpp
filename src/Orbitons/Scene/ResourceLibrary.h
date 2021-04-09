@@ -54,6 +54,7 @@ namespace Orbitons
         TextureItem() {}
         TextureItem(std::string file_path)
         {
+            path = file_path;
             texture.reset(Texture::create());
             texture->load(file_path);
         }
@@ -76,6 +77,16 @@ namespace Orbitons
             // mesh_object->buildBuffers();
         }
         RESOURCE_TYPE_NAME(MeshItem)
+    };
+
+    class MaterialItem : public ResourceItem
+    {
+    public:
+        MaterialItem() {}
+        MaterialItem(std::string file_path)
+        {
+        }
+        RESOURCE_TYPE_NAME(MaterialItem)
     };
 
     /*

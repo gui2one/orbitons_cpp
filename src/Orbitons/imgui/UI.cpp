@@ -425,41 +425,70 @@ namespace Orbitons
 
     void UI::resourceLibraryPanel()
     {
-        ImGui::Begin("Resource Library");
-        if (ImGui::Button("add mesh"))
+
+        ImGuiWindowFlags flags = 0;
+        flags |= ImGuiWindowFlags_MenuBar;
+
+        ImGui::Begin("Resource Library", NULL, flags);
+
+        // menu bar
+        if (ImGui::BeginMenuBar())
         {
-            std::optional<std::string> file_path = PlatformUtils::openFileialog("");
-            if (file_path)
+            if (ImGui::BeginMenu("Add"))
             {
+                if (ImGui::Selectable("Mesh"))
+                {
+                    std::optional<std::string> file_path = PlatformUtils::openFileialog("");
+                    if (file_path)
+                    {
 
-                Ref<MeshItem> item = MakeRef<MeshItem>(file_path.value());
+                        Ref<MeshItem> item = MakeRef<MeshItem>(file_path.value());
+                        ResourceLibrary::getInstance().addItem(item);
+                    }
+                }
 
-                item->path = file_path.value();
+                if (ImGui::Selectable("Texture"))
+                {
+                    std::optional<std::string> file_path = PlatformUtils::openFileialog("", "All(*.png;*.jpg)\0 *.png;*.jpg\0");
+                    if (file_path)
+                    {
+                        Ref<TextureItem> item = MakeRef<TextureItem>(file_path.value());
+                        ResourceLibrary::getInstance().addItem(item);
+                    }
+                }
+                ImGui::Separator();
 
-                ResourceLibrary::getInstance().addItem(item);
+                if (ImGui::BeginMenu("Material"))
+                {
+                    if (ImGui::Selectable("Unlit"))
+                    {
+                        printf("adding Unlit Material\n");
+                    }
+
+                    if (ImGui::Selectable("Phong"))
+                    {
+                        printf("adding Phong Material\n");
+                    }
+
+                    ImGui::EndMenu();
+                }
+
+                ImGui::EndMenu();
             }
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("add texture"))
-        {
-            std::optional<std::string> file_path = PlatformUtils::openFileialog("", "All(*.png;*.jpg)\0 *.png;*.jpg\0");
-            if (file_path)
+
+            if (ImGui::BeginMenu("Edit"))
             {
+                if (ImGui::Selectable("Delete All Resources"))
+                {
+                    ResourceLibrary::getInstance().items.clear();
+                }
 
-                Ref<TextureItem> item = MakeRef<TextureItem>(file_path.value());
-
-                item->path = file_path.value();
-
-                ResourceLibrary::getInstance().addItem(item);
+                ImGui::EndMenu();
             }
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Clear Items"))
-        {
-            ResourceLibrary::getInstance().items.clear();
+
+            ImGui::EndMenuBar();
         }
 
-        ImGui::Separator();
         static bool selected = false;
         int inc_id = 0;
         for (auto item : ResourceLibrary::getInstance().items)
@@ -507,7 +536,7 @@ namespace Orbitons
 
         ImGui::PopStyleColor(3);
         ImGui::SameLine();
-        ImGui::DragFloat("##x", &vec.x);
+        ImGui::DragFloat("##x", &vec.x, 0.05f);
         ImGui::PopItemWidth();
         ImGui::SameLine();
 
@@ -520,7 +549,7 @@ namespace Orbitons
         }
         ImGui::PopStyleColor(3);
         ImGui::SameLine();
-        ImGui::DragFloat("##y", &vec.y);
+        ImGui::DragFloat("##y", &vec.y, 0.05f);
         ImGui::PopItemWidth();
         ImGui::SameLine();
 
@@ -533,7 +562,7 @@ namespace Orbitons
         }
         ImGui::PopStyleColor(3);
         ImGui::SameLine();
-        ImGui::DragFloat("##z", &vec.z);
+        ImGui::DragFloat("##z", &vec.z, 0.05f);
 
         ImGui::PopItemWidth();
         ImGui::Columns(1);
