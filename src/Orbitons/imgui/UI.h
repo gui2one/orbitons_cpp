@@ -70,15 +70,13 @@ namespace Orbitons
         void drawVec3Widget(glm::vec3 &vec, const char *label, float default_value = 0.0f);
         void drawResourceItem(Ref<ResourceItem> &item);
 
+        bool initConfirmModal(const char *message, std::function<void()> func);
+
         template <typename T>
-        void drawResourceItemTarget(Ref<T> &target, const char *msg = "set item target :")
+        void drawResourceItemTarget(Ref<T> &target, const char *msg = "Set Item Target :")
         {
-
-            // Ref<T> res_item;
-
             ImGui::PushID(&target);
 
-            // ImGui::Text("%s", msg);
             ImGui::Text("%s", T::GetTypeName());
 
             if (ImGui::Button("set"))
@@ -86,21 +84,42 @@ namespace Orbitons
                 target = std::dynamic_pointer_cast<T>(SelectionContext::getInstance().m_selectedResource);
             }
 
+            ImGui::SameLine();
+
             if (target)
             {
-                ImGui::Text("%s", target->getUUID().c_str());
+                ImGui::Text(" %s", target->getUUID().c_str());
+
+                if (ImGui::IsItemClicked())
+                {
+                    SelectionContext::getInstance().m_selectedResource = target;
+                }
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Text("Click to highlight in Resource Library");
+                    ImGui::EndTooltip();
+                }
             }
             else
             {
                 ImGui::Text("None");
             }
 
-            if (ImGui::Button("Highlight in Lib"))
-            {
-                SelectionContext::getInstance().m_selectedResource = target;
-            }
-
             ImGui::PopID();
+        }
+
+        template <typename T>
+        void drawRemoveComponentButton(T &component)
+        {
+            auto &selected_entity = SelectionContext::getInstance().getSelectedEntity();
+            initConfirmModal("Remove Component ?", [&selected_entity]() {
+                selected_entity.removeComponent<T>();
+            });
+            if (ImGui::Button("Remove Component", ImVec2(ImGui::GetContentRegionAvailWidth(), ImGui::GetFontSize() + 4.f)))
+            {
+                ImGui::OpenPopup("Confirm ?");
+            }
         }
 
     private:

@@ -39,6 +39,7 @@ void main() {
     float diff = max(dot(normal, lightDir),0.0);
     
     vec4 diffTextureColor = texture(material.diffuseTexture, f_coords);
-    gl_FragColor = vec4( diff * material.diffuseColor * diffTextureColor.rgb + specular, 1.0);
+    gl_FragColor = vec4( diff * material.diffuseColor + specular, 1.0);
+    // gl_FragColor = vec4( diff * material.diffuseColor * diffTextureColor.rgb + specular, 1.0);
 //   gl_FragColor = vec4(normalize(f_normal), 1.0);
 }

@@ -623,6 +623,33 @@ namespace Orbitons
         ImGui::PopID();
     }
 
+    bool UI::initConfirmModal(const char *message, std::function<void()> func)
+    {
+        auto &selected_entity = SelectionContext::getInstance().getSelectedEntity();
+        // Always center this window when appearing
+        ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+        if (ImGui::BeginPopupModal("Confirm ?", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            ImGui::Text("%s", message);
+            if (ImGui::Button("Yes"))
+            {
+                func();
+                // selected_entity.removeComponent<T>();
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::SameLine();
+            ImGui::SetItemDefaultFocus();
+            if (ImGui::Button("No"))
+            {
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::EndPopup();
+        }
+
+        return true;
+    }
+
     void UI::drawVec3Widget(glm::vec3 &vec, const char *label, float default_value)
     {
         ImGui::PushID(label);
@@ -827,20 +854,15 @@ namespace Orbitons
         {
 
             auto &meshComp = ent.getComponent<MeshComponent>();
+            ImGui::PushID(&meshComp);
             ImGuiTreeNodeFlags flags = 0;
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Mesh Component", flags))
             {
                 drawResourceItemTarget<MeshItem>(meshComp.mesh_item, "set mesh target :");
-
-                ImGui::PushID("remove_mesh_component");
-                if (ImGui::Button("remove"))
-                {
-                    ent.removeComponent<MeshComponent>();
-                }
-
-                ImGui::PopID();
+                drawRemoveComponentButton<MeshComponent>(meshComp);
             }
+            ImGui::PopID();
         }
     }
 
@@ -851,6 +873,7 @@ namespace Orbitons
         {
 
             auto &material = ent.getComponent<MaterialComponent>();
+            ImGui::PushID(&material);
             ImGuiTreeNodeFlags flags = 0;
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Material Component", flags))
@@ -876,14 +899,9 @@ namespace Orbitons
                 }
                 ImGui::Separator();
 
-                ImGui::PushID(&material);
-                if (ImGui::Button("remove"))
-                {
-                    ent.removeComponent<MaterialComponent>();
-                }
-
-                ImGui::PopID();
+                drawRemoveComponentButton<MaterialComponent>(material);
             }
+            ImGui::PopID();
         }
     }
 
