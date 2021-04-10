@@ -71,14 +71,17 @@ namespace Orbitons
         void drawResourceItem(Ref<ResourceItem> &item);
 
         template <typename T>
-        Ref<T> drawResourceItemTarget(Ref<T> &target)
+        void drawResourceItemTarget(Ref<T> &target)
         {
 
-            Ref<T> res_item;
+            // Ref<T> res_item;
 
             ImGui::PushID(&target);
 
-            ImGui::Text("%s", target->GetName());
+            if (target)
+            {
+                ImGui::Text("%s", target->GetName());
+            }
             if (ImGui::Button("set"))
             {
                 target = std::dynamic_pointer_cast<T>(SelectionContext::getInstance().m_selectedResource);
@@ -99,7 +102,6 @@ namespace Orbitons
             }
 
             ImGui::PopID();
-            return res_item;
         }
 
     private:
