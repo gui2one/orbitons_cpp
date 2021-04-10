@@ -436,7 +436,7 @@ namespace Orbitons
         }
         for (auto entity : view)
         {
-
+            Entity ent{entity, m_scene};
             // printf("Entity %d --tag name : %s\n", inc, view.get<TagComponent>(entity).tagName.c_str());
 
             ImGuiTreeNodeFlags flags = 0;
@@ -447,23 +447,27 @@ namespace Orbitons
             {
 
                 // SelectionContext::getInstance().setSelectedEntity(entity);
-                Entity ent{entity, m_scene};
+
                 Selection.setSelectedEntity(ent);
             }
             ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 15);
             ImGui::PushID(inc);
-            if (ImGui::Button("x"))
-            {
+
+            initConfirmModal("Remove Entity ?", [&]() {
                 m_scene->destroyEntity(entity);
                 if (Selection.m_selectedEntity == entity)
                 {
                     Selection.m_selectedEntity = {};
                 }
+            });
+            if (ImGui::Button("x"))
+            {
+                ImGui::OpenPopup("Confirm ?");
             }
             ImGui::PopID();
             if (opened)
             {
-                ImGui::Text("UUID : %X", (uint64_t)entity);
+                ImGui::Text("UUID : %s", ent.getComponent<UUIDComponent>().uuid.c_str());
                 ImGui::TreePop();
             }
             inc++;
