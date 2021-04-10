@@ -68,6 +68,7 @@ namespace Orbitons
 
         //widgets
         void drawVec3Widget(glm::vec3 &vec, const char *label, float default_value = 0.0f);
+        void drawColorWidget(glm::vec3 &clr, const char *label, glm::vec3 default_value = glm::vec3(1.f));
         void drawResourceItem(Ref<ResourceItem> &item);
 
         void initConfirmModal(const char *message, std::function<void()> func);

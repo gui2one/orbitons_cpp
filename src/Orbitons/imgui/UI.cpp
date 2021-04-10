@@ -714,6 +714,16 @@ namespace Orbitons
         ImGui::PopID();
     }
 
+    void UI::drawColorWidget(glm::vec3 &clr, const char *label, glm::vec3 default_value)
+    {
+        ImGuiColorEditFlags flags = 0;
+        flags |= ImGuiColorEditFlags_Float;
+        flags |= ImGuiColorEditFlags_NoInputs;
+        if (ImGui::ColorEdit3(label, glm::value_ptr(clr), flags))
+        {
+        }
+    }
+
     /*
     -------------------------
         Components
@@ -894,6 +904,17 @@ namespace Orbitons
                     {
 
                         ImGui::Text("Phong");
+                        static glm::vec3 clr(1.f, 0.f, 0.f);
+                        Ref<PhongMaterial> phong = std::dynamic_pointer_cast<PhongMaterial>(material.material_item->material);
+                        if (phong)
+                        {
+
+                            drawColorWidget(phong->diffuseColor, "DiffuseColor");
+                        }
+                        else
+                        {
+                            ImGui::Text("Problem");
+                        }
                     }
                     else if (material.material_item->material_type == MaterialItemType::Unlit)
                     {
