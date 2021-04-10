@@ -53,7 +53,7 @@ namespace Orbitons
         PhongMaterial()
         {
             m_type_name = "Phong";
-            diffuseColor = glm::vec3(0.9f, 0.1f, 0.1f);
+            diffuseColor = glm::vec3(1.f, 1.f, 1.f);
             specularColor = glm::vec3(1.f, 1.f, 1.f);
 
             initShader();

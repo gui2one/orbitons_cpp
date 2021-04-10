@@ -831,7 +831,7 @@ namespace Orbitons
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Mesh Component", flags))
             {
-                drawResourceItemTarget<MeshItem>(meshComp.mesh_item);
+                drawResourceItemTarget<MeshItem>(meshComp.mesh_item, "set mesh target :");
 
                 ImGui::PushID("remove_mesh_component");
                 if (ImGui::Button("remove"))
@@ -855,7 +855,7 @@ namespace Orbitons
             flags |= ImGuiTreeNodeFlags_DefaultOpen;
             if (ImGui::CollapsingHeader("Material Component", flags))
             {
-                drawResourceItemTarget<MaterialItem>(material.material_item);
+                drawResourceItemTarget<MaterialItem>(material.material_item, "set Material Item :");
 
                 if (material.material_item)
                 {

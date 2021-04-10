@@ -11,9 +11,11 @@
 
 #include "Scene/MeshObject.h"
 
-#define RESOURCE_TYPE_NAME(type)                                                      \
-    static ResourceItemType GetStaticType() { return ResourceItemType::type; }        \
-    virtual ResourceItemType GetItemType() const override { return GetStaticType(); } \
+#define RESOURCE_TYPE_NAME(type)                                               \
+    static ResourceItemType GetStaticType() { return ResourceItemType::type; } \
+    static const char *GetTypeName() { return #type; }                         \
+    virtual ResourceItemType                                                   \
+    GetItemType() const override { return GetStaticType(); }                   \
     virtual const char *GetName() const override { return #type; }
 namespace Orbitons
 {
@@ -104,7 +106,7 @@ namespace Orbitons
         PhongMaterialItem()
         {
             material_type = MaterialItemType::Phong;
-        };
+        }
     };
 
     class UnlitMaterialItem : public MaterialItem
@@ -113,7 +115,7 @@ namespace Orbitons
         UnlitMaterialItem()
         {
             material_type = MaterialItemType::Unlit;
-        };
+        }
     };
 
     /*

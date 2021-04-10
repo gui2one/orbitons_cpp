@@ -20,7 +20,7 @@ namespace Orbitons
 		virtual int getHeight() override { return height; };
 		virtual int getBPP() override { return bpp; };
 		virtual void bind(unsigned int slot) override;
-		virtual void unbind(unsigned int slot) override;
+		// virtual void unbind(unsigned int slot) override;
 
 	private:
 		unsigned int id;

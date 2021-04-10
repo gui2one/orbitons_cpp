@@ -59,19 +59,20 @@ namespace Orbitons
 
 	void OpenGLTexture::bind(unsigned int slot)
 	{
-		glActiveTexture(GL_TEXTURE0 + slot);
-		glBindTexture(GL_TEXTURE_2D, id);
+		// glActiveTexture(GL_TEXTURE0 + slot);
+		// glBindTexture(GL_TEXTURE_2D, id);
+		glBindTextureUnit(slot, id);
 	}
 
-	void OpenGLTexture::unbind(unsigned int slot)
-	{
-		glActiveTexture(GL_TEXTURE0 + slot);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
+	// void OpenGLTexture::unbind(unsigned int slot)
+	// {
+	// 	glActiveTexture(GL_TEXTURE0 + slot);
+	// 	glBindTexture(GL_TEXTURE_2D, 0);
+	// }
 
 	OpenGLTexture::~OpenGLTexture()
 	{
-		// std::cout << "deleting texture -- ID : " << id << "\n";
+
 		glDeleteTextures(1, &id);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
