@@ -81,6 +81,16 @@ namespace Orbitons
                 if (comp.material_item)
                 {
                     node["materialItem"] = comp.material_item->getUUID();
+
+                    if (comp.material_item->material_type == MaterialItemType::Phong)
+                    {
+                        Ref<PhongMaterial> phong = std::dynamic_pointer_cast<PhongMaterial>(comp.material_item->material);
+                        if (phong)
+                        {
+
+                            node["diffuseColor"] = phong->diffuseColor;
+                        }
+                    }
                 }
                 entity_node["materialComponent"] = node;
             }
@@ -165,13 +175,24 @@ namespace Orbitons
                     }
                     if (node["type"].as<std::string>() == std::string("MaterialItem"))
                     {
-                        Ref<MaterialItem> item = MakeRef<MaterialItem>();
+                        MaterialItemType material_type = (MaterialItemType)(node["materialItemType"].as<int>());
+
+                        Ref<MaterialItem> item;
+                        if (material_type == MaterialItemType::Phong)
+                        {
+                            item = MakeRef<PhongMaterialItem>();
+                        }
+                        else if (material_type == MaterialItemType::Unlit)
+                        {
+
+                            item = MakeRef<UnlitMaterialItem>();
+                        }
 
                         resources.addItem(item);
 
                         // set UUID AFTER adding to resource library to override UUID as it is set in addItem method
                         item->setUUID(node["uuid"].as<std::string>());
-                        item->material_type = (MaterialItemType)(node["materialItemType"].as<int>());
+                        item->material_type = material_type;
                         ///////////////
                     }
                 }
@@ -263,7 +284,18 @@ namespace Orbitons
                             scene->m_registry.emplace<MaterialComponent>(entity);
                         }
 
-                        entity.getComponent<MaterialComponent>().material_item = std::dynamic_pointer_cast<MaterialItem>(res_item);
+                        Ref<MaterialItem> material_item = std::dynamic_pointer_cast<MaterialItem>(res_item);
+                        entity.getComponent<MaterialComponent>().material_item = material_item;
+
+                        if (material_item->material_type == MaterialItemType::Phong)
+                        {
+                            Ref<PhongMaterial> phong = std::dynamic_pointer_cast<PhongMaterial>(material_item->material);
+
+                            if (phong)
+                            {
+                                phong->diffuseColor = entt_node["materialComponent"]["diffuseColor"].as<glm::vec3>();
+                            }
+                        }
 
                         // entity.getComponent<MaterialComponent>().active = entt_node["cameraComponent"]["active"].as<bool>();
                     }
