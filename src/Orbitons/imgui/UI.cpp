@@ -462,7 +462,7 @@ namespace Orbitons
             });
             if (ImGui::Button("x"))
             {
-                ImGui::OpenPopup("Confirm ?");
+                openConfirmModal();
             }
             ImGui::PopID();
             if (opened)
@@ -627,7 +627,7 @@ namespace Orbitons
         ImGui::PopID();
     }
 
-    bool UI::initConfirmModal(const char *message, std::function<void()> func)
+    void UI::initConfirmModal(const char *message, std::function<void()> func)
     {
         auto &selected_entity = SelectionContext::getInstance().getSelectedEntity();
         // Always center this window when appearing
@@ -650,8 +650,11 @@ namespace Orbitons
             }
             ImGui::EndPopup();
         }
+    }
 
-        return true;
+    void UI::openConfirmModal()
+    {
+        ImGui::OpenPopup("Confirm ?");
     }
 
     void UI::drawVec3Widget(glm::vec3 &vec, const char *label, float default_value)

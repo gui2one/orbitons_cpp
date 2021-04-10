@@ -70,8 +70,8 @@ namespace Orbitons
         void drawVec3Widget(glm::vec3 &vec, const char *label, float default_value = 0.0f);
         void drawResourceItem(Ref<ResourceItem> &item);
 
-        bool initConfirmModal(const char *message, std::function<void()> func);
-
+        void initConfirmModal(const char *message, std::function<void()> func);
+        void openConfirmModal();
         template <typename T>
         void drawResourceItemTarget(Ref<T> &target, const char *msg = "Set Item Target :")
         {
