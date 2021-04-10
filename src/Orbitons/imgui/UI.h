@@ -80,9 +80,13 @@ namespace Orbitons
 
             ImGui::Text("%s", T::GetTypeName());
 
+            Ref<T> selected_res = std::dynamic_pointer_cast<T>(SelectionContext::getInstance().m_selectedResource);
             if (ImGui::Button("set"))
             {
-                target = std::dynamic_pointer_cast<T>(SelectionContext::getInstance().m_selectedResource);
+                if (selected_res)
+                {
+                    target = selected_res;
+                }
             }
 
             ImGui::SameLine();

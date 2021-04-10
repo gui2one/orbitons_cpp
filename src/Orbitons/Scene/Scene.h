@@ -22,6 +22,9 @@ namespace Orbitons
 
     public:
         Ref<Camera> m_activeCamera = nullptr;
+        Ref<MaterialItem> m_defaultMaterialItem;
+        std::vector<Ref<Entity3d>> objects;
+        Ref<Skybox> skybox;
 
     public:
         void init();
@@ -29,9 +32,6 @@ namespace Orbitons
 
         Entity createEntity(const std::string &name = std::string());
         void destroyEntity(entt::entity entity);
-
-        std::vector<Ref<Entity3d>> objects;
-        Ref<Skybox> skybox;
 
     private:
         entt::registry m_registry;

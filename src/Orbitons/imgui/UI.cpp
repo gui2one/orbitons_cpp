@@ -776,6 +776,8 @@ namespace Orbitons
                     if (!entity.hasComponent<MaterialComponent>())
                     {
                         m_scene->m_registry.emplace<MaterialComponent>(entity);
+                        entity.getComponent<MaterialComponent>().material_item = m_scene->m_defaultMaterialItem;
+                        printf("------------- adding default material\n");
                     }
                 }
                 ImGui::EndCombo();

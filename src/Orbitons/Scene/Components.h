@@ -69,9 +69,9 @@ namespace Orbitons
         // MeshComponent() = default;
         MeshComponent()
         {
-            material = MakeRef<PhongMaterial>();
+            material.reset(Material::create());
 
-            material->setDiffuseColor(glm::vec3(1.0f, 1.f, 1.f));
+            material->setDiffuseColor(glm::vec3(0.0f, 1.f, 0.f));
         }
         MeshComponent(const MeshComponent &other) = default;
     };

@@ -17,6 +17,8 @@ namespace Orbitons
             m_activeCamera = MakeRef<Camera>(glm::radians(65.0f), 1.0f);
             add(m_activeCamera);
         }
+
+        m_defaultMaterialItem = MakeRef<PhongMaterialItem>();
     }
 
     void Scene::add(Ref<Entity3d> entity)

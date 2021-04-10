@@ -276,15 +276,20 @@ namespace Orbitons
 
                     if (entt_node["materialComponent"])
                     {
-                        std::string item_uuid = entt_node["materialComponent"]["materialItem"].as<std::string>();
                         Ref<ResourceItem> res_item = nullptr;
-                        res_item = ResourceLibrary::getInstance().getItemByUUID(item_uuid);
+                        Ref<MaterialItem> material_item = scene->m_defaultMaterialItem;
+                        std::string item_uuid = entt_node["materialComponent"]["materialItem"].as<std::string>();
+                        if (item_uuid != "")
+                        {
+
+                            res_item = ResourceLibrary::getInstance().getItemByUUID(item_uuid);
+                            material_item = std::dynamic_pointer_cast<MaterialItem>(res_item);
+                        }
                         if (!entity.hasComponent<MaterialComponent>())
                         {
                             scene->m_registry.emplace<MaterialComponent>(entity);
                         }
 
-                        Ref<MaterialItem> material_item = std::dynamic_pointer_cast<MaterialItem>(res_item);
                         entity.getComponent<MaterialComponent>().material_item = material_item;
 
                         if (material_item->material_type == MaterialItemType::Phong)

@@ -17,7 +17,7 @@ namespace Orbitons
 
         virtual ~Material(){};
 
-        static Ref<Material> create();
+        static Material *create();
         virtual void setUniforms() = 0;
         virtual void initShader() = 0;
         virtual void setDiffuseColor(glm::vec3 color){};

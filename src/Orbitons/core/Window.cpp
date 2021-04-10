@@ -149,50 +149,35 @@ namespace Orbitons
         // printf("meshes size : %d\n", meshes.size_hint);
         for (auto entity : meshes)
         {
-
-            // Ref<ResourceItem> selected_res = SelectionContext::getInstance().m_selectedResource;
-            // if (selected_res)
-            // {
-
-            //     Ref<TextureItem> texture_item = std::dynamic_pointer_cast<TextureItem>(selected_res);
-            //     if (texture_item)
-            //     {
-            //         texture_item->texture->bind(1);
-            //         texture_item->texture->bind(0);
-            //     }
-            // }
-
             auto [uuid, mesh, tag, transform] = meshes.get<UUIDComponent, MeshComponent, TagComponent, TransformComponent>(entity);
+            Entity ent(entity, &m_scene);
 
-            mesh.material->useProgram();
+            Ref<Material> current_material = mesh.material;
+            if (ent.hasComponent<MaterialComponent>())
+            {
+                auto &comp = ent.getComponent<MaterialComponent>();
+                if (comp.material_item->material)
+                {
+
+                    current_material = comp.material_item->material;
+                }
+            }
+            current_material->useProgram();
             glm::mat4 model(1.f);
 
             model = transform.getTransforms() * model;
 
-            glUniform3fv(glGetUniformLocation(mesh.material->getShaderID(), "u_lightPos"), 1, glm::value_ptr(lightPos));
-            glUniform3fv(glGetUniformLocation(mesh.material->getShaderID(), "u_cameraPos"), 1, glm::value_ptr(m_scene.m_activeCamera->position));
+            glUniform3fv(glGetUniformLocation(current_material->getShaderID(), "u_lightPos"), 1, glm::value_ptr(lightPos));
+            glUniform3fv(glGetUniformLocation(current_material->getShaderID(), "u_cameraPos"), 1, glm::value_ptr(m_scene.m_activeCamera->position));
 
-            glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_model"), 1, GL_FALSE, glm::value_ptr(model));
-            glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(m_scene.m_activeCamera->projection));
-            glUniformMatrix4fv(glGetUniformLocation(mesh.material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
+            glUniformMatrix4fv(glGetUniformLocation(current_material->getShaderID(), "u_model"), 1, GL_FALSE, glm::value_ptr(model));
+            glUniformMatrix4fv(glGetUniformLocation(current_material->getShaderID(), "u_projection"), 1, GL_FALSE, glm::value_ptr(m_scene.m_activeCamera->projection));
+            glUniformMatrix4fv(glGetUniformLocation(current_material->getShaderID(), "u_view"), 1, GL_FALSE, glm::value_ptr(view));
 
-            mesh.material->useProgram();
-
+            current_material->useProgram();
             if (mesh.mesh_item != nullptr)
                 mesh.mesh_item->mesh_object.draw();
             glUseProgram(0);
-
-            // if (selected_res)
-            // {
-
-            //     Ref<TextureItem> texture_item = std::dynamic_pointer_cast<TextureItem>(selected_res);
-            //     if (texture_item)
-            //     {
-
-            //         texture_item->texture->unbind(1);
-            //         texture_item->texture->unbind(0);
-            //     }
-            // }
         }
 
         m_frameBuffer->unbind();
