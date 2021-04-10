@@ -8,7 +8,7 @@
 #include "Core/Camera.h"
 #include "Core/CameraControls.h"
 #include "Core/Timer.h"
-#include "Core/Object3d.h"
+// #include "Core/Object3d.h"
 #include "Imgui/UI.h"
 
 #include "Events/Event.h"
