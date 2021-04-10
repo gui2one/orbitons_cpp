@@ -106,6 +106,7 @@ namespace Orbitons
         PhongMaterialItem()
         {
             material_type = MaterialItemType::Phong;
+            material = MakeRef<PhongMaterial>();
         }
     };
 
@@ -115,6 +116,7 @@ namespace Orbitons
         UnlitMaterialItem()
         {
             material_type = MaterialItemType::Unlit;
+            material = MakeRef<UnlitMaterial>();
         }
     };
 
